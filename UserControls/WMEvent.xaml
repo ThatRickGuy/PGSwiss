@@ -1,0 +1,131 @@
+﻿<UserControl x:Class="WMEvent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGSwiss"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid x:Name="grd">
+        <Grid.Resources>
+            <!--Faction 1 templates -->
+            <DataTemplate x:Key="FactionTemplate" >
+                <StackPanel>
+                    <TextBlock Text="{Binding Faction.Name}"  />
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="EditingFactionTemplate">
+                <ComboBox x:Name="cboFaction" ItemsSource="{Binding Path=DataContext.Model.Factions, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WMEvent}}}" DisplayMemberPath="Name" SelectedItem="{Binding Path=Faction}"></ComboBox>
+                <DataTemplate.Triggers>
+                    <Trigger SourceName="cboFaction" Property="IsVisible" Value="True">
+                        <Setter TargetName="cboFaction" Property="FocusManager.FocusedElement" Value="{Binding ElementName=cboFaction}"/>
+                    </Trigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+                     
+            <!-- Meta template-->
+            <DataTemplate x:Key="MetaTemplate"  >
+                    <TextBlock Text="{Binding Meta.Name}"  />
+            </DataTemplate>
+            <DataTemplate x:Key="EditingMetaTemplate">
+                <ComboBox x:Name="cboMeta" LostFocus="ComboBox_LostFocus_1" IsEditable="True" 
+                          ItemsSource="{Binding Path=DataContext.Model.Metas,
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                                        AncestorType={x:Type local:WMEvent}}}" 
+                          DisplayMemberPath="Name" 
+                          SelectedItem="{Binding Path=Meta}"></ComboBox>
+                <DataTemplate.Triggers>
+                    <Trigger SourceName="cboMeta" Property="IsVisible" Value="True">
+                        <Setter TargetName="cboMeta" Property="FocusManager.FocusedElement" 
+                                Value="{Binding ElementName=cboMeta}"/>
+                    </Trigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <!-- PP Handle template-->
+            <DataTemplate x:Key="PPHandleTemplate"  >
+                <TextBlock Text="{Binding Path=PPHandle}"  />
+            </DataTemplate>
+            <DataTemplate x:Key="EditingPPHandleTemplate">
+                <ComboBox x:Name="cboPPHandle" LostFocus="cboPPHandle_LostFocus_1" IsEditable="True" 
+                          ItemsSource="{Binding Path=DataContext.Model.Players, 
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                                        AncestorType={x:Type local:WMEvent}}}" 
+                          DisplayMemberPath="PPHandle"
+                          SelectedValuePath="PPHandle"
+                          SelectedValue="{Binding Path=PPHandle}"></ComboBox>
+                <DataTemplate.Triggers>
+                    <Trigger SourceName="cboPPHandle" Property="IsVisible" Value="True">
+                        <Setter TargetName="cboPPHandle" Property="FocusManager.FocusedElement" Value="{Binding ElementName=cboPPHandle}"/>
+                    </Trigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <!-- Remove Player template-->
+            <DataTemplate x:Key="RemovePlayerTemplate"  >
+                <Button Click="RemovePlayer_Click" Content="Remove" Height="22"/>
+            </DataTemplate>
+
+            <Style TargetType="DataGrid">
+                <Setter Property="GridLinesVisibility" Value="None" />
+                <Setter Property="KeyboardNavigation.TabNavigation" Value="Contained" />
+                <!--<Setter Property="local:DataGridBehavior.NewLineOnTab" Value="True" />-->
+                <Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
+            </Style>
+        </Grid.Resources>
+
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" >Event Registration</Label>
+        <Label Margin="4,4,4,0" FontWeight="Bold" Grid.Row="1" >Event Name</Label>
+        <TextBox Name="txtEventName" Grid.Row="2" Margin="4,-4,4,0" Text="{Binding Path=Model.WMEvent.Name}"/>
+        <Label Grid.Row="3" Margin="4,0,4,0" FontWeight="Bold">Format</Label>
+        <ComboBox Name="cboFormat" Grid.Row="4" Margin="4,-4,4,0" 
+                  DisplayMemberPath="Name" 
+                  ItemsSource ="{Binding Path=Model.Formats}" 
+                  SelectedValuePath="FormatID"
+                  SelectedValue ="{Binding Path=Model.WMEvent.EventFormat.FormatID}" ></ComboBox>
+        <Label Grid.Row="5" FontWeight="Bold" Margin="4,0,4,0">Date</Label>
+        <DatePicker Grid.Row="6" Name="dtpEventDate" Margin="4,-4,4,0" SelectedDate="{Binding Path=Model.WMEvent.EventDate}"></DatePicker>
+        <Label Grid.Row="7" FontWeight="Bold" Margin="4,0,4,0">Players</Label>
+
+        <DataGrid Name="dgPlayers"
+                  ItemsSource="{Binding Path=Model.WMEvent.Players}"
+                  CanUserAddRows="True" 
+                  AutoGenerateColumns="False" 
+                  KeyboardNavigation.TabNavigation="Local"
+                  Grid.Row="8" Margin="4,-4,4,4">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="PP Handle" Width="*" 
+                                        CellTemplate="{StaticResource PPHandleTemplate}" 
+                                        CellEditingTemplate="{StaticResource EditingPPHandleTemplate}"                                        >
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="Faction" Width="*" 
+                                        CellTemplate="{StaticResource FactionTemplate}" 
+                                        CellEditingTemplate="{StaticResource EditingFactionTemplate}">
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Meta" Width="*" 
+                                        CellTemplate="{StaticResource MetaTemplate}" 
+                                        CellEditingTemplate="{StaticResource EditingMetaTemplate}"                                        >
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Remove Player" Width="auto"
+                                        CellTemplate="{StaticResource RemovePlayerTemplate}">
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+       
+    </Grid>
+</UserControl >

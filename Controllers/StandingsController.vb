@@ -1,0 +1,23 @@
+﻿Public Class StandingsController
+    Inherits BaseController
+
+    Protected Overrides Function CreateNext() As BaseController
+        Return New ReportingController
+    End Function
+
+    Public Sub New()
+        Me.View = New Standings
+        Me._Title = "Final Standings"
+
+        For Each Player In Model.CurrentRound.Players
+            Player.StrengthOfSchedule = 0
+            For Each Opponent In Player.Oppontnents
+                Player.StrengthOfSchedule += (From p In Model.CurrentRound.Players Where p.PlayerID = Opponent).FirstOrDefault.TourneyPoints
+            Next
+        Next
+
+        Dim Standings As New doStandings
+        Standings.Standings.AddRange((From p In Model.CurrentRound.Players Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending).ToList)
+        Me.View.DataContext = Standings
+    End Sub
+End Class

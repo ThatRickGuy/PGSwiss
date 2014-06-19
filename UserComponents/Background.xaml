@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="Background"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid>
+
+        <Rectangle x:Name="recBackground">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.1,1" StartPoint="0,0" Opacity="0.5">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="White"/>
+                    <GradientStop Color="#FF919191" Offset="0.11"/>
+                    <GradientStop Color="#FE979797" Offset="0.689"/>
+                    <GradientStop Color="#FEC5C5C5" Offset="0.353"/>
+                    <GradientStop Color="#FE4A4A4A" Offset="0.351"/>
+                    <GradientStop Color="#FE393939" Offset="0.96"/>
+                    <GradientStop Color="#FEE8E8E8" Offset="0.396"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="recGrunge1" Opacity=".5">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/PGSwiss;component/Resources/Grunge1.png" TileMode="Tile" Stretch="UniformToFill">
+                    <ImageBrush.Transform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="-150" Y="-150"/>
+                        </TransformGroup>
+                    </ImageBrush.Transform>
+                </ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="recGrunge2" Opacity=".5" >
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/PGSwiss;component/Resources/Grunge2.png" TileMode="Tile" Stretch="UniformToFill">
+                    <ImageBrush.Transform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="150"/>
+                        </TransformGroup>
+                    </ImageBrush.Transform>
+                </ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="recGrunge3" Opacity=".5" >
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/PGSwiss;component/Resources/Grunge3.png" TileMode="Tile" Stretch="UniformToFill">
+                    <ImageBrush.Transform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="100" Y="200"/>
+                        </TransformGroup>
+                    </ImageBrush.Transform>
+                </ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="recGrunge4" Opacity=".5" >
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/PGSwiss;component/Resources/Grunge4.png" TileMode="Tile" Stretch="UniformToFill"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="recGrunge5" Opacity=".5" >
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/PGSwiss;component/Resources/Grunge5.png" TileMode="Tile" Stretch="UniformToFill"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="recGrunge6" Opacity=".5" >
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/PGSwiss;component/Resources/Grunge6.png" TileMode="Tile" Stretch="UniformToFill"/>
+            </Rectangle.Fill>
+        </Rectangle>
+    </Grid>
+</UserControl>

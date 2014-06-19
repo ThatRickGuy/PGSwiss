@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="BurnBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" >
+    <Grid>
+        <Rectangle VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Stroke="#FFB2B0B0" StrokeThickness="2" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFE4B86A" Offset="0"/>
+                    <GradientStop Color="#FFB8835E" Offset="0.848"/>
+                    <GradientStop Color="#FF99704B" Offset="0.488"/>
+                    <GradientStop Color="#FF473324" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <StackPanel Orientation="Horizontal" >
+            <Rectangle Width="15" Height="30" Margin="5,5,0,5" Stroke="#FFA8A8A8" RadiusX="3" RadiusY="3" StrokeThickness="1" >
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF631301" Offset="0"/>
+                        <GradientStop Color="#FFF3F0CD" Offset="1"/>
+                        <GradientStop Color="#FFEC7600" Offset="0.633"/>
+                        <GradientStop Color="#FFDA1111" Offset="0.234"/>
+                        <GradientStop Color="#FFEEAC1E" Offset="0.82"/>
+                        <GradientStop Color="#FFF1E24D" Offset="0.945"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Width="15" Height="30" Margin="5,5,0,5" Stroke="#FFA8A8A8" RadiusX="3" RadiusY="3" StrokeThickness="1" >
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF631301" Offset="0"/>
+                        <GradientStop Color="#FFF3F0CD" Offset="1"/>
+                        <GradientStop Color="#FFEC7600" Offset="0.633"/>
+                        <GradientStop Color="#FFDA1111" Offset="0.234"/>
+                        <GradientStop Color="#FFEEAC1E" Offset="0.82"/>
+                        <GradientStop Color="#FFF1E24D" Offset="0.945"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Width="15" Height="30" Margin="5,5,5,5" Stroke="#FFA8A8A8" RadiusX="3" RadiusY="3" StrokeThickness="1" >
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF631301" Offset="0"/>
+                        <GradientStop Color="#FFF3F0CD" Offset="1"/>
+                        <GradientStop Color="#FFEC7600" Offset="0.633"/>
+                        <GradientStop Color="#FFDA1111" Offset="0.234"/>
+                        <GradientStop Color="#FFEEAC1E" Offset="0.82"/>
+                        <GradientStop Color="#FFF1E24D" Offset="0.945"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+        </StackPanel>
+        
+       
+    </Grid>
+</UserControl>

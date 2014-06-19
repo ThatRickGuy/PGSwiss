@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Round"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock FontWeight="Bold" Margin="4,4,4,0">Scenario</TextBlock>
+        <ComboBox Name="cboFormat" Grid.Row="1" Margin="4,0,4,0"
+                  DisplayMemberPath="Name" 
+                  ItemsSource ="{Binding Path=Model.Scenarios}" 
+                  SelectedValuePath="ScenarioID"
+                  SelectedValue ="{Binding Path=Model.CurrentRound.Scenario.ScenarioID}"></ComboBox>
+
+        <TextBlock Grid.Row="2" FontWeight="Bold" Margin="4,4,4,0">Players</TextBlock>
+
+        <DataGrid Name="dgPlayers" 
+                  Grid.Row="3" Margin="4,0,4,4" 
+                  ItemsSource="{Binding Path=Model.CurrentRound.Players}"
+                  CanUserAddRows="False" 
+                  AutoGenerateColumns="False" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="PP Handle" IsReadOnly="True"  Width="*" Binding="{Binding PPHandle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Name" IsReadOnly="True" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Faction" IsReadOnly="True" Width="*" Binding="{Binding Path=Faction.Name}"/>
+                <DataGridTextColumn Header="Meta" IsReadOnly="True" Width="*" Binding="{Binding Path=Meta.Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="TP" IsReadOnly="True" Width="auto" Binding="{Binding Path=TourneyPoints}"></DataGridTextColumn>
+                <DataGridTextColumn Header="SOS" IsReadOnly="True" Width="auto" Binding="{Binding Path=StrengthOfSchedule}"></DataGridTextColumn>
+                <DataGridTextColumn Header="CP" IsReadOnly="True" Width="auto" Binding="{Binding Path=ControlPoints}"></DataGridTextColumn>
+                <DataGridTextColumn Header="APD" IsReadOnly="True" Width="auto" Binding="{Binding Path=ArmyPointsDestroyed}"></DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="Drop" Width="auto" Binding="{Binding Drop}" ></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Bye Vol" Width="auto" Binding="{Binding ByeVol}"></DataGridCheckBoxColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
