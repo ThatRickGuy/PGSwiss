@@ -53,5 +53,4 @@
 
 
     Public Property TotalRounds As Integer
-    Public Property CurrentRound As Integer
 End Class

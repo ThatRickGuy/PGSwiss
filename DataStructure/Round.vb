@@ -5,7 +5,7 @@ Public Class doRound
 
 
     Public Property RoundNumber As Integer
-    Public Property Scenario As doScenario
+    Public Property Scenario As String
     Public Property Players As New doPlayerCollection
     Public Property Games As New doGameCollection
     Public Property Bye As doPlayer

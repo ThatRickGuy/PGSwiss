@@ -11,6 +11,7 @@
         Me.View = New WMEvent
         Me.View.DataContext = Me
         Model = New WMEventViewModel
+
     End Sub
 
     

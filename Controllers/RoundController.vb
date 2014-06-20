@@ -25,6 +25,7 @@
         Model.CurrentRound = round
 
         Me.View.DataContext = Me
+
     End Sub
 
     Protected Overrides Sub Activated()

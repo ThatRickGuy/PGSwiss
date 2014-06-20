@@ -17,10 +17,9 @@
         <TextBlock FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding Path=Model.CurrentRound.RoundNumber, StringFormat=Round \{0\}}"/>
         <TextBlock FontWeight="Bold" Grid.Row="1" Margin="4,4,4,0">Scenario</TextBlock>
         <ComboBox Name="cboFormat" Grid.Row="2" Margin="4,0,4,0"
-                  DisplayMemberPath="Name" 
                   ItemsSource ="{Binding Path=Model.Scenarios}" 
-                  SelectedValuePath="Name"
-                  SelectedValue ="{Binding Path=Model.CurrentRound.Scenario.Name}"></ComboBox>
+                  PresentationTraceSources.TraceLevel="High" 
+                  SelectedValue="{Binding Model.CurrentRound.Scenario}"></ComboBox>
 
         <TextBlock Grid.Row="3" FontWeight="Bold" Margin="4,4,4,0">Players</TextBlock>
 
