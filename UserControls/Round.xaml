@@ -30,8 +30,8 @@
                 <DataGridTextColumn Header="Rank" IsReadOnly="True" Width="auto" Binding="{Binding Rank}"></DataGridTextColumn>
                 <DataGridTextColumn Header="PP Handle" IsReadOnly="True"  Width="*" Binding="{Binding PPHandle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Name" IsReadOnly="True" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Faction" IsReadOnly="True" Width="*" Binding="{Binding Path=Faction.Name}"/>
-                <DataGridTextColumn Header="Meta" IsReadOnly="True" Width="*" Binding="{Binding Path=Meta.Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Faction" IsReadOnly="True" Width="*" Binding="{Binding Path=Faction}"/>
+                <DataGridTextColumn Header="Meta" IsReadOnly="True" Width="*" Binding="{Binding Path=Meta}"></DataGridTextColumn>
                 <DataGridTextColumn Header="TP" IsReadOnly="True" Width="auto" Binding="{Binding Path=TourneyPoints}"></DataGridTextColumn>
                 <DataGridTextColumn Header="SOS" IsReadOnly="True" Width="auto" Binding="{Binding Path=StrengthOfSchedule}"></DataGridTextColumn>
                 <DataGridTextColumn Header="CP" IsReadOnly="True" Width="auto" Binding="{Binding Path=ControlPoints}"></DataGridTextColumn>

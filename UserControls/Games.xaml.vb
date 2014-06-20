@@ -6,6 +6,7 @@
 
     Private Sub btnAcceptGame_Click(sender As Object, e As RoutedEventArgs) Handles btnAcceptGame.Click
         CType(BaseController.CurrentController, GamesController).AcceptGame()
+        Me.dgGames.SelectedItem = Nothing
         Me.dgGames.Items.Refresh()
     End Sub
 End Class
