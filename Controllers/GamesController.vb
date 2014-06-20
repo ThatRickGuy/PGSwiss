@@ -16,10 +16,17 @@
         Me.View = New Games
         BaseController.Model.CurrentGame = BaseController.Model.CurrentRound.Games.FirstOrDefault
         Me.View.DataContext = Me
+
+        _Round = Model.CurrentRound
     End Sub
+
+
+    Private _Round As doRound
+
 
     Protected Overrides Sub Activated()
         MyBase.Activated()
+        Model.CurrentRound = _Round
 
         If Model.CurrentRound.Bye IsNot Nothing Then
             Dim q = (From p In Model.CurrentRound.Games Where p.Player2 Is Nothing).FirstOrDefault

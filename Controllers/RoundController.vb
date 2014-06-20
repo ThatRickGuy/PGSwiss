@@ -5,30 +5,34 @@
         Return New PairingsController
     End Function
 
+    Private _Round As doRound
+
     Public Sub New()
         Me.View = New Round
         Dim TargetRoundNumber As Integer = 1
         If Not Model.CurrentRound Is Nothing Then TargetRoundNumber = Model.CurrentRound.RoundNumber + 1
-        Dim round = (From p In Model.WMEvent.Rounds Where p.RoundNumber = TargetRoundNumber).FirstOrDefault
+        _Round = (From p In Model.WMEvent.Rounds Where p.RoundNumber = TargetRoundNumber).FirstOrDefault
 
-        If round Is Nothing Then
-            round = New doRound
-            round.RoundNumber = TargetRoundNumber
-            If round.RoundNumber = 1 Then
-                round.Players.AddRange(Model.WMEvent.Players)
+        If _Round Is Nothing Then
+            _Round = New doRound
+            _Round.RoundNumber = TargetRoundNumber
+            If _Round.RoundNumber = 1 Then
+                _Round.Players.AddRange(Model.WMEvent.Players)
             Else
-                round.Players.AddRange(Model.WMEvent.Rounds.Last.Players)
+                _Round.Players.AddRange(Model.WMEvent.Rounds.Last.Players)
             End If
-            Model.WMEvent.Rounds.Add(round)
+            Model.WMEvent.Rounds.Add(_Round)
         End If
 
-        Model.CurrentRound = round
+        Model.CurrentRound = _Round
 
         Me.View.DataContext = Me
 
     End Sub
 
     Protected Overrides Sub Activated()
+
+        Model.CurrentRound = _Round
 
         Dim tempPlayers As New doPlayerCollection
         tempPlayers.AddRange(BaseController.Model.CurrentRound.Players.ToArray)
