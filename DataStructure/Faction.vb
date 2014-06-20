@@ -30,6 +30,7 @@ Public Class doFactionCollection
 
     Private Function Generate() As IEnumerable(Of String)
         Dim lst As New List(Of String)
+        lst.Add("")
         lst.Add("Khador")
         lst.Add("Protectorate of Menoth")
         lst.Add("Cygnar")

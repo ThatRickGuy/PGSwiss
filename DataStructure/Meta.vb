@@ -6,7 +6,10 @@ Public Class doMetaCollection
 
     Public Sub load()
         Me.Clear()
-        If IO.File.Exists("MetaCollection.xml") Then
+        If Not IO.File.Exists("MetaCollection.xml") Then
+            Me.AddRange(Generate())
+            Save()
+        Else
             Using objStreamReader As New StreamReader("MetaCollection.xml")
                 Dim x As New XmlSerializer(Me.GetType)
                 Me.AddRange(x.Deserialize(objStreamReader))
@@ -20,4 +23,9 @@ Public Class doMetaCollection
             x.Serialize(objStreamWriter, Me)
         End Using
     End Sub
+    Private Function Generate() As IEnumerable(Of String)
+        Dim lst As New List(Of String)
+        lst.Add("")
+        Return lst
+    End Function
 End Class
