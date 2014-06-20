@@ -8,13 +8,23 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock FontWeight="Bold" Margin="4,4,4,0">Pairings</TextBlock>
-        <DataGrid Name="dgPairings" ItemsSource="{Binding Path=Model.CurrentRound.Games}" Grid.Row="1" Margin="4,0,4,0" AutoGenerateColumns="False" CanUserAddRows="False"   >
+        <Label FontWeight="Bold" FontSize="18" HorizontalAlignment="Center">
+            <Label.Content>
+                <Binding Path="Model.CurrentRound.RoundNumber"/>
+            </Label.Content>
+            <Label.ContentStringFormat>
+                Round {0} - Pairings
+            </Label.ContentStringFormat>
+        </Label>
+        <TextBlock FontWeight="Bold" Grid.Row="1"  Margin="4,4,4,0">Pairings</TextBlock>
+        <DataGrid Name="dgPairings" ItemsSource="{Binding Path=Model.CurrentRound.Games}" Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False" CanUserAddRows="False"   >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Player 1" Width="*" Binding="{Binding Path=Player1.PPHandle}" IsReadOnly="True" ></DataGridTextColumn>
                 <DataGridTextColumn Header="Meta" Width="*" Binding="{Binding Path=Player1.Meta.Name}" IsReadOnly="True"></DataGridTextColumn>
@@ -30,12 +40,12 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <TextBlock Grid.Row="2" FontWeight="Bold" Margin="4,0,4,0">Swap Players</TextBlock>
+        <TextBlock Grid.Row="3" FontWeight="Bold" Margin="4,0,4,0">Swap Players</TextBlock>
 
-        <Rectangle Grid.Row="3" Grid.Column="0" Stroke="#FF0051FF" RadiusX="4" RadiusY="4" Margin="2,2,2,0"></Rectangle>
+        <Rectangle Grid.Row="4" Grid.Column="0" Stroke="#FF0051FF" RadiusX="4" RadiusY="4" Margin="2,2,2,0"></Rectangle>
 
 
-        <Grid Grid.Row="3" Margin="4">
+        <Grid Grid.Row="5" Margin="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
@@ -53,7 +63,7 @@
             <ComboBox Name="cboSwapPlayerq2" ItemsSource="{Binding Path=Model.CurrentRound.Players}" DisplayMemberPath="PPHandle" Grid.Row="1" Grid.Column="2" Margin="4"></ComboBox>
             <Button Name="btnSwap" Grid.Row="1" Grid.Column="3" Margin="4">Swap</Button>
         </Grid>
-        <StackPanel Grid.Row="4" HorizontalAlignment="Center" Orientation="Horizontal" >
+        <StackPanel Grid.Row="6" HorizontalAlignment="Center" Orientation="Horizontal" >
             <Button Name="btnGeneratePairing" Margin="0,4,2,4">Generate Pairing</Button>
             <Button Name="btnPrintPairing" Margin="2,4,0,4">Print Pairing</Button>
         </StackPanel>

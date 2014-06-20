@@ -14,7 +14,14 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Content="{Binding Model.CurrentRound.RoundNumber}" ></Label>
+        <Label FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" >
+            <Label.Content>
+                <Binding Path="Model.CurrentRound.RoundNumber"/>
+            </Label.Content>
+            <Label.ContentStringFormat>
+                Round {0}
+            </Label.ContentStringFormat>
+        </Label>
         <TextBlock FontWeight="Bold" Grid.Row="1" Margin="4,4,4,0">Scenario</TextBlock>
         <ComboBox Name="cboFormat" Grid.Row="2" Margin="4,0,4,0"
                   DisplayMemberPath="Name" 

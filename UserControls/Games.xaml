@@ -16,17 +16,20 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid x:Name="Contents" Grid.Column="1" Grid.Row="1">
+
+        <Label FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2">
+            <Label.Content>
+                <Binding Path="Model.CurrentRound.RoundNumber"/>
+            </Label.Content>
+            <Label.ContentStringFormat>
+                Round {0} - Games
+            </Label.ContentStringFormat>
+        </Label>
+        <Grid x:Name="Contents"  Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>

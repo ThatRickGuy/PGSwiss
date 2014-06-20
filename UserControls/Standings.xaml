@@ -13,7 +13,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" >Event Registration</Label>
+        <Label FontWeight="Bold" FontSize="18" HorizontalAlignment="Center">Standings</Label>
         <TextBlock Grid.Row="2" FontWeight="Bold" Margin="4,4,4,0">Standings</TextBlock>
         <DataGrid Name="dgStandings" Grid.Row="3" Margin="4,0,4,4" AutoGenerateColumns="False"  ItemsSource="{Binding Path=Standings}" CanUserAddRows="False">
             <DataGrid.Columns>
