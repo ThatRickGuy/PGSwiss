@@ -17,12 +17,7 @@
 
         'Clear the current pairings in case this is a re-generate
         Model.CurrentRound.Games.Clear()
-        For Each Player In Model.CurrentRound.Players
-            Player.StrengthOfSchedule = 0
-            For Each Opponent In Player.Oppontnents
-                Player.StrengthOfSchedule += (From p In Model.CurrentRound.Players Where p.PlayerID = Opponent).FirstOrDefault.TourneyPoints
-            Next
-        Next
+
         Dim EligablePlayers = (From p In Model.CurrentRound.Players Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending).ToList
 
         If EligablePlayers.Count Mod 2 = 1 Then

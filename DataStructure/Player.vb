@@ -59,6 +59,7 @@ Public Class doPlayer
     Public Property ControlPoints As Integer
     Public Property ArmyPointsDestroyed As Integer
     Public Property Oppontnents As New List(Of Guid)
+    Public Property Rank As Integer
 
     Public Sub New()
         PlayerID = Guid.NewGuid

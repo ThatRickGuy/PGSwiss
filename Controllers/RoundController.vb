@@ -48,6 +48,26 @@
         Model.CurrentRound.Players.Clear()
         Model.CurrentRound.Players.AddRange(tempPlayers)
 
+
+        For Each Player In Model.CurrentRound.Players
+            Player.StrengthOfSchedule = 0
+            For Each Opponent In Player.Oppontnents
+                Player.StrengthOfSchedule += (From p In Model.CurrentRound.Players Where p.PlayerID = Opponent).FirstOrDefault.TourneyPoints
+            Next
+        Next
+
+        Dim temp = (From p In Model.CurrentRound.Players Order By p.TourneyPoints Descending,
+                                                                p.StrengthOfSchedule Descending,
+                                                                p.ControlPoints Descending,
+                                                                p.ArmyPointsDestroyed Descending).ToList
+        Model.CurrentRound.Players.Clear()
+        Model.CurrentRound.Players.AddRange(temp)
+        Dim i As Integer = 1
+        For Each p In Model.CurrentRound.Players
+            p.Rank = i
+            i += 1
+        Next
+
         CType(Me.View, Round).dgPlayers.Items.Refresh()
     End Sub
 End Class

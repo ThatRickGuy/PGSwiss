@@ -17,6 +17,7 @@
         <TextBlock Grid.Row="2" FontWeight="Bold" Margin="4,4,4,0">Standings</TextBlock>
         <DataGrid Name="dgStandings" Grid.Row="3" Margin="4,0,4,4" AutoGenerateColumns="False"  ItemsSource="{Binding Path=Standings}" CanUserAddRows="False">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Rank" Width="*" Binding="{Binding Rank}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="PP Handle" Width="*" Binding="{Binding PPHandle}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Faction" Width="*" Binding="{Binding Faction.Name}" IsReadOnly="True"></DataGridTextColumn>
