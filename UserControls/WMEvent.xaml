@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid x:Name="grd">
-        <Grid.Resources>
+        <Grid.Resources>          
             <!--Faction 1 templates -->
             <DataTemplate x:Key="FactionTemplate" >
                 <StackPanel>
@@ -22,10 +22,10 @@
                     </Trigger>
                 </DataTemplate.Triggers>
             </DataTemplate>
-                     
+
             <!-- Meta template-->
             <DataTemplate x:Key="MetaTemplate"  >
-                    <TextBlock Text="{Binding Meta.Name}"  />
+                <TextBlock Text="{Binding Meta.Name}"  />
             </DataTemplate>
             <DataTemplate x:Key="EditingMetaTemplate">
                 <ComboBox x:Name="cboMeta" LostFocus="ComboBox_LostFocus_1" IsEditable="True" 
@@ -46,9 +46,9 @@
             <DataTemplate x:Key="PPHandleTemplate"  >
                 <TextBlock Text="{Binding Path=PPHandle}"  />
             </DataTemplate>
-            <DataTemplate x:Key="EditingPPHandleTemplate">
-                <ComboBox x:Name="cboPPHandle" LostFocus="cboPPHandle_LostFocus_1" IsEditable="True" 
-                          ItemsSource="{Binding Path=DataContext.Model.Players, 
+            <DataTemplate x:Key="EditingPPHandleTemplate" >
+                    <ComboBox x:Name="cboPPHandle" LostFocus="cboPPHandle_LostFocus_1" IsEditable="True" 
+                          ItemsSource="{Binding Path=DataContext.Model.AllPlayers, 
                                         RelativeSource={RelativeSource FindAncestor, 
                                                         AncestorType={x:Type local:WMEvent}}}" 
                           DisplayMemberPath="PPHandle"
@@ -105,10 +105,11 @@
                   ItemsSource="{Binding Path=Model.WMEvent.Players}"
                   CanUserAddRows="True" 
                   AutoGenerateColumns="False" 
-                  KeyboardNavigation.TabNavigation="Local"
+                  KeyboardNavigation.TabNavigation="Contained"
                   Grid.Row="8" Margin="4,-4,4,4">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="PP Handle" Width="*" 
+                                        x:Name="cboPPHandle"
                                         CellTemplate="{StaticResource PPHandleTemplate}" 
                                         CellEditingTemplate="{StaticResource EditingPPHandleTemplate}"                                        >
                 </DataGridTemplateColumn>
@@ -126,6 +127,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-       
+
     </Grid>
 </UserControl >

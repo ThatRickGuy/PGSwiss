@@ -14,7 +14,7 @@ Public Class WMEventViewModel
         End Set
     End Property
     Public Property Factions As New doFactionCollection
-    Public Property Players As New doPlayerCollection
+    Public Property AllPlayers As New doPlayerCollection
     Public Property Scenarios As New doScenarioCollection
     Public Property Metas As New doMetaCollection
     Public Property Formats As New doEventFormatCollection
@@ -55,7 +55,7 @@ Public Class WMEventViewModel
         Factions.load()
         Scenarios.load()
         Metas.load()
-        Players.load()
+        AllPlayers.load()
         Formats.load()
     End Sub
 
@@ -63,10 +63,10 @@ Public Class WMEventViewModel
         Me.WMEvent.Save()
 
         For Each p As doPlayer In WMEvent.Players
-            Dim q = From i In Players Where i.PPHandle = p.PPHandle
-            If q.Count = 0 Then Players.Add(p)
+            Dim q = From i In AllPlayers Where i.PPHandle = p.PPHandle
+            If q.Count = 0 Then AllPlayers.Add(p)
         Next
-        Players.Save()
+        AllPlayers.Save()
         Metas.Save()
     End Sub
 

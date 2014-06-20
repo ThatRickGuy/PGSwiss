@@ -6,12 +6,13 @@ Public Class WMEvent
 
         ' This call is required by the designer.
         InitializeComponent()
+
     End Sub
 
 
     Private Sub cboPPHandle_LostFocus_1(sender As Object, e As RoutedEventArgs)
         'PP Handle combobox lost focus
-        Dim AllPlayers = BaseController.Model.Players
+        Dim AllPlayers = BaseController.Model.AllPlayers
         Dim EventPlayers = BaseController.Model.WMEvent.Players
         Dim cbo = CType(sender, ComboBox)
         Dim CurrentItem As doPlayer = Nothing
@@ -22,28 +23,24 @@ Public Class WMEvent
             If Not Player Is Nothing Then
                 If CurrentItem.Name = String.Empty Then
                     'PPHandle found in Allplayers, Player already exists in EventPlayers
-                    Dim q = (From p In EventPlayers Where p.PPHandle Is Nothing).FirstOrDefault
-                    If Not q Is Nothing Then
-                        q.Faction = Player.Faction
-                        q.Meta = Player.Meta
-                        q.Name = Player.Name
-                        q.PlayerID = Player.PlayerID
-                    End If
-
-                    dgPlayers.CurrentItem = Player
+                    dgPlayers.CurrentItem.Faction = Player.Faction
+                    dgPlayers.CurrentItem.Meta = Player.Meta
+                    dgPlayers.CurrentItem.Name = Player.Name
                     Try
                         dgPlayers.Items.Refresh()
-                    Catch
+                    Catch exc As Exception
+                        'MessageBox.Show(exc.Message)
                     End Try
                 End If
             ElseIf Not dgPlayers.CurrentItem Is Nothing Then
                 'PPHandle not found in Allplayers, Player already exists in EventPlayers
-                AllPlayers.Add(CType(dgPlayers.CurrentItem, doPlayer).Clone)
+                'In this case we want it to be a shared reference so that updates to the new player's
+                'faction, meta, and name will carry across
+                AllPlayers.Add(CType(dgPlayers.CurrentItem, doPlayer))
                 AllPlayers.Last.PPHandle = cbo.Text
                 cbo.SelectedItem = AllPlayers.Last
             End If
         End If
-
     End Sub
 
     Private Sub ComboBox_LostFocus_1(sender As Object, e As RoutedEventArgs)
@@ -77,6 +74,8 @@ Public Class WMEvent
         End If
     End Sub
 
+
+
     Private Sub RemovePlayer_Click(sender As Object, e As RoutedEventArgs)
         Dim CurrentItem As doPlayer = Nothing
         If dgPlayers.CurrentItem.GetType Is GetType(doPlayer) Then CurrentItem = CType(dgPlayers.CurrentItem, doPlayer)
@@ -86,5 +85,6 @@ Public Class WMEvent
         End If
         dgPlayers.Items.Refresh()
     End Sub
+
 End Class
 
