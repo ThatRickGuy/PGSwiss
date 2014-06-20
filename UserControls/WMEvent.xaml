@@ -11,11 +11,13 @@
             <!--Faction 1 templates -->
             <DataTemplate x:Key="FactionTemplate" >
                 <StackPanel>
-                    <TextBlock Text="{Binding Faction.Name}"  />
+                    <TextBlock Text="{Binding Faction}"  />
                 </StackPanel>
             </DataTemplate>
             <DataTemplate x:Key="EditingFactionTemplate">
-                <ComboBox x:Name="cboFaction" ItemsSource="{Binding Path=DataContext.Model.Factions, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WMEvent}}}" DisplayMemberPath="Name" SelectedItem="{Binding Path=Faction}"></ComboBox>
+                <ComboBox x:Name="cboFaction" 
+                          ItemsSource="{Binding Path=DataContext.Model.Factions, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WMEvent}}}" 
+                          SelectedValue="{Binding Path=Faction}"></ComboBox>
                 <DataTemplate.Triggers>
                     <Trigger SourceName="cboFaction" Property="IsVisible" Value="True">
                         <Setter TargetName="cboFaction" Property="FocusManager.FocusedElement" Value="{Binding ElementName=cboFaction}"/>
@@ -25,15 +27,14 @@
 
             <!-- Meta template-->
             <DataTemplate x:Key="MetaTemplate"  >
-                <TextBlock Text="{Binding Meta.Name}"  />
+                <TextBlock x:Name="txtMeta" Text="{Binding Meta}"  />
             </DataTemplate>
             <DataTemplate x:Key="EditingMetaTemplate">
                 <ComboBox x:Name="cboMeta" LostFocus="ComboBox_LostFocus_1" IsEditable="True" 
                           ItemsSource="{Binding Path=DataContext.Model.Metas,
-                                        RelativeSource={RelativeSource FindAncestor, 
-                                                        AncestorType={x:Type local:WMEvent}}}" 
-                          DisplayMemberPath="Name" 
-                          SelectedItem="{Binding Path=Meta}"></ComboBox>
+                          RelativeSource={RelativeSource FindAncestor, 
+                          AncestorType={x:Type local:WMEvent}}}" 
+                          SelectedValue="{Binding Path=Meta}"></ComboBox>
                 <DataTemplate.Triggers>
                     <Trigger SourceName="cboMeta" Property="IsVisible" Value="True">
                         <Setter TargetName="cboMeta" Property="FocusManager.FocusedElement" 

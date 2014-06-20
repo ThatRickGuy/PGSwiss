@@ -1,13 +1,8 @@
 ﻿Imports System.IO
 Imports System.Xml.Serialization
 
-Public Class doMeta
-    Public Property MetaID As Guid
-    Public Property Name As String
-End Class
-
 Public Class doMetaCollection
-    Inherits List(Of doMeta)
+    Inherits List(Of String)
 
     Public Sub load()
         Me.Clear()

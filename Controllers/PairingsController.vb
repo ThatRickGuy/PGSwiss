@@ -75,13 +75,13 @@
                     'Exclude previous matchups
                     EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(p.PlayerID)
                     'check for most distant pairing first:
-                    Dim MatchedOpponents = From p In EligableOpponents Where p.Meta.Name <> Player1.Meta.Name AndAlso p.Faction.Name <> Player1.Faction.Name
+                    Dim MatchedOpponents = From p In EligableOpponents Where p.Meta <> Player1.Meta AndAlso p.Faction <> Player1.Faction
                     'No one from a different meta with a different faction
                     If MatchedOpponents.Count = 0 Then
-                        MatchedOpponents = From p In EligableOpponents Where p.Meta.Name <> Player1.Meta.Name
+                        MatchedOpponents = From p In EligableOpponents Where p.Meta <> Player1.Meta
                         'No one from a different meta
                         If MatchedOpponents.Count = 0 Then
-                            MatchedOpponents = From p In EligableOpponents Where p.Faction.Name <> Player1.Faction.Name
+                            MatchedOpponents = From p In EligableOpponents Where p.Faction <> Player1.Faction
                             'No one from teh same meta with a different faction
                             If MatchedOpponents.Count Then
                                 'Screw it, give me anyone

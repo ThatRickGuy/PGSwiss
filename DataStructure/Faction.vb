@@ -1,15 +1,8 @@
 ﻿Imports System.IO
 Imports System.Xml.Serialization
 
-Public Class doFaction
-    Public Property FactionID As Guid
-    Public Property Name As String
-End Class
-
-
-
 Public Class doFactionCollection
-    Inherits List(Of doFaction)
+    Inherits List(Of String)
 
     Public Sub load()
         Me.Clear()
@@ -35,20 +28,20 @@ Public Class doFactionCollection
         End Using
     End Sub
 
-    Private Function Generate() As IEnumerable(Of doFaction)
-        Dim lst As New List(Of doFaction)
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Khador"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Protectorate of Menoth"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Cygnar"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Cryx"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Mercenaries"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Convergence of Cyriss"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Retribution of Scyrah"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Trollblood"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Circle Orboros"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Legion of Everblight"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Skorne"})
-        lst.Add(New doFaction With {.FactionID = Guid.NewGuid, .Name = "Minions"})
+    Private Function Generate() As IEnumerable(Of String)
+        Dim lst As New List(Of String)
+        lst.Add("Khador")
+        lst.Add("Protectorate of Menoth")
+        lst.Add("Cygnar")
+        lst.Add("Cryx")
+        lst.Add("Mercenaries")
+        lst.Add("Convergence of Cyriss")
+        lst.Add("Retribution of Scyrah")
+        lst.Add("Trollblood")
+        lst.Add("Circle Orboros")
+        lst.Add("Legion of Everblight")
+        lst.Add("Skorne")
+        lst.Add("Minions")
         Return lst
     End Function
 

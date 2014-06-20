@@ -30,23 +30,23 @@ Public Class doPlayer
         End Set
     End Property
 
-    Private _Meta As doMeta
-    Public Property Meta As doMeta
+    Private _Meta As String
+    Public Property Meta As String
         Get
             Return _Meta
         End Get
-        Set(value As doMeta)
+        Set(value As String)
             _Meta = value
             OnPropertyChanged("Meta")
         End Set
     End Property
 
-    Private _Faction As doFaction
-    Public Property Faction As doFaction
+    Private _Faction As String
+    Public Property Faction As String
         Get
             Return _Faction
         End Get
-        Set(value As doFaction)
+        Set(value As String)
             _Faction = value
             OnPropertyChanged("Faction")
         End Set

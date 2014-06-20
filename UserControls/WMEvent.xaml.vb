@@ -47,12 +47,12 @@ Public Class WMEvent
         'Meta combobox lost focus
         Dim Metas = BaseController.Model.Metas
         Dim cbo = CType(sender, ComboBox)
-        If (From p In Metas Where p.Name = cbo.Text).Count = 0 Then
-            Metas.Add(New doMeta With {.Name = cbo.Text, .MetaID = Guid.NewGuid})
+        If (From p In Metas Where p = cbo.Text).Count = 0 Then
+            Metas.Add(cbo.Text)
             cbo.SelectedItem = Metas.Last
         End If
 
-        Dim SortedMetas = (From p In Metas Order By p.Name).ToList
+        Dim SortedMetas = (From p In Metas Order By p).ToList
 
         Metas.Clear()
         Metas.AddRange(SortedMetas)
