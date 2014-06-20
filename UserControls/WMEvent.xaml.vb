@@ -83,7 +83,10 @@ Public Class WMEvent
         If Not CurrentItem Is Nothing Then
             BaseController.Model.WMEvent.Players.Remove(CurrentItem)
         End If
-        dgPlayers.Items.Refresh()
+        Try
+            dgPlayers.Items.Refresh()
+        Catch
+        End Try
     End Sub
 
 End Class

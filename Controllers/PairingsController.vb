@@ -110,10 +110,10 @@
     End Sub
 
     Public Sub SwapPlayers(Player1 As doPlayer, Player2 As doPlayer)
-        Dim game1 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = Player1.PPHandle Or p.Player2.PPHandle = Player1.PPHandle).FirstOrDefault
+        Dim game1 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = Player1.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = Player1.PPHandle)).FirstOrDefault
         Dim Game1Player1 As Boolean = False
         If game1.Player1.PPHandle = Player1.PPHandle Then Game1Player1 = True
-        Dim game2 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = Player2.PPHandle Or p.Player2.PPHandle = Player2.PPHandle).FirstOrDefault
+        Dim game2 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = Player2.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = Player2.PPHandle)).FirstOrDefault
         Dim Game2Player1 As Boolean = False
         If game2.Player1.PPHandle = Player2.PPHandle Then Game2Player1 = True
 
