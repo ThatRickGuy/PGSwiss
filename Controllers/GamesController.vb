@@ -18,6 +18,18 @@
         Me.View.DataContext = Me
     End Sub
 
+    Protected Overrides Sub Activated()
+        MyBase.Activated()
+
+        If Model.CurrentRound.Bye IsNot Nothing Then
+            Dim q = (From p In Model.CurrentRound.Games Where p.Player2 Is Nothing).FirstOrDefault
+            If Not q Is Nothing Then
+                SelectGame(q)
+                AcceptGame()
+            End If
+        End If
+    End Sub
+
     Public Sub SelectGame(Game As doGame)
         Model.CurrentGame = Game
     End Sub

@@ -9,6 +9,7 @@
         Me.dgGames.SelectedItem = Nothing
         Me.dgGames.Items.Refresh()
     End Sub
+
 End Class
 
 Public Class BoolToColorConverter
