@@ -88,7 +88,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" >Event Registration</Label>
+        <TextBlock FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" >Event Registration</TextBlock>
         <Label Margin="4,4,4,0" FontWeight="Bold" Grid.Row="1" >Event Name</Label>
         <TextBox Name="txtEventName" Grid.Row="2" Margin="4,-4,4,0" Text="{Binding Path=Model.WMEvent.Name}"/>
         <Label Grid.Row="3" Margin="4,0,4,0" FontWeight="Bold">Format</Label>

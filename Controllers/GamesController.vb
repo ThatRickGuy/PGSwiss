@@ -14,7 +14,6 @@
 
     Public Sub New()
         Me.View = New Games
-        Me._Title = "Round " & BaseController.Model.CurrentRound.RoundNumber & " - Games"
         BaseController.Model.CurrentGame = BaseController.Model.CurrentRound.Games.FirstOrDefault
         Me.View.DataContext = Me
     End Sub

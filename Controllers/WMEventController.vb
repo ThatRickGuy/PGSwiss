@@ -10,8 +10,6 @@
         _PreviousEnabled = False
         Me.View = New WMEvent
         Me.View.DataContext = Me
-        Me._Title = "Event Setup"
-
         Model = New WMEventViewModel
     End Sub
 

@@ -7,7 +7,6 @@
 
     Public Sub New()
         Me.View = New Standings
-        Me._Title = "Final Standings"
 
         For Each Player In Model.CurrentRound.Players
             Player.StrengthOfSchedule = 0

@@ -8,8 +8,6 @@
     Public Sub New()
         Me.View = New Pairings
 
-        Me._Title = "Round " & Model.CurrentRound.RoundNumber & "- Pairings"
-
         Me.View.DataContext = Me
     End Sub
 

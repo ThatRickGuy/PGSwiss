@@ -8,6 +8,5 @@
     Public Sub New()
         _NextEnabled = False
         Me.View = New Reporting
-        Me._Title = "Event Reporting"
     End Sub
 End Class

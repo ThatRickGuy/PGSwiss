@@ -4,7 +4,15 @@ Public Class WMEventViewModel
     Inherits BaseViewModel
     Implements INotifyPropertyChanged
 
-    Public Property WMEvent As New doWMEvent
+    Private WithEvents _WMEvent As New doWMEvent
+    Public Property WMEvent As doWMEvent
+        Get
+            Return _WMEvent
+        End Get
+        Set(value As doWMEvent)
+            _WMEvent = Value
+        End Set
+    End Property
     Public Property Factions As New doFactionCollection
     Public Property Players As New doPlayerCollection
     Public Property Scenarios As New doScenarioCollection
@@ -31,6 +39,16 @@ Public Class WMEventViewModel
             _CurrentGame = value
             OnPropertyChanged("CurrentGame")
         End Set
+    End Property
+
+    Public ReadOnly Property Title As String
+        Get
+            Dim sReturn As String = "PG Swiss"
+            If WMEvent IsNot Nothing AndAlso WMEvent.Name <> String.Empty Then
+                sReturn = WMEvent.Name
+            End If
+            Return sReturn
+        End Get
     End Property
 
     Public Sub New()
@@ -61,5 +79,11 @@ Public Class WMEventViewModel
     ' Create the OnPropertyChanged method to raise the event 
     Protected Sub OnPropertyChanged(ByVal name As String)
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
+    End Sub
+
+    Private Sub _WMEvent_PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Handles _WMEvent.PropertyChanged
+        If e.PropertyName = "Name" Then
+            OnPropertyChanged("Title")
+        End If
     End Sub
 End Class

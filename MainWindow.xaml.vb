@@ -9,6 +9,8 @@
         Dim WMEvent As New WMEventController
         BaseController.Model.Load()
 
+        Me.DataContext = (BaseController.Model)
+
         UpdateUI()
     End Sub
 
@@ -27,6 +29,5 @@
         grdContent.Children.Add(BaseController.CurrentController.View)
         Me.btnNext.IsEnabled = BaseController.CurrentController.NextEnabled
         Me.btnPrev.IsEnabled = BaseController.CurrentController.PreviousEnabled
-        Me.Header.txtTitle.Text = "PG Swiss" 'BaseController.CurrentController.Title
     End Sub
 End Class

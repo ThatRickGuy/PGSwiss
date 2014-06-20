@@ -24,10 +24,6 @@
 
         Model.CurrentRound = round
 
-        Me._Title = "Round " & Model.CurrentRound.RoundNumber
-
-
-
         Me.View.DataContext = Me
     End Sub
 

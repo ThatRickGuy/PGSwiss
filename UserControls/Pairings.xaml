@@ -15,14 +15,7 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <Label FontWeight="Bold" FontSize="18" HorizontalAlignment="Center">
-            <Label.Content>
-                <Binding Path="Model.CurrentRound.RoundNumber"/>
-            </Label.Content>
-            <Label.ContentStringFormat>
-                Round {0} - Pairings
-            </Label.ContentStringFormat>
-        </Label>
+        <TextBlock FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding Path=Model.CurrentRound.RoundNumber, StringFormat=Round \{0\} - Pairings}" />
         <TextBlock FontWeight="Bold" Grid.Row="1"  Margin="4,4,4,0">Pairings</TextBlock>
         <DataGrid Name="dgPairings" ItemsSource="{Binding Path=Model.CurrentRound.Games}" Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False" CanUserAddRows="False"   >
             <DataGrid.Columns>

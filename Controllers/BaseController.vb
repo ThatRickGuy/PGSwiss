@@ -51,12 +51,6 @@
         End Get
     End Property
 
-    Protected _Title As String
-    ReadOnly Property Title As String
-        Get
-            Return _Title
-        End Get
-    End Property
 
     Public Property TotalRounds As Integer
     Public Property CurrentRound As Integer
