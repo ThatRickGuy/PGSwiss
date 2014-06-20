@@ -25,6 +25,7 @@
             Dim q = (From p In Model.CurrentRound.Games Where p.Player2 Is Nothing).FirstOrDefault
             If Not q Is Nothing Then
                 SelectGame(q)
+                Model.CurrentGame.Winner = "Player 1"
                 AcceptGame()
             End If
         End If

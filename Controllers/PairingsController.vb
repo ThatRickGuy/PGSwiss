@@ -25,9 +25,17 @@
             Model.CurrentRound.Bye = (From p In EligablePlayers Where p.ByeVol = True And p.TourneyPoints = 0).FirstOrDefault
             If Model.CurrentRound.Bye Is Nothing Then
                 Dim EligableBye = (From p In EligablePlayers Where p.TourneyPoints = 0).ToList
-                If EligableBye.Count = 0 Then EligableBye = (From p In EligablePlayers Where p.TourneyPoints = 1).ToList
+                If EligableBye.Count = 0 Then
+                    Dim AlreadyByed = (From p In Model.WMEvent.Rounds Select p.Bye).ToList
+                    Model.CurrentRound.Bye = (From p In EligablePlayers Where Not AlreadyByed.Contains(p) Order By p.Rank Ascending).FirstOrDefault
+                    If Model.CurrentRound.Bye Is Nothing Then
+                        Model.CurrentRound.Bye = EligablePlayers.Item(rnd.Next(EligableBye.Count - 1))
+                    End If
+                Else
+                    Model.CurrentRound.Bye = EligableBye.Item(rnd.Next(EligableBye.Count - 1))
+                End If
 
-                Model.CurrentRound.Bye = EligableBye.Item(rnd.Next(EligableBye.Count - 1))
+
             End If
             EligablePlayers.Remove(Model.CurrentRound.Bye)
         End If
