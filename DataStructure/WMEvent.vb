@@ -6,7 +6,7 @@ Public Class doWMEvent
     Implements INotifyPropertyChanged
 
     Public Property EventID As Guid = Guid.NewGuid
-    Public Property EventFormat As doEventFormat
+    Public Property EventFormat As String
     Private _Name As String
     Public Property Name As String
         Get

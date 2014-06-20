@@ -94,10 +94,9 @@
         <TextBox Name="txtEventName" Grid.Row="2" Margin="4,-4,4,0" Text="{Binding Path=Model.WMEvent.Name}"/>
         <Label Grid.Row="3" Margin="4,0,4,0" FontWeight="Bold">Format</Label>
         <ComboBox Name="cboFormat" Grid.Row="4" Margin="4,-4,4,0" 
-                  DisplayMemberPath="Name" 
                   ItemsSource ="{Binding Path=Model.Formats}" 
                   SelectedValuePath="Name" 
-                  SelectedValue="{Binding Model.WMEvent.EventFormat.Name}"></ComboBox>
+                  SelectedItem="{Binding Model.WMEvent.EventFormat}"></ComboBox>
 
         <Label Grid.Row="5" FontWeight="Bold" Margin="4,0,4,0">Date</Label>
         <DatePicker Grid.Row="6" Name="dtpEventDate" Margin="4,-4,4,0" SelectedDate="{Binding Path=Model.WMEvent.EventDate}"></DatePicker>
