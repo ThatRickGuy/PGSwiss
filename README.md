@@ -14,3 +14,6 @@ I have no expectations that 10 years from now I'll still be maintaining this, so
 it and run with it, be my guest!
 
 -Rick
+
+
+[![Build status](https://ci.appveyor.com/api/projects/status/33de6m4wcoib9jfp)](https://ci.appveyor.com/project/RickWay/pgswiss)
