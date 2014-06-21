@@ -24,6 +24,8 @@
             Model.WMEvent.Rounds.Add(_Round)
         End If
 
+        If Model.CurrentRound IsNot Nothing Then _Round.Size = Model.CurrentRound.Size
+
         Model.CurrentRound = _Round
 
         Me.View.DataContext = Me

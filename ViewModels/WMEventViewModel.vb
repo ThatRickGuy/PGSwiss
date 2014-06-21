@@ -18,6 +18,7 @@ Public Class WMEventViewModel
     Public Property Scenarios As New doScenarioCollection
     Public Property Metas As New doMetaCollection
     Public Property Formats As New doEventFormatCollection
+    Public Property Sizes As New doRoundSizeCollection
 
     Private _CurrentRound As doRound
     Public Property CurrentRound As doRound
@@ -57,6 +58,7 @@ Public Class WMEventViewModel
         Metas.load()
         AllPlayers.load()
         Formats.load()
+        Sizes.load()
     End Sub
 
     Public Overrides Sub Save()

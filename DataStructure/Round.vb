@@ -9,6 +9,7 @@ Public Class doRound
     Public Property Players As New doPlayerCollection
     Public Property Games As New doGameCollection
     Public Property Bye As doPlayer
+    Public Property Size As Integer
 
     Private _IsLastRound As Boolean
     Public Property IsLastRound As Boolean

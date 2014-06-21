@@ -13,16 +13,26 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock FontWeight="Bold" Grid.ColumnSpan="2" FontSize="18" HorizontalAlignment="Center" Text="{Binding Path=Model.CurrentRound.RoundNumber, StringFormat=Round \{0\}}"/>
 
-        <TextBlock FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding Path=Model.CurrentRound.RoundNumber, StringFormat=Round \{0\}}"/>
+        <TextBlock FontWeight="Bold" Grid.Row="1" Grid.Column="1" Margin="4,4,4,0">Size</TextBlock>
+        <ComboBox Name="cboRoundSize" Grid.Row="2" Grid.Column="1" Margin="4,0,4,0"
+                  ItemsSource ="{Binding Path=Model.Sizes}" 
+                  SelectedItem="{Binding Model.CurrentRound.Size}"></ComboBox>
+
         <TextBlock FontWeight="Bold" Grid.Row="1" Margin="4,4,4,0">Scenario</TextBlock>
         <ComboBox Name="cboFormat" Grid.Row="2" Margin="4,0,4,0"
                   ItemsSource ="{Binding Path=Model.Scenarios}" 
                   SelectedValue="{Binding Model.CurrentRound.Scenario}"></ComboBox>
-        <TextBlock Grid.Row="3" FontWeight="Bold" Margin="4,4,4,0">Players</TextBlock>
+        <TextBlock Grid.Row="3" Grid.ColumnSpan="2" FontWeight="Bold" Margin="4,4,4,0">Players</TextBlock>
 
         <DataGrid Name="dgPlayers" 
-                  Grid.Row="4" Margin="4,0,4,4" 
+                  Grid.Row="4" Margin="4,0,4,4"  Grid.ColumnSpan="2"
                   ItemsSource="{Binding Path=Model.CurrentRound.Players}"
                   CanUserAddRows="False" 
                   AutoGenerateColumns="False" >
