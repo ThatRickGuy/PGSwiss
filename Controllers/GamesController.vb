@@ -113,4 +113,10 @@
 
         Return dopReturn
     End Function
+
+    Public Overrides Function Validate() As String
+        Dim sReturn = String.Empty
+        If (From p In BaseController.Model.CurrentRound.Games Where p.Reported = False).Count > 0 Then sReturn = "Unreported games"
+        Return sReturn
+    End Function
 End Class

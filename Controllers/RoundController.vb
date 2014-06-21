@@ -77,4 +77,11 @@
 
         CType(Me.View, Round).dgPlayers.Items.Refresh()
     End Sub
+
+    Public Overrides Function Validate() As String
+        Dim sReturn = String.Empty
+        If BaseController.Model.CurrentRound.Scenario = String.Empty Then sReturn = "Scenario not selected" & ControlChars.CrLf
+        If BaseController.Model.CurrentRound.Size = 0 Then sReturn &= "Size not selected"
+        Return sReturn.TrimEnd(ControlChars.CrLf)
+    End Function
 End Class

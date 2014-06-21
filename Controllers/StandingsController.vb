@@ -24,4 +24,8 @@
         Next
         Me.View.DataContext = Standings
     End Sub
+
+    Public Overrides Function Validate() As String
+        Return String.Empty
+    End Function
 End Class

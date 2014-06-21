@@ -11,6 +11,7 @@
         RaiseEvent ForceUIUpdate(Me, Nothing)
     End Sub
 
+    Public MustOverride Function Validate() As String
 
     Protected Shared _Stack As New List(Of BaseController)
     Protected MustOverride Function CreateNext() As BaseController
@@ -31,13 +32,18 @@
     End Property
 
     Public Overridable Function MoveNext() As BaseController
-        Model.Save()
-        If _Stack.Count = _Stack.IndexOf(Me) + 1 Then
-            _Stack.Add(CreateNext)
+        Dim sValidated = Validate()
+        If sValidated = String.Empty Then
+            Model.Save()
+            If _Stack.Count = _Stack.IndexOf(Me) + 1 Then
+                _Stack.Add(CreateNext)
+            End If
+            _CurrentController = _Stack.Item(_Stack.IndexOf(Me) + 1)
+            _CurrentController.Activated()
+            Return _CurrentController
+        Else
+            MessageBox.Show("Please correct the following issue(s) before continuing:" & ControlChars.CrLf & ControlChars.CrLf & sValidated)
         End If
-        _CurrentController = _Stack.Item(_Stack.IndexOf(Me) + 1)
-        _CurrentController.Activated()
-        Return _CurrentController
     End Function
 
     Public Overridable Function MovePrev() As BaseController
