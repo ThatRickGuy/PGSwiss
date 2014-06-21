@@ -5,11 +5,18 @@
     End Sub
 
     Private Sub btnAcceptGame_Click(sender As Object, e As RoutedEventArgs) Handles btnAcceptGame.Click
-        CType(BaseController.CurrentController, GamesController).AcceptGame()
-        Me.dgGames.SelectedItem = Nothing
-        Me.dgGames.Items.Refresh()
+        Dim sAccepted = CType(BaseController.CurrentController, GamesController).AcceptGame()
+        If sAccepted = String.Empty Then
+            Me.dgGames.SelectedItem = Nothing
+            Me.dgGames.Items.Refresh()
+        Else
+            MessageBox.Show("Please resolve the issue(s) listed below prior to accepting a game:" & ControlChars.CrLf & ControlChars.CrLf & sAccepted)
+        End If
     End Sub
 
+    Private Sub PointsBoxes_GotFocus(sender As Object, e As RoutedEventArgs) Handles txtPlayer1APD.GotFocus, txtPlayer1CP.GotFocus, txtPlayer2APD.GotFocus, txtPlayer2CP.GotFocus
+        CType(sender, TextBox).SelectAll()
+    End Sub
 End Class
 
 Public Class BoolToColorConverter

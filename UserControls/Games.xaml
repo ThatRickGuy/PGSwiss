@@ -81,14 +81,14 @@
                 <TextBlock x:Name="lblPlayer1" Grid.Row="4" Grid.ColumnSpan="2" FontWeight="Bold" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player1.PPHandle}"/></TextBlock>
                 <TextBlock Grid.Row="5" Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="CP"/></TextBlock>
                 <TextBlock Grid.Row="5" Grid.Column="1" Margin="2,0,2,0" HorizontalAlignment="Center"><Run Text="APD"/></TextBlock>
-                <TextBox Grid.Row="6" Grid.Column="0" Margin="2,0,2,0"  Text="{Binding Path=Model.CurrentGame.Player1.ControlPoints}"/>
-                <TextBox Grid.Row="6" Grid.Column="1" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player1.ArmyPointsDestroyed}"/>
+                <TextBox x:Name="txtPlayer1CP"  Grid.Row="6" Grid.Column="0" Margin="2,0,2,0"  Text="{Binding Path=Model.CurrentGame.Player1.ControlPoints}"/>
+                <TextBox x:Name="txtPlayer1APD" Grid.Row="6" Grid.Column="1" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player1.ArmyPointsDestroyed}"/>
 
                 <TextBlock x:Name="lblPlayer2" Grid.Row="7" Grid.ColumnSpan="2" FontWeight="Bold" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player2.PPHandle}"/></TextBlock>
                 <TextBlock Grid.Row="8" Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="CP"/></TextBlock>
                 <TextBlock Grid.Row="8" Grid.Column="1" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="APD"/></TextBlock>
-                <TextBox Grid.Row="9" Grid.Column="0" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ControlPoints}"/>
-                <TextBox Grid.Row="9" Grid.Column="1" Margin ="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ArmyPointsDestroyed}"/>
+                <TextBox x:Name="txtPlayer2CP" Grid.Row="9" Grid.Column="0" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ControlPoints}"/>
+                <TextBox x:Name="txtPlayer2APD" Grid.Row="9" Grid.Column="1" Margin ="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ArmyPointsDestroyed}"/>
                 <Button x:Name="btnAcceptGame" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="2,4,2,2" Content="Accept"></Button>
             </Grid>
 

@@ -44,59 +44,65 @@
         Model.CurrentGame = Game
     End Sub
 
-    Public Sub AcceptGame()
-        If BaseController.Model.CurrentGame IsNot Nothing Then
-            Dim Player1 = Model.CurrentGame.Player1
-            Dim Player2 = Model.CurrentGame.Player2
+    Public Function AcceptGame() As String
+        Dim sReturn = String.Empty
+        If Model.CurrentGame.Winner = String.Empty Then sReturn = "Winner not set" & ControlChars.CrLf
+        If Model.CurrentGame.Condition = String.Empty Then sReturn = "Condition not set"
+        If sReturn = String.Empty Then
+            If BaseController.Model.CurrentGame IsNot Nothing Then
+                Dim Player1 = Model.CurrentGame.Player1
+                Dim Player2 = Model.CurrentGame.Player2
 
-            Dim Player1FromRound = GetPlayerFromRound(Player1)
-            Dim Player1FromLastRound = GetPlayerFromLastRound(Player1)
-            Dim Player2FromRound = GetPlayerFromRound(Player2)
-            Dim Player2FromLastRound = GetPlayerFromLastRound(Player2)
+                Dim Player1FromRound = GetPlayerFromRound(Player1)
+                Dim Player1FromLastRound = GetPlayerFromLastRound(Player1)
+                Dim Player2FromRound = GetPlayerFromRound(Player2)
+                Dim Player2FromLastRound = GetPlayerFromLastRound(Player2)
 
-            If Player1FromLastRound Is Nothing Then
-                If Model.CurrentGame.Winner = "Player 1" Then Player1FromRound.TourneyPoints = 1
-                Player1FromRound.ControlPoints = Player1.ControlPoints
-                Player1FromRound.ArmyPointsDestroyed = Player1.ArmyPointsDestroyed
-            Else
-                If Model.CurrentGame.Winner = "Player 1" Then Player1FromRound.TourneyPoints = Player1FromLastRound.TourneyPoints + 1
-                Player1FromRound.ControlPoints = Player1.ControlPoints + Player1FromLastRound.ControlPoints
-                Player1FromRound.ArmyPointsDestroyed = Player1.ArmyPointsDestroyed + Player1FromLastRound.ArmyPointsDestroyed
-            End If
-
-            If Not Player2 Is Nothing Then
-                If Player2FromLastRound Is Nothing Then
-                    If Model.CurrentGame.Winner = "Player 2" Then Player2FromRound.TourneyPoints = 1
-                    Player2FromRound.ControlPoints = Player2.ControlPoints
-                    Player2FromRound.ArmyPointsDestroyed = Player2.ArmyPointsDestroyed
+                If Player1FromLastRound Is Nothing Then
+                    If Model.CurrentGame.Winner = "Player 1" Then Player1FromRound.TourneyPoints = 1
+                    Player1FromRound.ControlPoints = Player1.ControlPoints
+                    Player1FromRound.ArmyPointsDestroyed = Player1.ArmyPointsDestroyed
                 Else
-                    If Model.CurrentGame.Winner = "Player 2" Then Player2FromRound.TourneyPoints = Player2FromLastRound.TourneyPoints + 1
-                    Player2FromRound.ControlPoints = Player2.ControlPoints + Player2FromLastRound.ControlPoints
-                    Player2FromRound.ArmyPointsDestroyed = Player2.ArmyPointsDestroyed + Player2FromLastRound.ArmyPointsDestroyed
+                    If Model.CurrentGame.Winner = "Player 1" Then Player1FromRound.TourneyPoints = Player1FromLastRound.TourneyPoints + 1
+                    Player1FromRound.ControlPoints = Player1.ControlPoints + Player1FromLastRound.ControlPoints
+                    Player1FromRound.ArmyPointsDestroyed = Player1.ArmyPointsDestroyed + Player1FromLastRound.ArmyPointsDestroyed
                 End If
 
-                Player1FromRound.Oppontnents.Add(Player2FromRound.PlayerID)
-                Player2FromRound.Oppontnents.Add(Player1FromRound.PlayerID)
-            End If
+                If Not Player2 Is Nothing Then
+                    If Player2FromLastRound Is Nothing Then
+                        If Model.CurrentGame.Winner = "Player 2" Then Player2FromRound.TourneyPoints = 1
+                        Player2FromRound.ControlPoints = Player2.ControlPoints
+                        Player2FromRound.ArmyPointsDestroyed = Player2.ArmyPointsDestroyed
+                    Else
+                        If Model.CurrentGame.Winner = "Player 2" Then Player2FromRound.TourneyPoints = Player2FromLastRound.TourneyPoints + 1
+                        Player2FromRound.ControlPoints = Player2.ControlPoints + Player2FromLastRound.ControlPoints
+                        Player2FromRound.ArmyPointsDestroyed = Player2.ArmyPointsDestroyed + Player2FromLastRound.ArmyPointsDestroyed
+                    End If
 
-            Model.CurrentGame.Reported = True
-            Model.Save()
+                    Player1FromRound.Oppontnents.Add(Player2FromRound.PlayerID)
+                    Player2FromRound.Oppontnents.Add(Player1FromRound.PlayerID)
+                End If
 
-            Dim SortedGames = (From p In Model.CurrentRound.Games Order By p.Reported, p.TableNumber).ToList
-            Model.CurrentRound.Games.Clear()
-            Model.CurrentRound.Games.AddRange(SortedGames)
+                Model.CurrentGame.Reported = True
+                Model.Save()
 
-            Dim RemainingGames = From p In Model.CurrentRound.Games Where p.Reported = False
+                Dim SortedGames = (From p In Model.CurrentRound.Games Order By p.Reported, p.TableNumber).ToList
+                Model.CurrentRound.Games.Clear()
+                Model.CurrentRound.Games.AddRange(SortedGames)
 
-            If RemainingGames.Count = 0 Then
-                Dim q = From p In Model.CurrentRound.Players Where p.TourneyPoints = Model.CurrentRound.RoundNumber
+                Dim RemainingGames = From p In Model.CurrentRound.Games Where p.Reported = False
 
-                If q.Count < 2 Then
-                    Model.CurrentRound.IsLastRound = True
+                If RemainingGames.Count = 0 Then
+                    Dim q = From p In Model.CurrentRound.Players Where p.TourneyPoints = Model.CurrentRound.RoundNumber
+
+                    If q.Count < 2 Then
+                        Model.CurrentRound.IsLastRound = True
+                    End If
                 End If
             End If
         End If
-    End Sub
+        Return sReturn
+    End Function
 
     Private Function GetPlayerFromRound(TargetPlayer As doPlayer) As doPlayer
         Dim dopReturn As doPlayer = Nothing
