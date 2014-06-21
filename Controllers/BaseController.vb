@@ -7,7 +7,6 @@
         _Stack.Clear()
         Model.Load(FileName)
         Dim WMEvent As New WMEventController
-        _Stack.Add(WMEvent)
         _CurrentController = WMEvent
         RaiseEvent ForceUIUpdate(Me, Nothing)
     End Sub
