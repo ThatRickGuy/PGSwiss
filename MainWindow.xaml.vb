@@ -6,11 +6,10 @@
 
         ' Add any initialization after the InitializeComponent() call.
 
-        Dim WMEvent As New WMEventController
-        BaseController.Model.Load()
+        Dim Landing As New LandingController
 
         Me.DataContext = (BaseController.Model)
-
+        AddHandler BaseController.CurrentController.ForceUIUpdate, AddressOf UpdateUI
         UpdateUI()
     End Sub
 

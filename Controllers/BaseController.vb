@@ -1,6 +1,18 @@
 ﻿Partial Public MustInherit Class BaseController
     Public Event ActivationCompleted(sender As Object, e As EventArgs)
 
+    Public Event ForceUIUpdate(sender As Object, e As EventArgs)
+
+    Public Sub StartEvent(FileName As String)
+        _Stack.Clear()
+        Model.Load(FileName)
+        Dim WMEvent As New WMEventController
+        _Stack.Add(WMEvent)
+        _CurrentController = WMEvent
+        RaiseEvent ForceUIUpdate(Me, Nothing)
+    End Sub
+
+
     Protected Shared _Stack As New List(Of BaseController)
     Protected MustOverride Function CreateNext() As BaseController
     Protected Overridable Sub Activated()
@@ -50,7 +62,4 @@
             Return _NextEnabled
         End Get
     End Property
-
-
-    Public Property TotalRounds As Integer
 End Class

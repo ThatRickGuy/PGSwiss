@@ -5,6 +5,18 @@ Imports System.ComponentModel
 Public Class doWMEvent
     Implements INotifyPropertyChanged
 
+
+    Public Sub New()
+
+    End Sub
+
+    Public Sub New(FileName As String)
+        Me._FileName = FileName
+        load()
+    End Sub
+
+    Private _FileName As String
+
     Public Property EventID As Guid = Guid.NewGuid
     Public Property EventFormat As String
     Private _Name As String
@@ -22,8 +34,8 @@ Public Class doWMEvent
     Public Property Rounds As New List(Of doRound)
 
     Public Sub load()
-        If File.Exists("EventCollection.xml") Then
-            Using objStreamReader As New StreamReader("EventCollection.xml")
+        If File.Exists(_FileName) Then
+            Using objStreamReader As New StreamReader(_FileName)
                 Dim x As New XmlSerializer(Me.GetType)
                 Dim temp As doWMEvent = (x.Deserialize(objStreamReader))
 
@@ -38,7 +50,7 @@ Public Class doWMEvent
     End Sub
 
     Public Sub Save()
-        Using objStreamWriter As New StreamWriter("EventCollection.xml")
+        Using objStreamWriter As New StreamWriter(_FileName)
             Dim x As New XmlSerializer(Me.GetType)
             x.Serialize(objStreamWriter, Me)
         End Using

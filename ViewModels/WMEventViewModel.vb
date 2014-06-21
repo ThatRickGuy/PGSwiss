@@ -4,7 +4,20 @@ Public Class WMEventViewModel
     Inherits BaseViewModel
     Implements INotifyPropertyChanged
 
-    Private WithEvents _WMEvent As New doWMEvent
+    Public Overrides Sub Load(FileName As String)
+        _WMEvent = New doWMEvent(FileName)
+    End Sub
+
+    Public Sub New()
+        Factions.load()
+        Scenarios.load()
+        Metas.load()
+        AllPlayers.load()
+        Formats.load()
+        Sizes.load()
+    End Sub
+
+    Private WithEvents _WMEvent As doWMEvent
     Public Property WMEvent As doWMEvent
         Get
             Return _WMEvent
@@ -52,30 +65,25 @@ Public Class WMEventViewModel
         End Get
     End Property
 
-    Public Sub New()
-        Factions.load()
-        Scenarios.load()
-        Metas.load()
-        AllPlayers.load()
-        Formats.load()
-        Sizes.load()
-    End Sub
 
     Public Overrides Sub Save()
-        Me.WMEvent.Save()
+        If Me.WMEvent IsNot Nothing Then
+            Me.WMEvent.Save()
 
-        For Each p As doPlayer In WMEvent.Players
-            Dim q = From i In AllPlayers Where i.PPHandle = p.PPHandle
-            If q.Count = 0 Then AllPlayers.Add(p)
-        Next
-        AllPlayers.Save()
+            For Each p As doPlayer In WMEvent.Players
+                Dim q = From i In AllPlayers Where i.PPHandle = p.PPHandle
+                If q.Count = 0 Then AllPlayers.Add(p)
+            Next
+        End If
+        Factions.Save()
+        Scenarios.Save()
         Metas.Save()
+        AllPlayers.Save()
+        Formats.Save()
+        Sizes.Save()
     End Sub
 
-    Public Overrides Sub Load()
-        Me.WMEvent.load()
-    End Sub
-
+    
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
 
     ' Create the OnPropertyChanged method to raise the event 

@@ -71,6 +71,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\BaseController.vb" />
+    <Compile Include="Controllers\LandingController.vb" />
     <Compile Include="DataStructure\RoundSize.vb" />
     <Compile Include="Controllers\GamesController.vb" />
     <Compile Include="Controllers\PairingsController.vb" />
@@ -95,11 +96,17 @@
     <Compile Include="UserComponents\ProgressBar.xaml.vb">
       <DependentUpon>ProgressBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\CollectionManager.xaml.vb">
+      <DependentUpon>CollectionManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Games.xaml.vb">
       <DependentUpon>Games.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserComponents\Header.xaml.vb">
       <DependentUpon>Header.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Landing.xaml.vb">
+      <DependentUpon>Landing.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Reporting.xaml.vb">
       <DependentUpon>Reporting.xaml</DependentUpon>
@@ -160,11 +167,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\CollectionManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Games.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserComponents\Header.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Landing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
