@@ -6,10 +6,9 @@
 
         ' Add any initialization after the InitializeComponent() call.
 
-        Dim Landing As New LandingController
-
         Me.DataContext = (BaseController.Model)
-        AddHandler BaseController.CurrentController.ForceUIUpdate, AddressOf UpdateUI
+        AddHandler BaseController.Landing.ForceUIUpdate, AddressOf UpdateUI
+        AddHandler BaseController.CollectionManager.ForceUIUpdate, AddressOf UpdateUI
         UpdateUI()
     End Sub
 

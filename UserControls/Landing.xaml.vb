@@ -22,4 +22,8 @@ Public Class Landing
             BaseController.CurrentController.StartEvent(ofd.FileName)
         End If
     End Sub
+
+    Private Sub btnManage_Click(sender As Object, e As RoutedEventArgs) Handles btnManage.Click
+        BaseController.CurrentController.OpenCollectionManager()
+    End Sub
 End Class

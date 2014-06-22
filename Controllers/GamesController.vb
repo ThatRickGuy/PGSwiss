@@ -79,8 +79,8 @@
                         Player2FromRound.ArmyPointsDestroyed = Player2.ArmyPointsDestroyed + Player2FromLastRound.ArmyPointsDestroyed
                     End If
 
-                    Player1FromRound.Oppontnents.Add(Player2FromRound.PlayerID)
-                    Player2FromRound.Oppontnents.Add(Player1FromRound.PlayerID)
+                    Player1FromRound.Oppontnents.Add(Player2FromRound.PPHandle)
+                    Player2FromRound.Oppontnents.Add(Player1FromRound.PPHandle)
                 End If
 
                 Model.CurrentGame.Reported = True
@@ -106,7 +106,7 @@
 
     Private Function GetPlayerFromRound(TargetPlayer As doPlayer) As doPlayer
         Dim dopReturn As doPlayer = Nothing
-        If Not TargetPlayer Is Nothing Then dopReturn = (From p In Model.CurrentRound.Players Where p.PlayerID = TargetPlayer.PlayerID).FirstOrDefault
+        If Not TargetPlayer Is Nothing Then dopReturn = (From p In Model.CurrentRound.Players Where p.PPHandle = TargetPlayer.PPHandle).FirstOrDefault
         Return dopReturn
     End Function
 
@@ -114,7 +114,7 @@
         Dim dopReturn As doPlayer = Nothing
         If Model.CurrentRound.RoundNumber > 1 Then
             Dim TargetRound = (From p In Model.WMEvent.Rounds Where p.RoundNumber = Model.CurrentRound.RoundNumber - 1).FirstOrDefault
-            If Not TargetPlayer Is Nothing Then dopReturn = (From p In TargetRound.Players Where p.PlayerID = TargetPlayer.PlayerID).FirstOrDefault
+            If Not TargetPlayer Is Nothing Then dopReturn = (From p In TargetRound.Players Where p.PPHandle = TargetPlayer.PPHandle).FirstOrDefault
         End If
 
         Return dopReturn

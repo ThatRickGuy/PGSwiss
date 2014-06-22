@@ -11,7 +11,7 @@
         For Each Player In Model.CurrentRound.Players
             Player.StrengthOfSchedule = 0
             For Each Opponent In Player.Oppontnents
-                Player.StrengthOfSchedule += (From p In Model.CurrentRound.Players Where p.PlayerID = Opponent).FirstOrDefault.TourneyPoints
+                Player.StrengthOfSchedule += (From p In Model.CurrentRound.Players Where p.PPHandle = Opponent).FirstOrDefault.TourneyPoints
             Next
         Next
 

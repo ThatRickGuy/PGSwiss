@@ -71,6 +71,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\BaseController.vb" />
+    <Compile Include="Controllers\CollectionManagerController.vb" />
     <Compile Include="Controllers\LandingController.vb" />
     <Compile Include="DataStructure\RoundSize.vb" />
     <Compile Include="Controllers\GamesController.vb" />

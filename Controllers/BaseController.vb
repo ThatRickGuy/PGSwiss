@@ -11,9 +11,38 @@
         RaiseEvent ForceUIUpdate(Me, Nothing)
     End Sub
 
-    Public MustOverride Function Validate() As String
+    Public Sub OpenCollectionManager()
+        _Stack.Clear()
+        _CurrentController = CollectionManager
+        RaiseEvent ForceUIUpdate(Me, Nothing)
+    End Sub
+
+    Public Sub OpenLandingPage()
+        _Stack.Clear()
+        _CurrentController = Landing
+        RaiseEvent ForceUIUpdate(Me, Nothing)
+    End Sub
 
     Protected Shared _Stack As New List(Of BaseController)
+
+    Private Shared _Landing As LandingController
+    Public Shared ReadOnly Property Landing As LandingController
+        Get
+            If _Landing Is Nothing Then _Landing = New LandingController
+            Return _Landing
+        End Get
+    End Property
+
+    Private Shared _CollectionManager As CollectionManagerController
+    Public Shared ReadOnly Property CollectionManager As CollectionManagerController
+        Get
+            If _CollectionManager Is Nothing Then _CollectionManager = New CollectionManagerController
+            Return _CollectionManager
+        End Get
+    End Property
+
+    Public MustOverride Function Validate() As String
+
     Protected MustOverride Function CreateNext() As BaseController
     Protected Overridable Sub Activated()
         RaiseEvent ActivationCompleted(Me, Nothing)

@@ -5,9 +5,6 @@ Imports System.ComponentModel
 Public Class doPlayer
     Implements INotifyPropertyChanged
 
-
-    Public Property PlayerID As Guid
-
     Private _Name As String
     Public Property Name As String
         Get
@@ -58,19 +55,14 @@ Public Class doPlayer
     Public Property StrengthOfSchedule As Integer
     Public Property ControlPoints As Integer
     Public Property ArmyPointsDestroyed As Integer
-    Public Property Oppontnents As New List(Of Guid)
+    Public Property Oppontnents As New List(Of String)
     Public Property Rank As Integer
-
-    Public Sub New()
-        PlayerID = Guid.NewGuid
-    End Sub
 
     Public Function Clone() As doPlayer
         Dim dopReturn As New doPlayer
         dopReturn.Faction = Me.Faction
         dopReturn.Meta = Me.Meta
         dopReturn.Name = Me.Name
-        dopReturn.PlayerID = Me.PlayerID
         dopReturn.PPHandle = Me.PPHandle
         Return dopReturn
     End Function
