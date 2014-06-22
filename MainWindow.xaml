@@ -6,7 +6,7 @@
         Left="100" Top="100"
         Title="MainWindow" Height="600" Width="800"
         WindowStyle="ThreeDBorderWindow"
-        AllowsTransparency="False"     >
+        AllowsTransparency="False" Icon="pgswiss.ico"     >
     <Window.Resources>
         <Style x:Key="GlassButton" TargetType="{x:Type Button}">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
