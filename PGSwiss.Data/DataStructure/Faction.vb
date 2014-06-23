@@ -1,0 +1,50 @@
+﻿Imports System.IO
+Imports System.Xml.Serialization
+
+Public Class doFactionCollection
+    Inherits List(Of String)
+    Implements IFactionCollection
+
+    Public Sub load() Implements IFactionCollection.load
+        Me.Clear()
+        If Not IO.File.Exists("FactionCollection.xml") Then
+            Try
+                Me.AddRange(Generate())
+            Catch exc As Exception
+                MessageBox.Show(exc.Message)
+            End Try
+            Save()
+        Else
+            Using objStreamReader As New StreamReader("FactionCollection.xml")
+                Dim x As New XmlSerializer(Me.GetType)
+                Me.AddRange(x.Deserialize(objStreamReader))
+            End Using
+        End If
+    End Sub
+
+    Public Sub Save() Implements IFactionCollection.Save
+        Using objStreamWriter As New StreamWriter("FactionCollection.xml")
+            Dim x As New XmlSerializer(Me.GetType)
+            x.Serialize(objStreamWriter, Me)
+        End Using
+    End Sub
+
+    Private Function Generate() As IEnumerable(Of String)
+        Dim lst As New List(Of String)
+        lst.Add("")
+        lst.Add("Khador")
+        lst.Add("Protectorate of Menoth")
+        lst.Add("Cygnar")
+        lst.Add("Cryx")
+        lst.Add("Mercenaries")
+        lst.Add("Convergence of Cyriss")
+        lst.Add("Retribution of Scyrah")
+        lst.Add("Trollblood")
+        lst.Add("Circle Orboros")
+        lst.Add("Legion of Everblight")
+        lst.Add("Skorne")
+        lst.Add("Minions")
+        Return lst
+    End Function
+
+End Class
