@@ -6,50 +6,50 @@
              mc:Ignorable="d" >
     <Grid>
 
-        <Rectangle Width="134" Height="15"   Fill="#FFB0B0B0"></Rectangle>
-        <Rectangle Width="134" Height="15"  RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
+        <Rectangle Width="134" Height="11"   Fill="#FFB0B0B0"></Rectangle>
+        <Rectangle Width="134" Height="11"  RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="23"/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle Width="134" Height="15"  RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
+        <Rectangle Width="134" Height="11"  RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="45"/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle Width="134" Height="15"  RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
+        <Rectangle Width="134" Height="11"  RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="68"/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle Width="134" Height="15" RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
+        <Rectangle Width="134" Height="11" RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="90"/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle Width="134" Height="15"  RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
+        <Rectangle Width="134" Height="11"  RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="113"/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle Width="134" Height="15" RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
+        <Rectangle Width="134" Height="11" RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="135"/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle Width="134" Height="15"  RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
+        <Rectangle Width="134" Height="11"  RenderTransformOrigin="0.5,0.5" Fill="#FFB0B0B0">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="158"/>

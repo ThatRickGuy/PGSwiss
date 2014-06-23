@@ -198,6 +198,7 @@
         <local:Background></local:Background>
 
         <Grid x:Name="grdContentHolder" Margin="10,10,10,50"   >
+
             <Rectangle Margin="-3">
                 <Rectangle.Fill>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -214,16 +215,35 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
+
             <Rectangle  Fill="Black" >
             </Rectangle>
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="75" Width="108" ClipToBounds="True"  >
                 <Grid Margin="-33,-66,0,0" x:Name="grdGearLeft" Height="141" Width="141"  RenderTransformOrigin=".5,.5">
-                    <local:Gear></local:Gear>
+                    <local:Gear RenderTransformOrigin="0.5,0.5">
+                        <local:Gear.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </local:Gear.RenderTransform>
+                    </local:Gear>
                 </Grid>
             </Grid>
             <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Height="75" Width="108" ClipToBounds="True"  >
                 <Grid Margin="-33,-66" x:Name="grdGearRight"  HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Height="141" Width="141" >
-                    <local:Gear></local:Gear>
+                    <local:Gear RenderTransformOrigin="0.5,0.5">
+                        <local:Gear.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="9"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </local:Gear.RenderTransform>
+                    </local:Gear>
                 </Grid>
             </Grid>
 
@@ -236,30 +256,30 @@
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock HorizontalAlignment="Center"  Margin="0,-10,0,0" Name="txtTitle" VerticalAlignment="Top"  Foreground="White" FontSize="60" FontWeight="Bold" Text="{Binding Title}"></TextBlock>
-                
-                <Grid Name="grdContent" Grid.Row="1" Margin="40,-26,40,4">
+                <TextBlock HorizontalAlignment="Center"  Margin="0,-10,0,0" Name="txtTitle" VerticalAlignment="Top"  Foreground="White" FontSize="60" FontWeight="Bold" Text="{Binding Path=Title}"></TextBlock>
+
+                <Grid Name="grdContent" Grid.Row="1" Margin="0,-26,0,0" ClipToBounds="True" >
                     <Grid  x:Name="grdSlider"   >
                         <StackPanel Orientation="Horizontal" >
                             <Grid x:Name="grdPanel1" Width="{Binding ActualWidth, ElementName=grdContent, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=grdContent, Mode=OneWay}" >
                                 <local:Header x:Name="Header1" Height="35" VerticalAlignment="Top" Margin="0,25,0,0" ></local:Header>
                                 <local:ControlBackground Grid.Row="1" Margin="0,60,0,0"></local:ControlBackground>
+                                <Grid x:Name="grdPanel1Content" Margin="40,35,40,10"></Grid>
                                 <local:VerticalBar HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,30,0,0" Height="300"></local:VerticalBar>
                                 <local:VerticalBar HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,30,5,0" Height="300"></local:VerticalBar>
-
                             </Grid>
                             <Grid x:Name="grdPanel2" Width="{Binding ActualWidth, ElementName=grdContent, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=grdContent, Mode=OneWay}" >
                                 <local:Header x:Name="Header2" Height="35" VerticalAlignment="Top" Margin="0,25,0,0" ></local:Header>
                                 <local:ControlBackground Grid.Row="1" Margin="0,60,0,0"></local:ControlBackground>
+                                <Grid x:Name="grdPanel2Content" Margin="40,35,40,10"></Grid>
                                 <local:VerticalBar HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,30,0,0" Height="300"></local:VerticalBar>
                                 <local:VerticalBar HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,30,5,0" Height="300"></local:VerticalBar>
-
                             </Grid>
                         </StackPanel>
                     </Grid>
                 </Grid>
             </Grid>
-            
+
         </Grid>
 
         <Grid x:Name="grdProgress" Margin="70,0,70,15" VerticalAlignment="Bottom"  >

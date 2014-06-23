@@ -74,4 +74,5 @@
                 Controller.Scenarios.AddRange(From p In Holder Select p.Value)
         End Select
     End Sub
+
 End Class

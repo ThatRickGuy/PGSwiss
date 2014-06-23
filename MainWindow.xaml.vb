@@ -8,6 +8,7 @@ Class MainWindow
 
         ' Add any initialization after the InitializeComponent() call.
 
+
         Me.DataContext = (BaseController.Model)
         AddHandler BaseController.Landing.ForceUIUpdate, AddressOf UpdateUI
         AddHandler BaseController.CollectionManager.ForceUIUpdate, AddressOf UpdateUI
@@ -32,124 +33,63 @@ Class MainWindow
     Private _LastControl As UIElement
 
     Private Sub UpdateUI()
+        If _ActivePanel Is Nothing Then _ActivePanel = grdPanel2
         anmSlide = New ThicknessAnimation()
-        anmSlide.Duration = New Duration(TimeSpan.FromSeconds(1))
+        anmSlide.Duration = New Duration(TimeSpan.FromSeconds(0.5))
         anmSlide.FillBehavior = FillBehavior.Stop
+
+        anmRotate = New DoubleAnimation
+        anmRotate.Duration = New Duration(TimeSpan.FromSeconds(0.5))
+        anmRotate.FillBehavior = FillBehavior.Stop
 
         Dim NextControl As UIElement = BaseController.CurrentController.View
 
-        Try
-
-            For Each p In (grdPanel1.Children.OfType(Of UserControl)()).ToArray
-                grdPanel1.Children.Remove(p)
-            Next
-            For Each p In (grdPanel2.Children.OfType(Of UserControl)()).ToArray
-                grdPanel2.Children.Remove(p)
-            Next
-        Catch exc As Exception
-            MessageBox.Show(exc.Message)
-        End Try
+        grdPanel1Content.Children.Clear()
+        grdPanel2Content.Children.Clear()
+        
         Dim TargetMargin As Thickness
         If _IsMovingPrev Then
             'start on cell #2
             grdSlider.Margin = New Thickness(-1 * _ActivePanel.ActualWidth, 0, 0, 0)
 
-            grdPanel1.Children.Add(NextControl)
-            If Not _LastControl Is Nothing Then grdPanel2.Children.Add(_LastControl)
+            grdPanel1Content.Children.Add(NextControl)
+            If Not _LastControl Is Nothing AndAlso _LastControl IsNot NextControl Then grdPanel2Content.Children.Add(_LastControl)
 
             anmSlide.From = grdSlider.Margin
             TargetMargin = New Thickness(0, 0, 0, 0)
+
+            anmRotate.From = 360
+            anmRotate.To = 0
         Else
             'start on cell #1
             grdSlider.Margin = New Thickness(0, 0, 0, 0)
 
-            If Not _LastControl Is Nothing Then grdPanel1.Children.Add(_LastControl)
-            grdPanel2.Children.Add(NextControl)
+            If Not _LastControl Is Nothing Then grdPanel1Content.Children.Add(_LastControl)
+            grdPanel2Content.Children.Add(NextControl)
 
             anmSlide.From = grdSlider.Margin
             TargetMargin = New Thickness(-1 * _ActivePanel.ActualWidth, 0, 0, 0)
+
+            anmRotate.From = 0
+            anmRotate.To = 360
         End If
         anmSlide.To = TargetMargin
 
-        grdSlider.BeginAnimation(Grid.MarginProperty, anmNext)
+        Dim rtl = New RotateTransform
+        grdGearLeft.RenderTransform = rtl
+        grdGearLeft.RenderTransformOrigin = New Point(0.5, 0.5)
+        Dim rtr = New RotateTransform
+        grdGearRight.RenderTransform = rtr
+        grdGearRight.RenderTransformOrigin = New Point(0.5, 0.5)
+
+        rtl.BeginAnimation(RotateTransform.AngleProperty, anmRotate)
+        rtr.BeginAnimation(RotateTransform.AngleProperty, anmRotate)
+
+        grdSlider.BeginAnimation(Grid.MarginProperty, anmSlide)
         grdSlider.Margin = TargetMargin
 
         _LastControl = BaseController.CurrentController.View
 
-
-
-
-        Exit Sub
-
-
-        If _IsMovingPrev Then
-            'make sure panel2 has the control the user is moving from
-            If _ActivePanel Is grdPanel1 Then
-                Dim content = grdPanel1.Children(grdPanel1.Children.Count - 1)
-                grdPanel1.Children.RemoveAt(grdPanel1.Children.Count - 1)
-                grdPanel2.Children.RemoveAt(grdPanel2.Children.Count - 1)
-                grdPanel2.Children.Add(content)
-            End If
-
-            'grdPanel1.Children.RemoveAt(grdPanel1.Children.Count - 1)
-            grdPanel1.Children.Add(BaseController.CurrentController.View)
-            grdSlider.Margin = New Thickness(-1 * _ActivePanel.ActualWidth, 0, 0, 0)
-            _ActivePanel = grdPanel1
-
-            If anmPrev Is Nothing Then
-                anmNext = New ThicknessAnimation()
-                anmNext.From = grdSlider.Margin
-                anmNext.To = New Thickness(0)
-                anmNext.Duration = New Duration(TimeSpan.FromSeconds(1))
-                anmNext.FillBehavior = FillBehavior.Stop
-            End If
-
-            grdSlider.BeginAnimation(Grid.MarginProperty, anmNext)
-            grdSlider.Margin = New Thickness(0)
-        Else
-            'make sure panel1 has the control the user is moving from
-            If _ActivePanel Is grdPanel2 Then
-                Dim content = grdPanel2.Children(grdPanel2.Children.Count - 1)
-                grdPanel1.Children.RemoveAt(grdPanel1.Children.Count - 1)
-                grdPanel2.Children.RemoveAt(grdPanel2.Children.Count - 1)
-                grdPanel1.Children.Add(content)
-            End If
-            'If i > 0 Then
-            '    ' grdPanel2.Children.RemoveAt(grdPanel2.Children.Count - 1)
-            '    i += 1
-            'End If
-            grdPanel2.Children.Add(BaseController.CurrentController.View)
-            grdSlider.Margin = New Thickness(0)
-            _ActivePanel = grdPanel2
-
-            If anmNext Is Nothing Then
-                anmNext = New ThicknessAnimation()
-                anmNext.From = grdSlider.Margin
-                anmNext.To = New Thickness(-1 * _ActivePanel.ActualWidth, 0, 0, 0)
-                anmNext.Duration = New Duration(TimeSpan.FromSeconds(1))
-                anmNext.FillBehavior = FillBehavior.Stop
-
-                anmRotateNext = New DoubleAnimation
-                anmRotateNext.From = 0
-                anmRotateNext.To = 360
-                anmRotateNext.Duration = New Duration(TimeSpan.FromSeconds(1))
-                anmRotateNext.FillBehavior = FillBehavior.Stop
-
-            End If
-
-            grdSlider.BeginAnimation(Grid.MarginProperty, anmNext)
-            Dim rtl = New RotateTransform
-            grdGearLeft.RenderTransform = rtl
-            grdGearLeft.RenderTransformOrigin = New Point(0.5, 0.5)
-            rtl.BeginAnimation(RotateTransform.AngleProperty, anmRotateNext)
-            Dim rtr = New RotateTransform
-            grdGearRight.RenderTransform = rtr
-            grdGearRight.RenderTransformOrigin = New Point(0.5, 0.5)
-            rtr.BeginAnimation(RotateTransform.AngleProperty, anmRotateNext)
-
-            grdSlider.Margin = New Thickness(-1 * _ActivePanel.ActualWidth, 0, 0, 0)
-
-        End If
         Me.btnNext.IsEnabled = BaseController.CurrentController.NextEnabled
         Me.btnPrev.IsEnabled = BaseController.CurrentController.PreviousEnabled
     End Sub
@@ -157,16 +97,14 @@ Class MainWindow
     Private anmSlide As ThicknessAnimation
     Private anmRotate As DoubleAnimation
 
-    Private i As Integer
-
-    Private anmNext As ThicknessAnimation
-    Private anmPrev As ThicknessAnimation
-    Private anmRotateNext As DoubleAnimation
-    Private anmRotatePrev As DoubleAnimation
-
-
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         UpdateUI()
+    End Sub
+
+    Private Sub grdPanel2_SizeChanged(sender As Object, e As SizeChangedEventArgs) Handles grdPanel2.SizeChanged
+        If _ActivePanel Is grdPanel2 Then
+            grdSlider.Margin = New Thickness(-1 * grdPanel2.ActualWidth)
+        End If
     End Sub
 End Class
 

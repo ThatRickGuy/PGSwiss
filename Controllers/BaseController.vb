@@ -48,7 +48,7 @@
         RaiseEvent ActivationCompleted(Me, Nothing)
     End Sub
 
-    Public Shared Property Model As WMEventViewModel
+    Public Shared Property Model As New WMEventViewModel
 
     Public Property View As UserControl
 
@@ -61,26 +61,35 @@
     End Property
 
     Public Overridable Function MoveNext() As BaseController
-        Dim sValidated = Validate()
-        If sValidated = String.Empty Then
-            Model.Save()
-            If _Stack.Count = _Stack.IndexOf(Me) + 1 Then
-                _Stack.Add(CreateNext)
+        If Me._NextEnabled Then
+            Dim sValidated = Validate()
+            If sValidated = String.Empty Then
+                Model.Save()
+                If _Stack.Count = _Stack.IndexOf(Me) + 1 Then
+                    Dim NextControl = CreateNext()
+                    If Not NextControl Is Nothing Then _Stack.Add(NextControl)
+                End If
+                If _Stack.IndexOf(Me) + 1 < _Stack.Count Then
+                    _CurrentController = _Stack.Item(_Stack.IndexOf(Me) + 1)
+                    _CurrentController.Activated()
+                Else
+                    _CurrentController = Me
+                End If
+                Return _CurrentController
+            Else
+                MessageBox.Show("Please correct the following issue(s) before continuing:" & ControlChars.CrLf & ControlChars.CrLf & sValidated)
             End If
-            _CurrentController = _Stack.Item(_Stack.IndexOf(Me) + 1)
-            _CurrentController.Activated()
-            Return _CurrentController
-        Else
-            MessageBox.Show("Please correct the following issue(s) before continuing:" & ControlChars.CrLf & ControlChars.CrLf & sValidated)
         End If
     End Function
 
     Public Overridable Function MovePrev() As BaseController
-        If _Stack.IndexOf(Me) > 0 Then
-            _CurrentController = _Stack.Item(_Stack.IndexOf(Me) - 1)
+        If Me._PreviousEnabled Then
+            If _Stack.IndexOf(Me) > 0 Then
+                _CurrentController = _Stack.Item(_Stack.IndexOf(Me) - 1)
+            End If
+            _CurrentController.Activated()
+            Return _CurrentController
         End If
-        _CurrentController.Activated()
-        Return _CurrentController
     End Function
 
     Protected _PreviousEnabled As Boolean = True
