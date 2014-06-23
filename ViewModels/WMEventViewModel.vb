@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports PGSwiss.Data
 
 Public Class WMEventViewModel
     Inherits BaseViewModel

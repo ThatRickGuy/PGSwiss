@@ -1,4 +1,6 @@
-﻿Public Class RoundController
+﻿Imports PGSwiss.Data
+
+Public Class RoundController
     Inherits BaseController
 
     Protected Overrides Function CreateNext() As BaseController
@@ -59,7 +61,7 @@
         For Each Player In Model.CurrentRound.Players
             Player.StrengthOfSchedule = 0
             For Each Opponent In Player.Oppontnents
-                Player.StrengthOfSchedule += (From p In Model.CurrentRound.Players Where p.PPHandle = Opponent).FirstOrDefault.TourneyPoints
+                Player.StrengthOfSchedule += (From p In Model.CurrentRound.Players Where p.PPHandle = Opponent.ToString()).FirstOrDefault.TourneyPoints
             Next
         Next
 
