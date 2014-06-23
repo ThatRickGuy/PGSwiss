@@ -76,15 +76,12 @@
     <Compile Include="Controllers\BaseController.vb" />
     <Compile Include="Controllers\CollectionManagerController.vb" />
     <Compile Include="Controllers\LandingController.vb" />
-    <Compile Include="DataStructure\RoundSize.vb" />
     <Compile Include="Controllers\GamesController.vb" />
     <Compile Include="Controllers\PairingsController.vb" />
     <Compile Include="Controllers\ReportingController.vb" />
     <Compile Include="Controllers\RoundController.vb" />
     <Compile Include="Controllers\StandingsController.vb" />
     <Compile Include="Controllers\WMEventController.vb" />
-    <Compile Include="DataStructure\EventFormat.vb" />
-    <Compile Include="DataStructure\Standings.vb" />
     <Compile Include="UserComponents\Background.xaml.vb">
       <DependentUpon>Background.xaml</DependentUpon>
     </Compile>
@@ -140,13 +137,6 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataStructure\WMEvent.vb" />
-    <Compile Include="DataStructure\Faction.vb" />
-    <Compile Include="DataStructure\Game.vb" />
-    <Compile Include="DataStructure\Meta.vb" />
-    <Compile Include="DataStructure\Player.vb" />
-    <Compile Include="DataStructure\Round.vb" />
-    <Compile Include="DataStructure\Scenario.vb" />
     <Compile Include="MainWindow.xaml.vb">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -312,6 +302,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="pgswiss.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="PGSwiss.Data\PGSwiss.Data.vbproj">
+      <Project>{9d5cb7da-304d-4859-8e8d-a07aa42a0d02}</Project>
+      <Name>PGSwiss.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

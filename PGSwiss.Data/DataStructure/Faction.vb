@@ -8,12 +8,11 @@ Public Class doFactionCollection
     Public Sub load() Implements IFactionCollection.load
         Me.Clear()
         If Not IO.File.Exists("FactionCollection.xml") Then
-            Try
-                Me.AddRange(Generate())
-            Catch exc As Exception
-                MessageBox.Show(exc.Message)
-            End Try
+
+            Me.AddRange(Generate())
+
             Save()
+
         Else
             Using objStreamReader As New StreamReader("FactionCollection.xml")
                 Dim x As New XmlSerializer(Me.GetType)

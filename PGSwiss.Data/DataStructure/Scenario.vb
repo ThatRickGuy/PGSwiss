@@ -8,12 +8,11 @@ Public Class doScenarioCollection
     Public Sub load() Implements IScenarioCollection.load
         Me.Clear()
         If Not IO.File.Exists("ScenarioCollection.xml") Then
-            Try
-                Me.AddRange(Generate())
-            Catch exc As Exception
-                MessageBox.Show(exc.Message)
-            End Try
+
+            Me.AddRange(Generate())
+
             Save()
+
         Else
             Using objStreamReader As New StreamReader("ScenarioCollection.xml")
                 Dim x As New XmlSerializer(Me.GetType)

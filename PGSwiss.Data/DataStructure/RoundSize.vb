@@ -8,12 +8,11 @@ Public Class doRoundSizeCollection
     Public Sub load() Implements IRoundSizeCollection.load
         Me.Clear()
         If Not IO.File.Exists("RoundSizeCollection.xml") Then
-            Try
-                Me.AddRange(Generate())
-            Catch exc As Exception
-                MessageBox.Show(exc.Message)
-            End Try
+
+            Me.AddRange(Generate())
+
             Save()
+
         Else
             Using objStreamReader As New StreamReader("RoundSizeCollection.xml")
                 Dim x As New XmlSerializer(Me.GetType)
