@@ -12,7 +12,7 @@
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Margin="0,69,0,0" VerticalAlignment="Top" >
+            <StackPanel Orientation="Horizontal"  VerticalAlignment="Top" >
                 <Rectangle Margin="0,0,15,0" Height="5" Width="5" HorizontalAlignment="Left" Fill="Gray" Stroke="#FFA29F9F" ></Rectangle>
                 <Rectangle Margin="0,0,15,0" Height="5" Width="5" HorizontalAlignment="Left" Fill="Gray" Stroke="#FFA29F9F" ></Rectangle>
                 <Rectangle Margin="0,0,15,0" Height="5" Width="5" HorizontalAlignment="Left" Fill="Gray" Stroke="#FFA29F9F" ></Rectangle>
