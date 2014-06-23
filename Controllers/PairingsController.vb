@@ -106,7 +106,7 @@ Public Class PairingsController
                     'Exclude player self-match
                     Dim EligableOpponents = From p In EligablePlayers Where Not p Is Player1
                     'Exclude previous matchups
-                    EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(New Guid(p.PPHandle))
+                    EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(p.PPHandle)
                     'Eligable Opponents should already be listed in TP/SOS/CP/APD order, so the next option should be the best
                     Player2 = EligableOpponents.FirstOrDefault
 
@@ -116,7 +116,6 @@ Public Class PairingsController
                     Dim g As New doGame
                     g.Player1 = Player1.Clone
                     g.Player2 = Player2.Clone
-                    g.GameID = Guid.NewGuid
                     Model.CurrentRound.Games.Add(g)
                 Else
                     UnpairedPlayers = False
@@ -131,7 +130,7 @@ Public Class PairingsController
                     'Exclude player self-match
                     Dim EligableOpponents = From p In EligablePlayers Where Not p Is Player1
                     'Exclude previous matchups
-                    EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(New Guid(p.PPHandle))
+                    EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(p.PPHandle)
                     'check for most distant pairing first:
                     Dim MatchedOpponents = From p In EligableOpponents Where p.Meta <> Player1.Meta AndAlso p.Faction <> Player1.Faction
                     'No one from a different meta with a different faction

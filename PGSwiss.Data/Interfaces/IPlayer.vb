@@ -9,8 +9,7 @@ Interface IdoPlayer
     Property Faction As String
     Property Meta As String
     Property Name As String
-    Property Oppontnents As List(Of Guid)
-    Property PlayerID As Guid
+    Property Oppontnents As List(Of String)
     Property PPHandle As String
     Property Rank As Integer
     Property StrengthOfSchedule As Integer

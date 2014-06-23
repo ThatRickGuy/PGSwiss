@@ -7,7 +7,6 @@ Public Class doPlayer
     Implements IdoPlayer
 
 
-    Public Property PlayerID As Guid Implements IdoPlayer.PlayerID
     Private _Name As String
     Public Property Name As String Implements IdoPlayer.Name
         Get
@@ -58,19 +57,14 @@ Public Class doPlayer
     Public Property StrengthOfSchedule As Integer Implements IdoPlayer.StrengthOfSchedule
     Public Property ControlPoints As Integer Implements IdoPlayer.ControlPoints
     Public Property ArmyPointsDestroyed As Integer Implements IdoPlayer.ArmyPointsDestroyed
-    Public Property Oppontnents As New List(Of Guid) Implements IdoPlayer.Oppontnents
+    Public Property Oppontnents As New List(Of String) Implements IdoPlayer.Oppontnents
     Public Property Rank As Integer Implements IdoPlayer.Rank
-
-    Public Sub New()
-        PlayerID = Guid.NewGuid
-    End Sub
 
     Public Function Clone() As doPlayer Implements IdoPlayer.Clone
         Dim dopReturn As New doPlayer
         dopReturn.Faction = Me.Faction
         dopReturn.Meta = Me.Meta
         dopReturn.Name = Me.Name
-        dopReturn.PlayerID = Me.PlayerID
         dopReturn.PPHandle = Me.PPHandle
         Return dopReturn
     End Function
