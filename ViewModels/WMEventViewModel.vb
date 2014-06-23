@@ -65,7 +65,6 @@ Public Class WMEventViewModel
         End Get
     End Property
 
-
     Public Overrides Sub Save()
         If Me.WMEvent IsNot Nothing Then
             Me.WMEvent.Save()

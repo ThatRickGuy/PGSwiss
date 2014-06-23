@@ -89,6 +89,7 @@ Public Class doPlayerCollection
     End Sub
 
     Public Sub Save()
+
         Using objStreamWriter As New StreamWriter("PlayerCollection.xml")
             Dim x As New XmlSerializer(Me.GetType)
             x.Serialize(objStreamWriter, Me)

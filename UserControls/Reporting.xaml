@@ -10,6 +10,9 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
@@ -18,12 +21,17 @@
 
         <TextBlock FontWeight="Bold" FontSize="18" HorizontalAlignment="Center">Reporting</TextBlock>
         <TextBlock Grid.Row="1" Margin="4,4,4,-0" FontWeight="Bold">PG Report</TextBlock>
-        <Rectangle Grid.Row="2" Grid.RowSpan="2" Stroke="#FF0051FF" RadiusX="4" RadiusY="4" Margin="2,0,2,2"></Rectangle>
-        <TextBlock Grid.Row="2" TextWrapping="WrapWithOverflow" Margin="10,4,4,2">Email the below text to the Quarter Master!</TextBlock>
-        <TextBox Name="txtPGReport" Grid.Row="3" Margin="6,2,6,6"></TextBox>
-        <TextBlock Grid.Row="4" Margin="4,2,4,0" FontWeight="Bold">Statistics</TextBlock>
-        <Rectangle Grid.Row="5" Grid.RowSpan="2" Stroke="#FF0051FF" RadiusX="4" RadiusY="4" Margin="2,0,2,2"></Rectangle>
-        <TextBlock Grid.Row="5" Margin="10,0,0,0" TextWrapping="Wrap" >Please submit this report for our statistics gathering effort!</TextBlock>
-        <Button Name="btnReport" Grid.Row="6" HorizontalAlignment="Right" Margin="0,-10,4,4">Report</Button>
+        <Rectangle Grid.Row="2" Grid.RowSpan="5" Stroke="#FF0051FF" RadiusX="4" RadiusY="4" Margin="2,0,2,2"></Rectangle>
+        <TextBlock Grid.Row="2" Margin="10,4,4,2"><Hyperlink NavigateUri="http://sites.privateerpress.com/pressgang/event.php">Press Gang Event Reporting</Hyperlink></TextBlock>
+
+        <TextBlock Grid.Row="3" Margin="4,4,4,-0" FontWeight="Bold">Attendees</TextBlock>
+        <TextBox Name="txtAttendees" Grid.Row="4" Margin="6,2,6,6" Text="{Binding Path=Attendees}"></TextBox>
+        <TextBlock Grid.Row="5" Margin="4,4,4,-0" FontWeight="Bold">Notes</TextBlock>
+        <TextBox Name="txtNotes" Grid.Row="6" Margin="6,2,6,6" Text="{Binding Path=Notes}"></TextBox>
+        
+        <TextBlock Grid.Row="7" Margin="4,2,4,0" FontWeight="Bold">Statistics</TextBlock>
+        <Rectangle Grid.Row="8" Grid.RowSpan="2" Stroke="#FF0051FF" RadiusX="4" RadiusY="4" Margin="2,0,2,2"></Rectangle>
+        <TextBlock Grid.Row="8" Margin="10,0,0,0" TextWrapping="Wrap" >Please submit this report for our statistics gathering effort!</TextBlock>
+        <Button Name="btnReport" Grid.Row="9" HorizontalAlignment="Right" Margin="0,-10,4,4">Report</Button>
     </Grid>
 </UserControl>

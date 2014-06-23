@@ -194,3 +194,10 @@ Public Class PairingsController
         Return sReturn
     End Function
 End Class
+
+
+Public Structure PlayerGame
+    Public Player As String
+    Public Table As Integer
+    Public Opponent As String
+End Structure

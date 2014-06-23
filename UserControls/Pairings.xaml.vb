@@ -23,9 +23,3 @@ Public Class Pairings
         End If
     End Sub
 End Class
-
-Public Structure PlayerGame
-    Public Player As String
-    Public Table As Integer
-    Public Opponent As String
-End Structure
