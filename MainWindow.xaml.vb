@@ -32,53 +32,54 @@ Class MainWindow
     Private _LastControl As UIElement
 
     Private Sub UpdateUI()
-        'anmSlide = New ThicknessAnimation()
-        'anmSlide.Duration = New Duration(TimeSpan.FromSeconds(1))
-        'anmSlide.FillBehavior = FillBehavior.Stop
+        anmSlide = New ThicknessAnimation()
+        anmSlide.Duration = New Duration(TimeSpan.FromSeconds(1))
+        anmSlide.FillBehavior = FillBehavior.Stop
 
-        'Dim NextControl As UIElement = BaseController.CurrentController.View
+        Dim NextControl As UIElement = BaseController.CurrentController.View
 
-        'Try
-        '    For Each p In grdPanel1.Children.OfType(Of UserControl)()
-        '        grdPanel1.Children.Remove(p)
-        '    Next
-        '    For Each p In grdPanel2.Children.OfType(Of UserControl)()
-        '        grdPanel2.Children.Remove(p)
-        '    Next
-        'Catch exc As Exception
-        '    MessageBox.Show(exc.Message)
-        'End Try
-        'Dim TargetMargin As Thickness
-        'If _IsMovingPrev Then
-        '    'start on cell #2
-        '    grdSlider.Margin = New Thickness(-1 * _ActivePanel.ActualWidth, 0, 0, 0)
+        Try
 
-        '    grdPanel1.Children.Add(NextControl)
-        '    grdPanel2.Children.Add(_LastControl)
+            For Each p In (grdPanel1.Children.OfType(Of UserControl)()).ToArray
+                grdPanel1.Children.Remove(p)
+            Next
+            For Each p In (grdPanel2.Children.OfType(Of UserControl)()).ToArray
+                grdPanel2.Children.Remove(p)
+            Next
+        Catch exc As Exception
+            MessageBox.Show(exc.Message)
+        End Try
+        Dim TargetMargin As Thickness
+        If _IsMovingPrev Then
+            'start on cell #2
+            grdSlider.Margin = New Thickness(-1 * _ActivePanel.ActualWidth, 0, 0, 0)
 
-        '    anmSlide.From = grdSlider.Margin
-        '    TargetMargin = New Thickness(0, 0, 0, 0)
-        'Else
-        '    'start on cell #1
-        '    grdSlider.Margin = New Thickness(0, 0, 0, 0)
+            grdPanel1.Children.Add(NextControl)
+            If Not _LastControl Is Nothing Then grdPanel2.Children.Add(_LastControl)
 
-        '    grdPanel1.Children.Add(NextControl)
-        '    grdPanel2.Children.Add(_LastControl)
+            anmSlide.From = grdSlider.Margin
+            TargetMargin = New Thickness(0, 0, 0, 0)
+        Else
+            'start on cell #1
+            grdSlider.Margin = New Thickness(0, 0, 0, 0)
 
-        '    anmSlide.From = grdSlider.Margin
-        '    TargetMargin = New Thickness(-1 * _ActivePanel.ActualWidth, 0, 0, 0)
-        'End If
-        'anmSlide.To = TargetMargin
+            If Not _LastControl Is Nothing Then grdPanel1.Children.Add(_LastControl)
+            grdPanel2.Children.Add(NextControl)
 
-        'grdSlider.BeginAnimation(Grid.MarginProperty, anmNext)
-        'grdSlider.Margin = TargetMargin
+            anmSlide.From = grdSlider.Margin
+            TargetMargin = New Thickness(-1 * _ActivePanel.ActualWidth, 0, 0, 0)
+        End If
+        anmSlide.To = TargetMargin
 
-        '_LastControl = BaseController.CurrentController.View
+        grdSlider.BeginAnimation(Grid.MarginProperty, anmNext)
+        grdSlider.Margin = TargetMargin
+
+        _LastControl = BaseController.CurrentController.View
 
 
 
 
-        'Exit Sub
+        Exit Sub
 
 
         If _IsMovingPrev Then
