@@ -17,12 +17,24 @@ Public Class doMetaCollection
         End If
     End Sub
 
+    Private _FailedSave As Boolean = False
     Public Sub Save()
-        Using objStreamWriter As New StreamWriter("MetaCollection.xml")
-            Dim x As New XmlSerializer(Me.GetType)
-            x.Serialize(objStreamWriter, Me)
-        End Using
+        Try
+            Using objStreamWriter As New StreamWriter("MetaCollection.xml")
+                Dim x As New XmlSerializer(Me.GetType)
+                x.Serialize(objStreamWriter, Me)
+            End Using
+
+            _FailedSave = False
+        Catch exc As System.IO.IOException
+            If _FailedSave = False Then
+                _FailedSave = True
+                Save()
+            End If
+        End Try
     End Sub
+
+
     Private Function Generate() As IEnumerable(Of String)
         Dim lst As New List(Of String)
         lst.Add("")

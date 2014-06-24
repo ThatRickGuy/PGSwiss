@@ -23,4 +23,9 @@
 
         Return sReturn.TrimEnd(ControlChars.CrLf)
     End Function
+
+    Protected Overrides Sub Activated()
+        MyBase.Activated()
+        Model.CurrentProgress = 10
+    End Sub
 End Class

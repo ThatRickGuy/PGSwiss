@@ -193,6 +193,20 @@ Public Class PairingsController
         If BaseController.Model.CurrentRound.Games.Count = 0 Then sReturn = "No pairings"
         Return sReturn
     End Function
+
+    Protected Overrides Sub Activated()
+        MyBase.Activated()
+
+
+        Dim totalPlayers = Model.WMEvent.Players.Count
+        Dim Rounds As Integer = 1
+        While 2 ^ Rounds < totalPlayers
+            Rounds += 1
+        End While
+        Dim ValuePerRoundScreen = 80 / Rounds / 3 '85% to work with, diveded across all rounds, each round has 3 screens
+        Model.CurrentProgress = ValuePerRoundScreen * (Model.CurrentRound.RoundNumber * 3 + 1) 'current round + the screen of the round
+
+    End Sub
 End Class
 
 

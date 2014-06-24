@@ -19,6 +19,16 @@ Public Class WMEventViewModel
         Return _SingletonInstance
     End Function
 
+    Private _CurrentProgress As Integer
+    Public Property CurrentProgress As Integer
+        Get
+            Return _CurrentProgress
+        End Get
+        Set(value As Integer)
+            _CurrentProgress = value
+            OnPropertyChanged("CurrentProgress")
+        End Set
+    End Property
 
     Private Sub New()
         Factions.load()

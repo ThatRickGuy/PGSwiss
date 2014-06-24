@@ -15,6 +15,11 @@
         Return String.Empty
     End Function
 
+    Protected Overrides Sub Activated()
+        MyBase.Activated()
+        Model.CurrentProgress = 100
+    End Sub
+
     Private Sub ReportingController_ActivationCompleted(sender As Object, e As EventArgs) Handles Me.ActivationCompleted
         Attendees = String.Empty
         For Each p In BaseController.Model.WMEvent.Players

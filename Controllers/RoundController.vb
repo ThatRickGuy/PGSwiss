@@ -75,6 +75,16 @@
             i += 1
         Next
 
+
+        Dim totalPlayers = Model.WMEvent.Players.Count
+        Dim Rounds As Integer = 1
+        While 2 ^ Rounds < totalPlayers
+            Rounds += 1
+        End While
+        Dim ValuePerRoundScreen = 80 / Rounds / 3 '85% to work with, diveded across all rounds, each round has 3 screens
+        Model.CurrentProgress = ValuePerRoundScreen * (Model.CurrentRound.RoundNumber * 3 + 0) 'current round + the screen of the round
+
+
         CType(Me.View, Round).dgPlayers.Items.Refresh()
     End Sub
 

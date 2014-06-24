@@ -283,10 +283,10 @@
         </Grid>
 
         <Grid x:Name="grdProgress" Margin="70,0,70,15" VerticalAlignment="Bottom"  >
-            <local:ProgressBar Height="22"></local:ProgressBar>
+            <local:ProgressBar Height="22" Value="{Binding CurrentProgress}"></local:ProgressBar>
         </Grid>
 
-        <Button Name="btnPrev" Width="50" Height="50" Background="#FF00DCFF"  Margin="10" Style="{DynamicResource GlassButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+        <Button Name="btnPrev" Width="50" Height="50" Background="#FF00DCFF"   Margin="10" Style="{DynamicResource GlassButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
             <Image Source="Resources/Left.PNG" IsEnabled="False" Margin="0,2,2,4" ></Image>
         </Button>
 

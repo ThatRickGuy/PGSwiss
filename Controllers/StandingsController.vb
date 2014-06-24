@@ -28,4 +28,9 @@
     Public Overrides Function Validate() As String
         Return String.Empty
     End Function
+
+    Protected Overrides Sub Activated()
+        MyBase.Activated()
+        Model.CurrentProgress = 90
+    End Sub
 End Class

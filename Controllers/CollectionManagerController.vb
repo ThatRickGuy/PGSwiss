@@ -14,6 +14,7 @@
         _Players.load()
         _Sizes.load()
         _Scenarios.load()
+
     End Sub
 
     Public Sub Save()
@@ -74,4 +75,9 @@
     Public Overrides Function Validate() As String
         Return String.Empty
     End Function
+
+    Protected Overrides Sub Activated()
+        MyBase.Activated()
+        Model.CurrentProgress = 0
+    End Sub
 End Class
