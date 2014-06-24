@@ -92,6 +92,11 @@ Class MainWindow
 
         Me.btnNext.IsEnabled = BaseController.CurrentController.NextEnabled
         Me.btnPrev.IsEnabled = BaseController.CurrentController.PreviousEnabled
+
+        Dim binding = New Binding()
+        binding.Path = New PropertyPath("Title")
+        binding.Source = Me.DataContext
+        BindingOperations.SetBinding(txtTitle, TextBlock.TextProperty, binding)
     End Sub
 
     Private anmSlide As ThicknessAnimation

@@ -256,7 +256,7 @@
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock HorizontalAlignment="Center"  Margin="0,-10,0,0" Name="txtTitle" VerticalAlignment="Top"  Foreground="White" FontSize="60" FontWeight="Bold" Text="{Binding Path=Title}"></TextBlock>
+                <TextBlock HorizontalAlignment="Center"  Margin="0,-10,0,0" Name="txtTitle" VerticalAlignment="Top"  Foreground="White" FontSize="60" FontWeight="Bold" Text="{Binding Title}"></TextBlock>
 
                 <Grid Name="grdContent" Grid.Row="1" Margin="0,-26,0,0" ClipToBounds="True" >
                     <Grid  x:Name="grdSlider"   >

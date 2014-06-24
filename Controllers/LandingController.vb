@@ -11,7 +11,6 @@
         _NextEnabled = False
         _PreviousEnabled = False
         Me.View = New Landing
-        Model = New WMEventViewModel
     End Sub
 
     Public Overrides Function Validate() As String

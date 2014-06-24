@@ -6,9 +6,21 @@ Public Class WMEventViewModel
 
     Public Overrides Sub Load(FileName As String)
         _WMEvent = New doWMEvent(FileName)
+
+        OnPropertyChanged("Title")
     End Sub
 
-    Public Sub New()
+    Private Shared _SingletonInstance As WMEventViewModel
+
+    Public Shared Function GetSingleton() As WMEventViewModel
+        If _SingletonInstance Is Nothing Then
+            _SingletonInstance = New WMEventViewModel
+        End If
+        Return _SingletonInstance
+    End Function
+
+
+    Private Sub New()
         Factions.load()
         Scenarios.load()
         Metas.load()
@@ -58,9 +70,7 @@ Public Class WMEventViewModel
     Public ReadOnly Property Title As String
         Get
             Dim sReturn As String = "PG Swiss"
-            If WMEvent IsNot Nothing AndAlso WMEvent.Name <> String.Empty Then
-                sReturn = WMEvent.Name
-            End If
+            If _WMEvent IsNot Nothing Then sReturn = _WMEvent.Name
             Return sReturn
         End Get
     End Property

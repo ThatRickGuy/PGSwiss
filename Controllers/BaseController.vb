@@ -48,7 +48,7 @@
         RaiseEvent ActivationCompleted(Me, Nothing)
     End Sub
 
-    Public Shared Property Model As New WMEventViewModel
+    Public Shared Property Model As WMEventViewModel = WMEventViewModel.GetSingleton
 
     Public Property View As UserControl
 
