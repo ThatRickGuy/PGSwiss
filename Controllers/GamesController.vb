@@ -33,6 +33,7 @@
             If Not q Is Nothing Then
                 SelectGame(q)
                 Model.CurrentGame.Winner = "Player 1"
+                Model.CurrentGame.Condition = "Time"
                 Model.CurrentGame.Player1.ControlPoints = 3
                 Model.CurrentGame.Player1.ArmyPointsDestroyed = Math.Ceiling(Model.CurrentRound.Size / 2)
                 AcceptGame()
