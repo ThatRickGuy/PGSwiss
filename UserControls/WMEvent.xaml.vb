@@ -69,7 +69,10 @@ Public Class WMEvent
                 Dim icg = dgPlayers.ItemContainerGenerator
 
                 If dgPlayers.SelectedIndex = icg.Items.Count - 2 Then
-                    dgPlayers.CommitEdit(DataGridEditingUnit.Row, False)
+                    Try
+                        dgPlayers.CommitEdit(DataGridEditingUnit.Row, False)
+                    Catch
+                    End Try
                 End If
             End If
         End If
@@ -91,5 +94,8 @@ Public Class WMEvent
         End Try
     End Sub
 
+    Private Sub WMEvent_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        Me.txtEventName.Focus()
+    End Sub
 End Class
 
