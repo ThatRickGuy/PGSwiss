@@ -76,7 +76,7 @@ Namespace My.Resources
         '''  Looks up a localized string similar to &lt;div id=&quot;header&quot;&gt;
         '''	&lt;h1&gt;{0}&lt;/h1&gt;
         '''	&lt;h2 style=&quot;margin-top:-20px;&quot;&gt;Round {1} Pairings&lt;/h2&gt;
-        '''&lt;/div&gt;.
+        '''	&lt;h2 style=&quot;margin-top:-20px;&quot;&gt;Scenario {2} &lt;/h2&gt;&lt;/div&gt;.
         '''</summary>
         Friend ReadOnly Property Header() As String
             Get

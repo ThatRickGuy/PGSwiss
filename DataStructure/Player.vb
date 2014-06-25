@@ -5,6 +5,7 @@ Imports System.ComponentModel
 Public Class doPlayer
     Implements INotifyPropertyChanged
 
+
     Private _Name As String
     Public Property Name As String
         Get
@@ -56,6 +57,7 @@ Public Class doPlayer
     Public Property ControlPoints As Integer
     Public Property ArmyPointsDestroyed As Integer
     Public Property Oppontnents As New List(Of String)
+    Public Property Tables As New List(Of Integer)
     Public Property Rank As Integer
 
     Public Function Clone() As doPlayer
@@ -73,6 +75,7 @@ Public Class doPlayer
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
+
 End Class
 
 Public Class doPlayerCollection

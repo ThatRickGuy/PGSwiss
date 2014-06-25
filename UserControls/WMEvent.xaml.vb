@@ -1,5 +1,6 @@
 ﻿Imports System.Windows.Controls.Primitives
 Imports System.Windows.Threading
+Imports System.ComponentModel
 
 Public Class WMEvent
     Public Sub New()
@@ -80,6 +81,7 @@ Public Class WMEvent
         Dim CurrentItem As doPlayer = Nothing
         If dgPlayers.CurrentItem.GetType Is GetType(doPlayer) Then CurrentItem = CType(dgPlayers.CurrentItem, doPlayer)
 
+        dgPlayers.CommitEdit()
         If Not CurrentItem Is Nothing Then
             BaseController.Model.WMEvent.Players.Remove(CurrentItem)
         End If

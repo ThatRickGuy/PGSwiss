@@ -19,6 +19,7 @@
         <TextBlock FontWeight="Bold" Grid.Row="1"  Margin="4,4,4,0">Pairings</TextBlock>
         <DataGrid Name="dgPairings" ItemsSource="{Binding Path=Model.CurrentRound.Games}" Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False" CanUserAddRows="False"   >
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Table" Width="*" Binding="{Binding Path=TableNumber}" IsReadOnly="True" ></DataGridTextColumn>
                 <DataGridTextColumn Header="Player 1" Width="*" Binding="{Binding Path=Player1.PPHandle}" IsReadOnly="True" ></DataGridTextColumn>
                 <DataGridTextColumn Header="Meta" Width="*" Binding="{Binding Path=Player1.Meta}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Faction" Width="*" Binding="{Binding Path=Player1.Faction}" IsReadOnly="True"></DataGridTextColumn>

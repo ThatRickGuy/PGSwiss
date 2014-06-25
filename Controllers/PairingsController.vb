@@ -14,23 +14,23 @@ Public Class PairingsController
     End Sub
 
     Public Sub PrintPairings()
-        If BaseController.Model.CurrentRound.Games.Count > 0 Then
+        If Model.CurrentRound.Games.Count > 0 Then
             Dim sbOutput As New StringBuilder
             sbOutput.Append(My.Resources.HTMLHeader)
-            sbOutput.AppendFormat(My.Resources.Header, BaseController.Model.WMEvent.Name, BaseController.Model.CurrentRound.RoundNumber)
+            sbOutput.AppendFormat(My.Resources.Header, Model.WMEvent.Name, Model.CurrentRound.RoundNumber, Model.CurrentRound.Scenario & " " & Model.CurrentRound.Size & "pts")
 
             Dim sbLeftBlock As New StringBuilder()
             Dim sbRightBlock As New StringBuilder()
 
             Dim PlayerGames As New List(Of PlayerGame)
-            For Each player In (From p In BaseController.Model.CurrentRound.Players Order By p.Name)
-                Dim game = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = player.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = player.PPHandle)).FirstOrDefault
+            For Each player In (From p In Model.CurrentRound.Players Order By p.Name)
+                Dim game = (From p In Model.CurrentRound.Games Where p.Player1.PPHandle = player.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = player.PPHandle)).FirstOrDefault
 
                 Dim pg As PlayerGame = Nothing
                 If game.Player2 Is Nothing Then
                     'bye
                     pg.Player = game.Player1.Name
-                    pg.Table = "-"
+                    pg.Table = 0
                     pg.Opponent = "Bye"
                 ElseIf game.Player1.PPHandle = player.PPHandle Then
                     pg.Player = game.Player1.Name
@@ -44,9 +44,12 @@ Public Class PairingsController
                 PlayerGames.Add(pg)
             Next
 
-            For i As Integer = 0 To Math.Ceiling(PlayerGames.Count / 2) - 1
-                sbLeftBlock.AppendFormat(My.Resources.Item, New String() {PlayerGames(i).Player, PlayerGames(i).Table, PlayerGames(i).Opponent})
-                sbRightBlock.AppendFormat(My.Resources.Item, New String() {PlayerGames(i + Math.Floor(PlayerGames.Count / 2)).Player, PlayerGames(i + Math.Floor(PlayerGames.Count / 2)).Table, PlayerGames(i + Math.Floor(PlayerGames.Count / 2)).Opponent})
+            For i As Integer = 0 To PlayerGames.Count - 1
+                If i < 16 Then
+                    sbLeftBlock.AppendFormat(My.Resources.Item, New String() {PlayerGames(i).Player, PlayerGames(i).Table, PlayerGames(i).Opponent})
+                Else
+                    sbRightBlock.AppendFormat(My.Resources.Item, New String() {PlayerGames(i + Math.Floor(PlayerGames.Count / 2)).Player, PlayerGames(i + Math.Floor(PlayerGames.Count / 2)).Table, PlayerGames(i + Math.Floor(PlayerGames.Count / 2)).Opponent})
+                End If
             Next
 
             sbOutput.AppendFormat(My.Resources.LeftColumn, sbLeftBlock.ToString)
@@ -163,6 +166,21 @@ Public Class PairingsController
 
             End While
         End If
+
+        'Tables
+        Dim NonByeGames = (From p In Model.CurrentRound.Games Where p.Player2 IsNot Nothing).ToArray
+        Dim Tables As New List(Of Integer)
+        For i = 1 To NonByeGames.Count
+            Tables.Add(i)
+        Next
+        For Each game In (From p In NonByeGames Order By p.Player1.Rank + p.Player2.Rank Ascending)
+            Dim InvalidTables As New List(Of Integer)
+            InvalidTables.AddRange(game.Player1.Tables)
+            InvalidTables.AddRange(game.Player2.Tables)
+            game.TableNumber = (From p In Tables Where Not InvalidTables.Contains(p)).FirstOrDefault
+            If game.TableNumber = 0 Then game.TableNumber = Tables.First
+            Tables.Remove(game.TableNumber)
+        Next
     End Sub
 
     Public Sub SwapPlayers(Player1 As doPlayer, Player2 As doPlayer)
