@@ -115,4 +115,25 @@ Public Class WMEventViewModel
             OnPropertyChanged("Title")
         End If
     End Sub
+
+    Public Sub NotifyButtonVisibilityChange()
+        OnPropertyChanged("PreviousButtonVisibility")
+        OnPropertyChanged("NextButtonVisibility")
+    End Sub
+
+    Public ReadOnly Property PreviousButtonVisibility As Visibility
+        Get
+            Dim vReturn As Visibility = Visibility.Collapsed
+            If BaseController.CurrentController.PreviousEnabled Then vReturn = Visibility.Visible
+            Return vReturn
+        End Get
+    End Property
+
+    Public ReadOnly Property NextButtonVisibility As Visibility
+        Get
+            Dim vReturn As Visibility = Visibility.Collapsed
+            If BaseController.CurrentController.NextEnabled Then vReturn = Visibility.Visible
+            Return vReturn
+        End Get
+    End Property
 End Class

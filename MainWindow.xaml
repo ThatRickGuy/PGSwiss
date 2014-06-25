@@ -287,11 +287,11 @@
         </Grid>
 
         <Button Name="btnPrev" Width="50" Height="50" Background="#FF00DCFF"   Margin="10" Style="{DynamicResource GlassButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
-            <Image Source="Resources/Left.PNG" IsEnabled="False" Margin="0,2,2,4" ></Image>
+            <Image Source="Resources/Left.PNG" IsEnabled="False" Margin="0,2,2,4" Visibility="{Binding PreviousButtonVisibility}" ></Image>
         </Button>
 
         <Button Name="btnNext" Width="50" Height="50" Background="#FF00DCFF"  Margin="10" Style="{DynamicResource GlassButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <Image Source="Resources/Right.PNG" IsEnabled="False" Margin="10,2,2,4" ></Image>
+            <Image Source="Resources/Right.PNG" IsEnabled="False" Margin="10,2,2,4" Visibility="{Binding NextButtonVisibility}"></Image>
         </Button>
 
     </Grid>
