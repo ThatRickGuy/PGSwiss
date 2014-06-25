@@ -23,5 +23,34 @@
         <Button x:Name="btnLoad" Grid.Column="0" Grid.Row="2" Margin="4">_Load Existing Event</Button>
         <Button x:Name="btnManage" Grid.Column="0" Grid.Row="3" Margin="4">_Manage Collections</Button>
         <!--<WebBrowser x:Name="wbInfo" Grid.Column="1" Grid.Row="1" Grid.RowSpan="999" Margin="4"  ></WebBrowser>-->
+        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="999" Margin="4" >
+            <Grid.RowDefinitions >
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Rectangle Grid.RowSpan="2" RadiusX="6" RadiusY="6" Stroke="#FF90CCFF" Fill="#FFE6E5E5"/>
+            <Image Source="../Resources/PGSwiss.PNG" Height="62" Width="55"/>
+            
+            <TextBlock HorizontalAlignment="Right" VerticalAlignment="top" Text="{Binding Version}" Margin="0,0,4,0"></TextBlock>
+            <TextBlock HorizontalAlignment="Center"  FontWeight="Bold" FontSize="55" Foreground="#A5000000" VerticalAlignment="Top" Margin="0,-10,0,0">BETA</TextBlock>
+            <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,1,3" BorderBrush="Black" >
+                <TextBlock TextWrapping="Wrap"  Margin="4">
+                <Span FontWeight="Bold">PG Swiss</Span>
+                <Span FontWeight="Normal" >is an event tracking solution designed to support Warmachine/Hordes events. </Span>
+                <LineBreak />    <LineBreak />    
+                <Span FontWeight="Bold" >PG Swiss in in no way related to Privateer Press.</Span>
+                <LineBreak />    <LineBreak />    
+                <Span>Report Issues here: <Hyperlink NavigateUri="https://github.com/ThatRickGuy/PGSwiss/issues?state=open" RequestNavigate="Hyperlink_RequestNavigate">PG Swiss on GitHub</Hyperlink></Span>
+                <LineBreak/><LineBreak/>
+                <Span>Questions? Comments? Requests? Follow the link above and submit them as issues!</Span>
+                <LineBreak/><LineBreak/>
+                <Span>PP Handle is MANDATORY, if a player does not have a PP Handle, an email address or other unique identifier should work fine. Players are stored independently from the event to make registration easier for subsequent events, common names can lead to poor identification in the player storage and will cause issues with the execution of the pairing logic.</Span>
+                <LineBreak/>
+                <Span>Similar to PP Handles, Metas are stored seperately. Metas are typically defined as a geographical area within which players commonly play eachother. This is usually a city, state, but in some areas may be identified as a specific store or part of the city.</Span>
+            </TextBlock>
+
+            </ScrollViewer>
+            <Rectangle Grid.Row="1" Height="1" Margin="0,-1,0,0" VerticalAlignment="Top" Fill="#FF90CCFF" ></Rectangle>
+        </Grid>
     </Grid>
 </UserControl>

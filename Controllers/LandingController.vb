@@ -11,6 +11,7 @@
         _NextEnabled = False
         _PreviousEnabled = False
         Me.View = New Landing
+        Me.View.DataContext = Me
     End Sub
 
     Public Overrides Function Validate() As String
@@ -21,4 +22,11 @@
         MyBase.Activated()
         Model.CurrentProgress = 0
     End Sub
+
+    Public ReadOnly Property Version As String
+        Get
+            Return My.Application.Info.Version.ToString
+        End Get
+    End Property
+
 End Class

@@ -26,4 +26,9 @@ Public Class Landing
     Private Sub btnManage_Click(sender As Object, e As RoutedEventArgs) Handles btnManage.Click
         BaseController.CurrentController.OpenCollectionManager()
     End Sub
+
+    Private Sub Hyperlink_RequestNavigate(sender As Object, e As RequestNavigateEventArgs)
+        Process.Start(New ProcessStartInfo(e.Uri.AbsoluteUri))
+        e.Handled = True
+    End Sub
 End Class
