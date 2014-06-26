@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel
+Imports PGSwiss.Data
 
 Public Class WMEventViewModel
     Inherits BaseViewModel
@@ -45,7 +46,7 @@ Public Class WMEventViewModel
             Return _WMEvent
         End Get
         Set(value As doWMEvent)
-            _WMEvent = Value
+            _WMEvent = value
         End Set
     End Property
     Public Property Factions As New doFactionCollection
@@ -102,7 +103,7 @@ Public Class WMEventViewModel
         Sizes.Save()
     End Sub
 
-    
+
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
 
     ' Create the OnPropertyChanged method to raise the event 

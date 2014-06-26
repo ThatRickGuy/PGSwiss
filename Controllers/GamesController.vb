@@ -1,4 +1,6 @@
-﻿Public Class GamesController
+﻿Imports PGSwiss.Data
+
+Public Class GamesController
     Inherits BaseController
 
     Protected Overrides Function CreateNext() As BaseController

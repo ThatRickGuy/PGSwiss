@@ -1,6 +1,7 @@
 ﻿Imports System.Windows.Controls.Primitives
 Imports System.Windows.Threading
 Imports System.ComponentModel
+Imports PGSwiss.Data
 
 Public Class WMEvent
     Public Sub New()

@@ -1,4 +1,6 @@
-﻿Public Class CollectionManagerController
+﻿Imports PGSwiss.Data
+
+Public Class CollectionManagerController
     Inherits BaseController
 
     Public Sub New()

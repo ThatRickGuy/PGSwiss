@@ -1,4 +1,6 @@
-﻿Public Class StandingsController
+﻿Imports PGSwiss.Data
+
+Public Class StandingsController
     Inherits BaseController
 
     Protected Overrides Function CreateNext() As BaseController

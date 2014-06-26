@@ -4,13 +4,14 @@ Imports System.Xml.Serialization
 Public Class doRoundSizeCollection
     Inherits List(Of Integer)
 
-    Public Sub load()
+    Public Function load() As String
+        Dim sReturn As String = String.Empty
         Me.Clear()
         If Not IO.File.Exists("RoundSizeCollection.xml") Then
             Try
                 Me.AddRange(Generate())
             Catch exc As Exception
-                MessageBox.Show(exc.Message)
+                sReturn = (exc.Message)
             End Try
             Save()
         Else
@@ -19,7 +20,8 @@ Public Class doRoundSizeCollection
                 Me.AddRange(x.Deserialize(objStreamReader))
             End Using
         End If
-    End Sub
+        Return sReturn
+    End Function
 
     Private _FailedSave As Boolean = False
     Public Sub Save()

@@ -70,7 +70,7 @@ Public Class doWMEvent
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub
 
-      Public Event PropertyChanged As PropertyChangedEventHandler _
-        Implements INotifyPropertyChanged.PropertyChanged
+    Public Event PropertyChanged As PropertyChangedEventHandler _
+      Implements INotifyPropertyChanged.PropertyChanged
 
 End Class
