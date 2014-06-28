@@ -103,9 +103,9 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to &lt;div id=&quot;Item&quot;&gt;
-        '''	&lt;span id=&quot;Player&quot;&gt;{0}&lt;/span&gt;&lt;br&gt;
-        '''	&lt;span id=&quot;Table&quot;&gt;Table {1}&lt;/span&gt;
-        '''	&lt;span id=&quot;Opponent&quot;&gt;vs {2}&lt;/span&gt;
+        '''	&lt;span id=&quot;Player&quot;&gt;{0}&lt;/span&gt;&lt;span id=&quot;Player_Handle&quot;&gt; ({1})&lt;br&gt;
+        '''	&lt;span id=&quot;Table&quot;&gt;Table {2}&lt;/span&gt;
+        '''	&lt;span id=&quot;Opponent&quot;&gt;vs {3}&lt;/span&gt;&lt;span id=&quot;Player_Handle&quot;&gt; ({4})&lt;br&gt;
         '''&lt;/div&gt;.
         '''</summary>
         Friend ReadOnly Property Item() As String

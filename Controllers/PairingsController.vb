@@ -31,25 +31,30 @@ Public Class PairingsController
                 If game.Player2 Is Nothing Then
                     'bye
                     pg.Player = game.Player1.Name
+                    pg.PlayerHandle = game.Player1.PPHandle
                     pg.Table = 0
                     pg.Opponent = "Bye"
                 ElseIf game.Player1.PPHandle = player.PPHandle Then
                     pg.Player = game.Player1.Name
+                    pg.PlayerHandle = game.Player1.PPHandle
                     pg.Table = game.TableNumber
                     pg.Opponent = game.Player2.Name
+                    pg.OpponentHandle = game.Player2.PPHandle
                 ElseIf game.Player2.PPHandle = player.PPHandle Then
                     pg.Player = game.Player2.Name
+                    pg.PlayerHandle = game.Player2.PPHandle
                     pg.Table = game.TableNumber
                     pg.Opponent = game.Player1.Name
+                    pg.OpponentHandle = game.Player1.PPHandle
                 End If
                 PlayerGames.Add(pg)
             Next
 
             For i As Integer = 0 To PlayerGames.Count - 1
                 If i < 16 Then
-                    sbLeftBlock.AppendFormat(My.Resources.Item, New String() {PlayerGames(i).Player, PlayerGames(i).Table, PlayerGames(i).Opponent})
+                    sbLeftBlock.AppendFormat(My.Resources.Item, New String() {PlayerGames(i).Player, PlayerGames(i).PlayerHandle, PlayerGames(i).Table, PlayerGames(i).Opponent, PlayerGames(i).OpponentHandle})
                 Else
-                    sbRightBlock.AppendFormat(My.Resources.Item, New String() {PlayerGames(i + Math.Floor(PlayerGames.Count / 2)).Player, PlayerGames(i + Math.Floor(PlayerGames.Count / 2)).Table, PlayerGames(i + Math.Floor(PlayerGames.Count / 2)).Opponent})
+                    sbRightBlock.AppendFormat(My.Resources.Item, New String() {PlayerGames(i).Player, PlayerGames(i).PlayerHandle, PlayerGames(i).Table, PlayerGames(i).Opponent, PlayerGames(i).OpponentHandle})
                 End If
             Next
 
@@ -143,7 +148,7 @@ Public Class PairingsController
                         If MatchedOpponents.Count = 0 Then
                             MatchedOpponents = From p In EligableOpponents Where p.Faction <> Player1.Faction
                             'No one from teh same meta with a different faction
-                            If MatchedOpponents.Count Then
+                            If MatchedOpponents.Count = 0 Then
                                 'Screw it, give me anyone
                                 MatchedOpponents = From p In EligableOpponents
                                 If MatchedOpponents.Count = 0 Then
@@ -216,7 +221,7 @@ Public Class PairingsController
     Protected Overrides Sub Activated()
         MyBase.Activated()
 
-        GeneratePairings()
+        If Model.CurrentRound.Games.Count = 0 Then GeneratePairings()
 
         Dim totalPlayers = Model.WMEvent.Players.Count
         Dim Rounds As Integer = 1
@@ -232,6 +237,8 @@ End Class
 
 Public Structure PlayerGame
     Public Player As String
+    Public PlayerHandle As String
     Public Table As Integer
     Public Opponent As String
+    Public OpponentHandle As String
 End Structure

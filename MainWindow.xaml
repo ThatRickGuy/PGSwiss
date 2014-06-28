@@ -294,6 +294,28 @@
             <Image Source="Resources/Right.PNG" IsEnabled="False" Margin="10,2,2,4" Visibility="{Binding NextButtonVisibility}"></Image>
         </Button>
 
+        <Grid x:Name="grdFeedback" VerticalAlignment="Top" HorizontalAlignment="Center" >
+            <Rectangle>
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF5F5D5D" Offset="1"/>
+                        <GradientStop Color="#FFE6E6E6"/>
+                        <GradientStop Color="#FFC5C5C5" Offset="0.067"/>
+                        <GradientStop Color="#FFCBC7C7" Offset="0.807"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+                <Rectangle.Stroke>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Color="#FFE4E4E4" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Stroke>
+
+            </Rectangle>
+                <TextBlock Margin="4" FontWeight="Bold">
+            <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_1" NavigateUri="https://github.com/ThatRickGuy/PGSwiss/issues?state=open">Report Issue/Feedback</Hyperlink>
+            </TextBlock>
+        </Grid>
     </Grid>
 
 </Window>

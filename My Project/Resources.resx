@@ -193,6 +193,11 @@
 		font-family:arial,sans-serif; 
 		line-height:22PX;
 	}
+	#Player_Handle {
+		font-size: 9pt;
+		margin-left: 10px;
+		color: #696969;
+	}
 	&lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
@@ -200,9 +205,9 @@
   </data>
   <data name="Item" xml:space="preserve">
     <value>&lt;div id="Item"&gt;
-	&lt;span id="Player"&gt;{0}&lt;/span&gt;&lt;br&gt;
-	&lt;span id="Table"&gt;Table {1}&lt;/span&gt;
-	&lt;span id="Opponent"&gt;vs {2}&lt;/span&gt;
+	&lt;span id="Player"&gt;{0}&lt;/span&gt;&lt;span id="Player_Handle"&gt; ({1})&lt;br&gt;
+	&lt;span id="Table"&gt;Table {2}&lt;/span&gt;
+	&lt;span id="Opponent"&gt;vs {3}&lt;/span&gt;&lt;span id="Player_Handle"&gt; ({4})&lt;br&gt;
 &lt;/div&gt;</value>
   </data>
   <data name="LeftColumn" xml:space="preserve">

@@ -114,6 +114,11 @@ Class MainWindow
             grdSlider.Margin = New Thickness(-1 * grdPanel2.ActualWidth)
         End If
     End Sub
+
+    Private Sub Hyperlink_RequestNavigate_1(sender As Object, e As RequestNavigateEventArgs)
+        Process.Start(New ProcessStartInfo(e.Uri.AbsoluteUri))
+        e.Handled = True
+    End Sub
 End Class
 
 
