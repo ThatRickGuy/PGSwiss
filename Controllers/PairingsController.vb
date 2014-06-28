@@ -216,6 +216,7 @@ Public Class PairingsController
     Protected Overrides Sub Activated()
         MyBase.Activated()
 
+        GeneratePairings()
 
         Dim totalPlayers = Model.WMEvent.Players.Count
         Dim Rounds As Integer = 1

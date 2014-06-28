@@ -1,7 +1,9 @@
 ﻿Public Class Games
 
     Private Sub dgGames_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles dgGames.SelectionChanged
-        If Not dgGames.CurrentItem Is Nothing Then CType(BaseController.CurrentController, GamesController).SelectGame(dgGames.CurrentItem)
+        If Not dgGames.CurrentItem Is Nothing Then
+            CType(BaseController.CurrentController, GamesController).SelectGame(dgGames.CurrentItem)
+        End If
     End Sub
 
     Private Sub btnAcceptGame_Click(sender As Object, e As RoutedEventArgs) Handles btnAcceptGame.Click

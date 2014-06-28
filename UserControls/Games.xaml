@@ -63,11 +63,8 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.ColumnSpan ="2" FontWeight="Bold" Margin="2,2,2,0"><Run Text="Winner"/></TextBlock>
-                <ComboBox x:Name="cboWinner" SelectedValue="{Binding Path=Model.CurrentGame.Winner}" SelectedValuePath="Content" Grid.Row="1" Grid.ColumnSpan ="2" Margin="2,0,2,0">
-                    <ComboBoxItem></ComboBoxItem>
-                    <ComboBoxItem>Player 1</ComboBoxItem>
-                    <ComboBoxItem>Player 2</ComboBoxItem>
-                    <ComboBoxItem>Draw</ComboBoxItem>
+                <ComboBox x:Name="cboWinner" SelectedValue="{Binding Path=Model.CurrentGame.Winner}" ItemsSource="{Binding AcceptableWinners}" Grid.Row="1" Grid.ColumnSpan ="2" Margin="2,0,2,0">
+
                 </ComboBox>
                 <TextBlock Grid.Row="2" Grid.ColumnSpan="2" FontWeight="Bold" Margin="2,2,2,0"><Run Text="Condition"/></TextBlock>
                 <ComboBox x:Name="cboCondition" SelectedValue="{Binding Path=Model.CurrentGame.Condition}" SelectedValuePath="Content" Grid.Row="3" Grid.ColumnSpan="2" Margin="2,0,2,0">
