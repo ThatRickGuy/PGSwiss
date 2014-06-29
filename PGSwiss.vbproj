@@ -88,6 +88,9 @@
     <Compile Include="UserComponents\BurnBox.xaml.vb">
       <DependentUpon>BurnBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserComponents\Clock.xaml.vb">
+      <DependentUpon>Clock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserComponents\ControlBackground.xaml.vb">
       <DependentUpon>ControlBackground.xaml</DependentUpon>
     </Compile>
@@ -115,14 +118,14 @@
     <Compile Include="UserControls\Round.xaml.vb">
       <DependentUpon>Round.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Standings.xaml.vb">
-      <DependentUpon>Standings.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\Pairings.xaml.vb">
       <DependentUpon>Pairings.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserComponents\VerticalBar.xaml.vb">
       <DependentUpon>VerticalBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Standings.xaml.vb">
+      <DependentUpon>Standings.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\WMEvent.xaml.vb">
       <DependentUpon>WMEvent.xaml</DependentUpon>
@@ -146,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserComponents\BurnBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserComponents\Clock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -185,15 +192,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Standings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\Pairings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserComponents\VerticalBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Standings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

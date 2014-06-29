@@ -19,6 +19,9 @@ Public Class GamesController
         BaseController.Model.CurrentGame = BaseController.Model.CurrentRound.Games.FirstOrDefault
         Me.View.DataContext = Me
 
+
+
+
         _Round = Model.CurrentRound
     End Sub
 
@@ -61,6 +64,17 @@ Public Class GamesController
         Dim ValuePerRoundScreen = 80 / Rounds / 3 '85% to work with, diveded across all rounds, each round has 3 screens
         Model.CurrentProgress = ValuePerRoundScreen * (Model.CurrentRound.RoundNumber * 3 + 2) 'current round + the screen of the round
 
+        'Pull the previous game screen's set duration. This is a dirty hack.
+        If Model.CurrentRound.RoundNumber > 1 Then
+            Dim CurrentIndex = _Stack.IndexOf(Me)
+            Dim TargetIndex As Integer = CurrentIndex - 1
+            While TargetIndex > 0 AndAlso _Stack.Item(TargetIndex).GetType IsNot GetType(GamesController)
+                TargetIndex -= 1
+            End While
+            If TargetIndex > 0 Then
+                CType(Me.View, Games).MasterClock.SetDuration = CType(CType(_Stack(TargetIndex), GamesController).View, Games).MasterClock.SetDuration
+            End If
+        End If
     End Sub
 
     Public Sub SelectGame(Game As doGame)

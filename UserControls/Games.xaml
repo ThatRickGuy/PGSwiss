@@ -26,6 +26,8 @@
         <Grid x:Name="Contents"  Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
@@ -33,8 +35,9 @@
                 <ColumnDefinition Width="7*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock FontWeight="Bold" Margin="4,4,4,0"><Run Text="Games"/></TextBlock>
-            <DataGrid x:Name="dgGames" SelectionMode="Single" SelectionUnit="FullRow" CanUserAddRows="False" CanUserDeleteRows="False"  ItemsSource="{Binding Path=Model.CurrentRound.Games}"   Grid.Row="1" Margin="4,0,4,0" AutoGenerateColumns="False">
+            <local:Clock x:Name="MasterClock" Grid.ColumnSpan="2" Margin="0,2,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"  ></local:Clock>
+            <TextBlock Grid.Row="1" FontWeight="Bold" Margin="4,4,4,0"><Run Text="Games"/></TextBlock>
+            <DataGrid x:Name="dgGames" SelectionMode="Single" SelectionUnit="FullRow" CanUserAddRows="False" CanUserDeleteRows="False"  ItemsSource="{Binding Path=Model.CurrentRound.Games}"   Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Table" Binding="{Binding Path=TableNumber}" IsReadOnly="True" Width="*" ></DataGridTextColumn>
                     <DataGridTextColumn Header="Player 1" Binding="{Binding Path=Player1.PPHandle}" IsReadOnly="True" Width="*" ></DataGridTextColumn>
@@ -42,9 +45,9 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <TextBlock Grid.Column="1" FontWeight="Bold" Margin="4,4,4,0"><Run Text="Result"/></TextBlock>
-            <Rectangle Grid.Row="1" Grid.Column="1" Stroke="#FF0051FF" RadiusX="4" RadiusY="4" Margin="0,0,2,0"/>
-            <Grid Grid.Row="1" Grid.Column="1" Margin="4,0,6,4">
+            <TextBlock Grid.Row="1" Grid.Column="2" FontWeight="Bold" Margin="4,4,4,0"><Run Text="Result"/></TextBlock>
+            <Rectangle Grid.Row="2" Grid.Column="1" Stroke="#FF0051FF" RadiusX="4" RadiusY="4" Margin="0,0,2,0"/>
+            <Grid Grid.Row="2" Grid.Column="1" Margin="4,0,6,4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -89,7 +92,7 @@
                 <Button x:Name="btnAcceptGame" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="2,4,2,2" Content="Accept"></Button>
             </Grid>
 
-            <CheckBox x:Name="chkIsLastGame" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="4" IsChecked="{Binding Path=Model.CurrentRound.IsLastRound, Mode=TwoWay}" Content="Final Round"></CheckBox>
+            <CheckBox x:Name="chkIsLastGame" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="4" IsChecked="{Binding Path=Model.CurrentRound.IsLastRound, Mode=TwoWay}" Content="Final Round"></CheckBox>
         </Grid>
     </Grid>
 </UserControl>
