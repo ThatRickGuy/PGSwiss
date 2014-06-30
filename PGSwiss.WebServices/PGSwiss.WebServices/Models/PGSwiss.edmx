@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PGSwissModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="WMEvent">
+          <Key>
+            <PropertyRef Name="WMEventId" />
+          </Key>
+          <Property Name="WMEventId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Format" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WMEventStandings">
+          <Key>
+            <PropertyRef Name="WMEventID" />
+          </Key>
+          <Property Name="WMEventID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Rank" Type="int" Nullable="false" />
+          <Property Name="PPHandle" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TP" Type="int" Nullable="false" />
+          <Property Name="CP" Type="int" Nullable="false" />
+          <Property Name="APD" Type="int" Nullable="false" />
+          <Property Name="Faction" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_WMEventStandings_ToWMEvent">
+          <End Role="WMEvent" Type="Self.WMEvent" Multiplicity="1" />
+          <End Role="WMEventStandings" Type="Self.WMEventStandings" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="WMEvent">
+              <PropertyRef Name="WMEventId" />
+            </Principal>
+            <Dependent Role="WMEventStandings">
+              <PropertyRef Name="WMEventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PGSwissModelStoreContainer">
+          <EntitySet Name="WMEvent" EntityType="Self.WMEvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WMEventStandings" EntityType="Self.WMEventStandings" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_WMEventStandings_ToWMEvent" Association="Self.FK_WMEventStandings_ToWMEvent">
+            <End Role="WMEvent" EntitySet="WMEvent" />
+            <End Role="WMEventStandings" EntitySet="WMEventStandings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PGSwissModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="WMEvent">
+          <Key>
+            <PropertyRef Name="WMEventId" />
+          </Key>
+          <Property Name="WMEventId" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Format" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="WMEventStanding" Relationship="PGSwissModel.FK_WMEventStandings_ToWMEvent" FromRole="WMEvent" ToRole="WMEventStanding" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="WMEvents" EntityType="Self.WMEvent" />
+          <EntitySet Name="WMEventStandings" EntityType="PGSwissModel.WMEventStanding" />
+          <AssociationSet Name="FK_WMEventStandings_ToWMEvent" Association="PGSwissModel.FK_WMEventStandings_ToWMEvent">
+            <End Role="WMEvent" EntitySet="WMEvents" />
+            <End Role="WMEventStanding" EntitySet="WMEventStandings" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="WMEventStanding">
+          <Key>
+            <PropertyRef Name="WMEventID" />
+          </Key>
+          <Property Name="WMEventID" Type="Guid" Nullable="false" />
+          <Property Name="Rank" Type="Int32" Nullable="false" />
+          <Property Name="PPHandle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TP" Type="Int32" Nullable="false" />
+          <Property Name="CP" Type="Int32" Nullable="false" />
+          <Property Name="APD" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="WMEvent" Relationship="PGSwissModel.FK_WMEventStandings_ToWMEvent" FromRole="WMEventStanding" ToRole="WMEvent" />
+          <Property Name="Faction" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_WMEventStandings_ToWMEvent">
+          <End Type="PGSwissModel.WMEvent" Role="WMEvent" Multiplicity="1" />
+          <End Type="PGSwissModel.WMEventStanding" Role="WMEventStanding" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="WMEvent">
+              <PropertyRef Name="WMEventId" />
+            </Principal>
+            <Dependent Role="WMEventStanding">
+              <PropertyRef Name="WMEventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PGSwissModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="WMEvents">
+            <EntityTypeMapping TypeName="PGSwissModel.WMEvent">
+              <MappingFragment StoreEntitySet="WMEvent">
+                <ScalarProperty Name="WMEventId" ColumnName="WMEventId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Format" ColumnName="Format" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WMEventStandings">
+            <EntityTypeMapping TypeName="PGSwissModel.WMEventStanding">
+              <MappingFragment StoreEntitySet="WMEventStandings">
+                <ScalarProperty Name="Faction" ColumnName="Faction" />
+                <ScalarProperty Name="APD" ColumnName="APD" />
+                <ScalarProperty Name="CP" ColumnName="CP" />
+                <ScalarProperty Name="TP" ColumnName="TP" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PPHandle" ColumnName="PPHandle" />
+                <ScalarProperty Name="Rank" ColumnName="Rank" />
+                <ScalarProperty Name="WMEventID" ColumnName="WMEventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGSwiss" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -22,7 +23,9 @@
         <Button x:Name="btnCreate" Grid.Column="0" Grid.Row="1" Margin="4" >Create _New Event</Button>
         <Button x:Name="btnLoad" Grid.Column="0" Grid.Row="2" Margin="4">_Load Existing Event</Button>
         <Button x:Name="btnManage" Grid.Column="0" Grid.Row="3" Margin="4">_Manage Collections</Button>
-        <!--<WebBrowser x:Name="wbInfo" Grid.Column="1" Grid.Row="1" Grid.RowSpan="999" Margin="4"  ></WebBrowser>-->
+
+        <Button Grid.Row="4" x:Name="btnDoit" Visibility="Collapsed"  >DOIT!</Button>
+        
         <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="999" Margin="4" >
             <Grid.RowDefinitions >
                 <RowDefinition Height="auto"></RowDefinition>
@@ -30,6 +33,8 @@
             </Grid.RowDefinitions>
             <Rectangle Grid.RowSpan="2" RadiusX="6" RadiusY="6" Stroke="#FF90CCFF" Fill="#FFE6E5E5"/>
             <Image Source="../Resources/PGSwiss.PNG" Height="62" Width="55"/>
+            
+            
             
             <TextBlock HorizontalAlignment="Right" VerticalAlignment="top" Text="{Binding Version}" Margin="0,0,4,0"></TextBlock>
             <TextBlock HorizontalAlignment="Center"  FontWeight="Bold" FontSize="55" Foreground="#A5000000" VerticalAlignment="Top" Margin="0,-10,0,0">BETA</TextBlock>

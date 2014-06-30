@@ -1,7 +1,9 @@
 ﻿Imports PGSwiss.Data
+Imports System.ComponentModel
 
 Public Class GamesController
     Inherits BaseController
+    Implements INotifyPropertyChanged
 
     Protected Overrides Function CreateNext() As BaseController
         Dim bcReturn As BaseController
@@ -19,9 +21,6 @@ Public Class GamesController
         BaseController.Model.CurrentGame = BaseController.Model.CurrentRound.Games.FirstOrDefault
         Me.View.DataContext = Me
 
-
-
-
         _Round = Model.CurrentRound
     End Sub
 
@@ -33,8 +32,11 @@ Public Class GamesController
             Dim lReturn As New List(Of String)
             lReturn.Add("")
             lReturn.Add("Draw")
-            lReturn.Add(Model.CurrentGame.Player1.PPHandle)
-            lReturn.Add(Model.CurrentGame.Player2.PPHandle)
+            If Model.CurrentGame IsNot Nothing Then
+                If Model.CurrentGame.Player1 IsNot Nothing Then lReturn.Add(Model.CurrentGame.Player1.PPHandle)
+                If Model.CurrentGame.Player2 IsNot Nothing Then lReturn.Add(Model.CurrentGame.Player2.PPHandle)
+            End If
+
             Return lReturn
         End Get
     End Property
@@ -79,6 +81,7 @@ Public Class GamesController
 
     Public Sub SelectGame(Game As doGame)
         Model.CurrentGame = Game
+        OnPropertyChanged("AcceptableWinners")
     End Sub
 
     Public Function AcceptGame() As String
@@ -162,4 +165,10 @@ Public Class GamesController
         If (From p In BaseController.Model.CurrentRound.Games Where p.Reported = False).Count > 0 Then sReturn = "Unreported games"
         Return sReturn
     End Function
+
+    Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
+    Protected Sub OnPropertyChanged(ByVal name As String)
+        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
+    End Sub
+
 End Class
