@@ -26,6 +26,8 @@ Public Class RoundController
             Model.WMEvent.Rounds.Add(_Round)
         End If
 
+        _Round.Players.ForEach(Sub(s As doPlayer) s.ByeVol = False)
+
         If Model.CurrentRound IsNot Nothing Then _Round.Size = Model.CurrentRound.Size
 
         Model.CurrentRound = _Round

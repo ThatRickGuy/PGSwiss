@@ -89,11 +89,27 @@ Namespace My.Resources
         '''&lt;html lang=&quot;en&quot;&gt;
         '''&lt;head&gt;
         '''	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
-        '''	&lt;title&gt;Simple 2 column CSS layout, step 3 | 456 Berea Street&lt;/title&gt;
-        '''	&lt;meta name=&quot;description&quot; content=&quot;How to create a simple two column CSS layout with full width header and footer.&quot;&gt;
-        '''	&lt;meta name=&quot;copyright&quot; content=&quot;Copyright (c) 2004 Roger Johansson&quot;&gt;
-        '''	&lt;meta name=&quot;author&quot; content=&quot;Roger Johansson&quot;&gt;
-        '''	&lt;style type=&quot;t [rest of string was truncated]&quot;;.
+        '''	&lt;title&gt;Warmachine Event Pairing&lt;/title&gt;
+        '''	&lt;style type=&quot;text/css&quot; media=&quot;screen, print, projection&quot;&gt;
+        '''	body,
+        '''	html {
+        '''		margin:0;
+        '''		padding:0;
+        '''		color:#000;
+        '''		height:100%;
+        '''	}
+        '''	#wrap {
+        '''		width:750px;
+        '''		height:100%;
+        '''		margin:0 auto;
+        '''	}
+        '''	#header {
+        '''		text-align:center;
+        '''	}
+        '''	#LeftColumn {
+        '''		float:left;
+        '''	}
+        '''	#Righ [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property HTMLHeader() As String
             Get
