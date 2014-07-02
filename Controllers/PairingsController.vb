@@ -1,8 +1,11 @@
 ﻿Imports System.Text
 Imports PGSwiss.Data
+Imports System.ComponentModel
 
 Public Class PairingsController
     Inherits BaseController
+    Implements INotifyPropertyChanged
+
 
     Protected Overrides Function CreateNext() As BaseController
         Return New GamesController
@@ -13,6 +16,19 @@ Public Class PairingsController
 
         Me.View.DataContext = Me
     End Sub
+
+    Public ReadOnly Property RegenerateAvailable As Boolean
+        Get
+            Dim bReturn As Boolean = False
+            Dim q = (From p In BaseController.Model.CurrentRound.Games
+                     Where p.Winner <> String.Empty AndAlso p.Player2 IsNot Nothing).Count
+            If q = 0 Then
+                bReturn = True
+            End If
+
+            Return bReturn
+        End Get
+    End Property
 
     Public Sub PrintPairings()
         If Model.CurrentRound.Games.Count > 0 Then
@@ -231,6 +247,11 @@ Public Class PairingsController
         Dim ValuePerRoundScreen = 80 / Rounds / 3 '85% to work with, diveded across all rounds, each round has 3 screens
         Model.CurrentProgress = ValuePerRoundScreen * (Model.CurrentRound.RoundNumber * 3 + 1) 'current round + the screen of the round
 
+    End Sub
+
+    Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
+    Protected Sub OnPropertyChanged(ByVal name As String)
+        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub
 End Class
 

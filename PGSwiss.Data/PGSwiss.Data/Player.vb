@@ -54,7 +54,18 @@ Public Class doPlayer
     Public Property Drop As Boolean
     Public Property TourneyPoints As Integer
     Public Property StrengthOfSchedule As Integer
+
+    Private _ControlPoints As Integer
     Public Property ControlPoints As Integer
+        Get
+            Return _ControlPoints
+        End Get
+        Set(value As Integer)
+            _ControlPoints = value
+            OnPropertyChanged("ControlPoints")
+        End Set
+    End Property
+
     Public Property ArmyPointsDestroyed As Integer
     Public Property Oppontnents As New List(Of String)
     Public Property Tables As New List(Of Integer)

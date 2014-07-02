@@ -19,6 +19,12 @@
     Private Sub PointsBoxes_GotFocus(sender As Object, e As RoutedEventArgs) Handles txtPlayer1APD.GotFocus, txtPlayer1CP.GotFocus, txtPlayer2APD.GotFocus, txtPlayer2CP.GotFocus
         CType(sender, TextBox).SelectAll()
     End Sub
+
+    Private Sub cboCondition_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles cboCondition.SelectionChanged
+        If BaseController.Model.CurrentGame IsNot Nothing AndAlso BaseController.Model.CurrentGame.Winner <> String.Empty AndAlso BaseController.Model.CurrentGame.Winner <> "Draw" Then
+            If CType(e.AddedItems(0), ComboBoxItem).Content = "Scenario" Then CType(BaseController.CurrentController, GamesController).SetWinnerByScenario(BaseController.Model.CurrentGame.Winner)
+        End If
+    End Sub
 End Class
 
 Public Class BoolToColorConverter

@@ -41,6 +41,15 @@ Public Class GamesController
         End Get
     End Property
 
+    Public Sub SetWinnerByScenario(WinnerPPHandle As String)
+        If Model.CurrentGame.Player1.PPHandle = WinnerPPHandle Then
+            Model.CurrentGame.Player1.ControlPoints = 5
+        ElseIf Model.CurrentGame.Player2 IsNot Nothing AndAlso Model.CurrentGame.Player2.PPHandle = WinnerPPHandle Then
+            Model.CurrentGame.Player2.ControlPoints = 5
+        Else
+            MessageBox.Show("Something bad just happened. Scenario winner is not a member of this game!")
+        End If
+    End Sub
 
     Protected Overrides Sub Activated()
         MyBase.Activated()
