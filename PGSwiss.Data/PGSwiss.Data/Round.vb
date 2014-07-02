@@ -7,7 +7,17 @@ Public Class doRound
     Public Property RoundNumber As Integer
     Public Property Scenario As String
     Public Property Players As New doPlayerCollection
-    Public Property Games As New doGameCollection
+
+    Private _Games As New doGameCollection
+    Public Property Games As doGameCollection
+        Get
+            Return _Games
+        End Get
+        Set(value As doGameCollection)
+            _Games = value
+            OnPropertyChanged("Games")
+        End Set
+    End Property
     Public Property Bye As doPlayer
     Public Property Size As Integer
 

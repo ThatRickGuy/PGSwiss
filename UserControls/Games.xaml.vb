@@ -25,6 +25,10 @@
             If CType(e.AddedItems(0), ComboBoxItem).Content = "Scenario" Then CType(BaseController.CurrentController, GamesController).SetWinnerByScenario(BaseController.Model.CurrentGame.Winner)
         End If
     End Sub
+
+    Public Sub ForceUpdate()
+        Me.dgGames.Items.Refresh()
+    End Sub
 End Class
 
 Public Class BoolToColorConverter

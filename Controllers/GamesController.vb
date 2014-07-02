@@ -86,12 +86,19 @@ Public Class GamesController
                 CType(Me.View, Games).MasterClock.SetDuration = CType(CType(_Stack(TargetIndex), GamesController).View, Games).MasterClock.SetDuration
             End If
         End If
+
+        Dim SortedGames = (From p In Model.CurrentRound.Games Order By p.Reported, p.TableNumber).ToList
+        Model.CurrentRound.Games.Clear()
+        Model.CurrentRound.Games.AddRange(SortedGames)
+        CType(Me.View, Games).ForceUpdate()
     End Sub
 
     Public Sub SelectGame(Game As doGame)
         Model.CurrentGame = Game
         OnPropertyChanged("AcceptableWinners")
     End Sub
+
+
 
     Public Function AcceptGame() As String
         Dim sReturn = String.Empty

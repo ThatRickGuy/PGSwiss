@@ -20,15 +20,45 @@ Public Class PairingsController
     Public ReadOnly Property RegenerateAvailable As Boolean
         Get
             Dim bReturn As Boolean = False
-            Dim q = (From p In BaseController.Model.CurrentRound.Games
-                     Where p.Winner <> String.Empty AndAlso p.Player2 IsNot Nothing).Count
-            If q = 0 Then
+            If (From p In BaseController.Model.CurrentRound.Games
+                     Where p.Winner <> String.Empty AndAlso p.Player2 IsNot Nothing).Count = 0 Then
                 bReturn = True
             End If
 
             Return bReturn
         End Get
     End Property
+
+    Public Shared Sub ResetPlayerToPreviousRound(Player As doPlayer)
+        Dim PlayerFromLastRound = GetPlayerFromLastRound(Player)
+        If PlayerFromLastRound IsNot Nothing Then
+            Player.TourneyPoints = PlayerFromLastRound.TourneyPoints
+            Player.Tables = PlayerFromLastRound.Tables
+            Player.StrengthOfSchedule = PlayerFromLastRound.StrengthOfSchedule
+            Player.Rank = PlayerFromLastRound.Rank
+            Player.Oppontnents = PlayerFromLastRound.Oppontnents
+            Player.ControlPoints = PlayerFromLastRound.ControlPoints
+            Player.ArmyPointsDestroyed = PlayerFromLastRound.ArmyPointsDestroyed
+        Else
+            Player.TourneyPoints = 0
+            Player.Tables.Clear()
+            Player.StrengthOfSchedule = 0
+            Player.Rank = 0
+            Player.Oppontnents.Clear()
+            Player.ControlPoints = 0
+            Player.ArmyPointsDestroyed = 0
+        End If
+    End Sub
+
+    Private Shared Function GetPlayerFromLastRound(TargetPlayer As doPlayer) As doPlayer
+        Dim dopReturn As doPlayer = Nothing
+        If Model.CurrentRound.RoundNumber > 1 Then
+            Dim TargetRound = (From p In Model.WMEvent.Rounds Where p.RoundNumber = Model.CurrentRound.RoundNumber - 1).FirstOrDefault
+            If Not TargetPlayer Is Nothing Then dopReturn = (From p In TargetRound.Players Where p.PPHandle = TargetPlayer.PPHandle).FirstOrDefault
+        End If
+
+        Return dopReturn
+    End Function
 
     Public Sub PrintPairings()
         If Model.CurrentRound.Games.Count > 0 Then
@@ -90,6 +120,10 @@ Public Class PairingsController
 
         'Clear the current pairings in case this is a re-generate
         Model.CurrentRound.Games.Clear()
+        Model.CurrentRound.Games = Model.CurrentRound.Games
+        For Each p In Model.CurrentRound.Players
+            ResetPlayerToPreviousRound(p)
+        Next
 
         Dim EligablePlayers = (From p In Model.CurrentRound.Players Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending).ToList
 
@@ -247,6 +281,7 @@ Public Class PairingsController
         Dim ValuePerRoundScreen = 80 / Rounds / 3 '85% to work with, diveded across all rounds, each round has 3 screens
         Model.CurrentProgress = ValuePerRoundScreen * (Model.CurrentRound.RoundNumber * 3 + 1) 'current round + the screen of the round
 
+        OnPropertyChanged("RegenerateAvailable")
     End Sub
 
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged

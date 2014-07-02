@@ -18,7 +18,7 @@ Public Class WMEvent
         Dim EventPlayers = BaseController.Model.WMEvent.Players
         Dim cbo = CType(sender, ComboBox)
         Dim CurrentItem As doPlayer = Nothing
-        If dgPlayers.CurrentItem.GetType Is GetType(doPlayer) Then CurrentItem = CType(dgPlayers.CurrentItem, doPlayer)
+        If dgPlayers.CurrentItem IsNot Nothing AndAlso dgPlayers.CurrentItem.GetType Is GetType(doPlayer) Then CurrentItem = CType(dgPlayers.CurrentItem, doPlayer)
 
         Dim Player = (From p In AllPlayers Where p.PPHandle = cbo.Text).FirstOrDefault
         If Not CurrentItem Is Nothing Then
