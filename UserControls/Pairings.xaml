@@ -19,13 +19,15 @@
         <TextBlock FontWeight="Bold" Grid.Row="1"  Margin="4,4,4,0">Pairings</TextBlock>
         <DataGrid Name="dgPairings" ItemsSource="{Binding Path=Model.CurrentRound.Games}" Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False" CanUserAddRows="False"   >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Table" Width="*" Binding="{Binding Path=TableNumber}" IsReadOnly="True" ></DataGridTextColumn>
+                <DataGridTextColumn Header="Table" Width="39" Binding="{Binding Path=TableNumber}" IsReadOnly="True" ></DataGridTextColumn>
                 <DataGridTextColumn Header="Player 1" Width="*" Binding="{Binding Path=Player1.PPHandle}" IsReadOnly="True" ></DataGridTextColumn>
+                <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Path=Player1.Name}" IsReadOnly="True" ></DataGridTextColumn>
                 <DataGridTextColumn Header="Meta" Width="*" Binding="{Binding Path=Player1.Meta}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Faction" Width="*" Binding="{Binding Path=Player1.Faction}" IsReadOnly="True"></DataGridTextColumn>
                 <!--<DataGridTextColumn Header="Wins" Width="*" Binding="{Binding Path=Player1.TourneyPoints}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="SOS" Width="*" Binding="{Binding Path=Player1.StrengthOfSchedule}" IsReadOnly="True"></DataGridTextColumn>-->
                 <DataGridTextColumn Header="Player 2" Width="*" Binding="{Binding Path=Player2.PPHandle}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Path=Player2.Name}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Meta" Width="*" Binding="{Binding Path=Player2.Meta}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Faction" Width="*" Binding="{Binding Path=Player2.Faction}" IsReadOnly="True"></DataGridTextColumn>
                 <!--<DataGridTextColumn Header="Wins" Width="*" Binding="{Binding Path=Player2.TourneyPoints}" IsReadOnly="True"></DataGridTextColumn>
