@@ -7,12 +7,14 @@ Public Class doMetaCollection
     Public Sub load()
         Me.Clear()
         If Not IO.File.Exists("MetaCollection.xml") Then
-            Me.AddRange(Generate())
+            Me.AddRange(From p In Generate() Order By p)
             Save()
         Else
             Using objStreamReader As New StreamReader("MetaCollection.xml")
                 Dim x As New XmlSerializer(Me.GetType)
-                Me.AddRange(x.Deserialize(objStreamReader))
+                Dim lst As New List(Of String)
+                lst.AddRange(x.Deserialize(objStreamReader))
+                Me.AddRange(From p In lst Order By p)
             End Using
         End If
     End Sub

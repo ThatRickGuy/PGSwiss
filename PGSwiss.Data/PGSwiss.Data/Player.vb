@@ -97,7 +97,9 @@ Public Class doPlayerCollection
         If IO.File.Exists("PlayerCollection.xml") Then
             Using objStreamReader As New StreamReader("PlayerCollection.xml")
                 Dim x As New XmlSerializer(Me.GetType)
-                Me.AddRange(x.Deserialize(objStreamReader))
+                Dim lst As New List(Of doPlayer)
+                lst.AddRange(x.Deserialize(objStreamReader))
+                Me.AddRange(From p In lst Order By p.PPHandle)
             End Using
         End If
     End Sub

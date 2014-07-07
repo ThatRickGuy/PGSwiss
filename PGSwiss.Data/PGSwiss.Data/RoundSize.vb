@@ -9,7 +9,7 @@ Public Class doRoundSizeCollection
         Me.Clear()
         If Not IO.File.Exists("RoundSizeCollection.xml") Then
             Try
-                Me.AddRange(Generate())
+                Me.AddRange(From p In Generate() Order By p)
             Catch exc As Exception
                 sReturn = (exc.Message)
             End Try
@@ -17,7 +17,9 @@ Public Class doRoundSizeCollection
         Else
             Using objStreamReader As New StreamReader("RoundSizeCollection.xml")
                 Dim x As New XmlSerializer(Me.GetType)
-                Me.AddRange(x.Deserialize(objStreamReader))
+                Dim lst As New List(Of Integer)
+                lst.AddRange(x.Deserialize(objStreamReader))
+                Me.AddRange(From p In lst Order By p)
             End Using
         End If
         Return sReturn

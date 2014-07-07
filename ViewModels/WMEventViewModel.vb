@@ -49,6 +49,7 @@ Public Class WMEventViewModel
             _WMEvent = value
         End Set
     End Property
+
     Public Property Factions As New doFactionCollection
     Public Property AllPlayers As New doPlayerCollection
     Public Property Scenarios As New doScenarioCollection

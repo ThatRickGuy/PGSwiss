@@ -9,7 +9,7 @@ Public Class doScenarioCollection
         Me.Clear()
         If Not IO.File.Exists("ScenarioCollection.xml") Then
             Try
-                Me.AddRange(Generate())
+                Me.AddRange(From p In Generate() Order By p)
             Catch exc As Exception
                 sReturn = exc.Message
             End Try
@@ -17,7 +17,9 @@ Public Class doScenarioCollection
         Else
             Using objStreamReader As New StreamReader("ScenarioCollection.xml")
                 Dim x As New XmlSerializer(Me.GetType)
-                Me.AddRange(x.Deserialize(objStreamReader))
+                Dim lst As New List(Of String)
+                lst.AddRange(x.Deserialize(objStreamReader))
+                Me.AddRange(From p In lst Order By p)
             End Using
         End If
         Return sReturn
