@@ -12,6 +12,11 @@
         Me.View.DataContext = Me
     End Sub
 
+    Public ReadOnly Property PlayerCount As Integer
+        Get
+            Return BaseController.Model.WMEvent.Players.Count
+        End Get
+    End Property
 
     Public Overrides Function Validate() As String
         Dim sReturn = String.Empty

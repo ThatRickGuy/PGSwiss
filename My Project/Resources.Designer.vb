@@ -132,7 +132,8 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to &lt;div id=&quot;LeftColumn&quot;&gt;
-        '''	{0}
+        '''	&lt;H3&gt;{0}&lt;/H3&gt;
+        '''	{1}
         '''&lt;/div&gt;.
         '''</summary>
         Friend ReadOnly Property LeftColumn() As String
@@ -153,12 +154,23 @@ Namespace My.Resources
         
         '''<summary>
         '''  Looks up a localized string similar to &lt;div id=&quot;RightColumn&quot;&gt;
-        '''	{0}
+        '''	&lt;H3&gt;{0}&lt;/H3&gt;
+        '''	{1}
         '''&lt;/div&gt;.
         '''</summary>
         Friend ReadOnly Property RightColumn() As String
             Get
                 Return ResourceManager.GetString("RightColumn", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &lt;div id=&quot;Item&quot;&gt;&lt;span id=&quot;Table&quot;&gt;Table {0}&lt;/span&gt;&lt;span id=&quot;Player&quot;&gt; {1}&lt;/span&gt;&lt;span id=&quot;Player_Handle&quot;&gt;({2})&lt;/span&gt;&lt;span id=&quot;Table&quot;&gt;vs&lt;/span&gt;&lt;span id=&quot;Player&quot;&gt; {3}&lt;/span&gt;&lt;span id=&quot;Player_Handle&quot;&gt;({4})&lt;/span&gt;&lt;br&gt;
+        '''&lt;/div&gt;.
+        '''</summary>
+        Friend ReadOnly Property Table() As String
+            Get
+                Return ResourceManager.GetString("Table", resourceCulture)
             End Get
         End Property
     End Module

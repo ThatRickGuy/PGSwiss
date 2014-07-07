@@ -10,7 +10,11 @@ Public Class Pairings
     End Sub
 
     Private Sub btnPrintPairing_Click(sender As Object, e As RoutedEventArgs) Handles btnPrintPairing.Click
-        CType(BaseController.CurrentController, PairingsController).PrintPairings()
+        CType(BaseController.CurrentController, PairingsController).PrintPairingsAlphaBetical()
+    End Sub
+
+    Private Sub btnPrintTables_Click(sender As Object, e As RoutedEventArgs) Handles btnPrintTables.Click
+        CType(BaseController.CurrentController, PairingsController).PrintPairingsByTableNumber()
     End Sub
 
     Private Sub btnSwap_Click(sender As Object, e As RoutedEventArgs) Handles btnSwap.Click
