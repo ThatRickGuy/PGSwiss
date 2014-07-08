@@ -51,6 +51,16 @@ Public Class GamesController
         End If
     End Sub
 
+    Public Sub SetWinnerByConcession(WinnerPPHandle As String)
+        If Model.CurrentGame.Player1.PPHandle = WinnerPPHandle Then
+            Model.CurrentGame.Player1.ControlPoints = 3
+        ElseIf Model.CurrentGame.Player2 IsNot Nothing AndAlso Model.CurrentGame.Player2.PPHandle = WinnerPPHandle Then
+            Model.CurrentGame.Player2.ControlPoints = 3
+        Else
+            MessageBox.Show("Something bad just happened. Scenario winner is not a member of this game!")
+        End If
+    End Sub
+
     Protected Overrides Sub Activated()
         MyBase.Activated()
         Model.CurrentRound = _Round
