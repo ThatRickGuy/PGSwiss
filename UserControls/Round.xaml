@@ -4,8 +4,66 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
+             xmlns:local="clr-namespace:PGSwiss"
              >
     <Grid>
+        <Grid.Resources>
+            <!--Faction 1 templates -->
+            <DataTemplate x:Key="FactionTemplate" >
+                <StackPanel>
+                    <TextBlock Text="{Binding Faction}"  />
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate x:Key="EditingFactionTemplate">
+                <ComboBox x:Name="cboFaction" 
+                          ItemsSource="{Binding Path=DataContext.Model.Factions, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WMEvent}}}" 
+                          SelectedValue="{Binding Path=Faction}"></ComboBox>
+                <DataTemplate.Triggers>
+                    <Trigger SourceName="cboFaction" Property="IsVisible" Value="True">
+                        <Setter TargetName="cboFaction" Property="FocusManager.FocusedElement" Value="{Binding ElementName=cboFaction}"/>
+                    </Trigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <!-- Meta template-->
+            <DataTemplate x:Key="MetaTemplate"  >
+                <TextBlock x:Name="txtMeta" Text="{Binding Meta}"  />
+            </DataTemplate>
+            <DataTemplate x:Key="EditingMetaTemplate">
+                <ComboBox x:Name="cboMeta" LostFocus="ComboBox_LostFocus_1" IsEditable="True" 
+                          ItemsSource="{Binding Path=DataContext.Model.Metas,
+                          RelativeSource={RelativeSource FindAncestor, 
+                          AncestorType={x:Type local:WMEvent}}}" 
+                          SelectedValue="{Binding Path=Meta}"></ComboBox>
+                <DataTemplate.Triggers>
+                    <Trigger SourceName="cboMeta" Property="IsVisible" Value="True">
+                        <Setter TargetName="cboMeta" Property="FocusManager.FocusedElement" 
+                                Value="{Binding ElementName=cboMeta}"/>
+                    </Trigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+            <!-- PP Handle template-->
+            <DataTemplate x:Key="PPHandleTemplate"  >
+                <TextBlock Text="{Binding Path=PPHandle}"  />
+            </DataTemplate>
+            <DataTemplate x:Key="EditingPPHandleTemplate" >
+                <ComboBox x:Name="cboPPHandle" LostFocus="cboPPHandle_LostFocus_1" IsEditable="True" 
+                          ItemsSource="{Binding Path=DataContext.Model.AllPlayers, 
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                                        AncestorType={x:Type local:WMEvent}}}" 
+                          DisplayMemberPath="PPHandle"
+                          SelectedValuePath="PPHandle"
+                          SelectedValue="{Binding Path=PPHandle}"></ComboBox>
+                <DataTemplate.Triggers>
+                    <Trigger SourceName="cboPPHandle" Property="IsVisible" Value="True">
+                        <Setter TargetName="cboPPHandle" Property="FocusManager.FocusedElement" Value="{Binding ElementName=cboPPHandle}"/>
+                    </Trigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+
+        </Grid.Resources>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
@@ -34,14 +92,24 @@
         <DataGrid Name="dgPlayers" 
                   Grid.Row="4" Margin="4,0,4,4"  Grid.ColumnSpan="2"
                   ItemsSource="{Binding Path=Model.CurrentRound.Players}"
-                  CanUserAddRows="False" 
+                  CanUserAddRows="True" 
                   AutoGenerateColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Rank" IsReadOnly="True" Width="auto" Binding="{Binding Rank}"></DataGridTextColumn>
-                <DataGridTextColumn Header="PP Handle" IsReadOnly="True"  Width="*" Binding="{Binding PPHandle}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Name" IsReadOnly="True" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Faction" IsReadOnly="True" Width="*" Binding="{Binding Path=Faction}"/>
-                <DataGridTextColumn Header="Meta" IsReadOnly="True" Width="*" Binding="{Binding Path=Meta}"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="PP Handle" Width="*" 
+                                        x:Name="cboPPHandle"
+                                        CellTemplate="{StaticResource PPHandleTemplate}" 
+                                        CellEditingTemplate="{StaticResource EditingPPHandleTemplate}"                                        >
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="Faction" Width="*" 
+                                        CellTemplate="{StaticResource FactionTemplate}" 
+                                        CellEditingTemplate="{StaticResource EditingFactionTemplate}">
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Meta" Width="*" 
+                                        CellTemplate="{StaticResource MetaTemplate}" 
+                                        CellEditingTemplate="{StaticResource EditingMetaTemplate}"                                        >
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="TP" IsReadOnly="True" Width="auto" Binding="{Binding Path=TourneyPoints}"></DataGridTextColumn>
                 <DataGridTextColumn Header="SOS" IsReadOnly="True" Width="auto" Binding="{Binding Path=StrengthOfSchedule}"></DataGridTextColumn>
                 <DataGridTextColumn Header="CP" IsReadOnly="True" Width="auto" Binding="{Binding Path=ControlPoints}"></DataGridTextColumn>
