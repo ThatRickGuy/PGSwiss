@@ -1,26 +1,31 @@
-﻿<UserControl x:Class="Clock"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGSwiss" xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" x:Class="Clock" 
              mc:Ignorable="d" 
-             xmlns:local="clr-namespace:PGSwiss"
-             d:DesignHeight="300" d:DesignWidth="300">
+             >
     <Grid>
         <Grid.Resources>
             <local:TimeSpanToIntervalConverter x:Key="TimeSpanToIntervalConverter"/>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="22"></ColumnDefinition>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition Width="22"></ColumnDefinition>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition Width="22"></ColumnDefinition>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="22"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="22"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="22"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-        <Rectangle Grid.ColumnSpan="9999" Fill="#FFACAAAA" RadiusX="4" RadiusY="4">
+        <Rectangle Grid.ColumnSpan="9999" Grid.RowSpan="9999" Fill="#FFACAAAA" RadiusX="4" RadiusY="4">
             <Rectangle.Stroke>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
@@ -30,19 +35,18 @@
                 </LinearGradientBrush>
             </Rectangle.Stroke>
         </Rectangle>
-        
-        <TextBox Margin="4,2,2,2" VerticalAlignment="Center"  Grid.Column="0" x:Name="txtTimerHours" Text="{Binding Duration, ConverterParameter=Hours, Converter={StaticResource TimeSpanToIntervalConverter}}"></TextBox>
-        <TextBlock Grid.Column="1" VerticalAlignment="Center"  >:</TextBlock>
-        <TextBox Margin="0,2,0,2" VerticalAlignment="Center"  Grid.Column="2" x:Name="txtTimerMinutes" Text="{Binding Duration, ConverterParameter=Minutes, Converter={StaticResource TimeSpanToIntervalConverter}}"></TextBox>
-        <TextBlock Grid.Column="3" VerticalAlignment="Center" >:</TextBlock>
-        <TextBox Margin="0,2,0,2"  VerticalAlignment="Center" Grid.Column="4" x:Name="txtTimerSeconds" Text="{Binding Duration, ConverterParameter=Seconds, Converter={StaticResource TimeSpanToIntervalConverter}}"></TextBox>
-        <Rectangle VerticalAlignment="Center" Grid.Column="5" Width="22" Height="22" RadiusX="4" RadiusY="4" 
-                   Margin="6,8,4,4" Fill="#BF000000"></Rectangle>
-        <Rectangle VerticalAlignment="Center" Grid.Column="5" Width="22" Height="22" RadiusX="4" RadiusY="4" 
-                   x:Name="recButton"
-                  
-                   ToolTip="Hold to reset"
-                   Margin="4" Cursor="Hand">
+
+        <TextBox Margin="4,0,2,0" VerticalAlignment="Center" Grid.Row="1"  Grid.Column="0" x:Name="txtTimerHours" Text="{Binding Duration, ConverterParameter=Hours, Converter={StaticResource TimeSpanToIntervalConverter}}"/>
+        <TextBlock Grid.Column="1" VerticalAlignment="Center" Grid.Row="1"  ><Run Text=":"/></TextBlock>
+        <TextBox Margin="0" VerticalAlignment="Center" Grid.Row="1"  Grid.Column="2" x:Name="txtTimerMinutes" Text="{Binding Duration, ConverterParameter=Minutes, Converter={StaticResource TimeSpanToIntervalConverter}}"/>
+        <TextBlock Grid.Column="3" VerticalAlignment="Center" Grid.Row="1" ><Run Text=":"/></TextBlock>
+        <TextBox Margin="0"  VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" x:Name="txtTimerSeconds" Text="{Binding Duration, ConverterParameter=Seconds, Converter={StaticResource TimeSpanToIntervalConverter}}"/>
+        <Rectangle VerticalAlignment="Center" Grid.Column="5" Grid.Row="1" Width="22" Height="22" RadiusX="4" RadiusY="4" 
+    		Margin="6,0,4,0" Fill="#BF000000"/>
+        <Rectangle VerticalAlignment="Center" Grid.Column="5" Grid.Row="1" Width="22" Height="22" RadiusX="4" RadiusY="4" 
+    		x:Name="recButton"
+    		ToolTip="Hold to reset"
+    		Margin="0" Cursor="Hand">
             <Rectangle.Stroke>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF404040" Offset="0"/>
@@ -59,13 +63,21 @@
             </Rectangle.Fill>
         </Rectangle>
 
-        <Grid x:Name="grdPlay" Grid.Column="5" Margin="2,1,0,0" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center"  >
-            <Polygon Points="0,0 8,5, 0,10" Stroke="Black" Fill="Black" />
+        <Grid x:Name="grdPlay" Grid.Row="1" Grid.Column="5" Margin="2,1,0,0" IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Center"  >
+            <Polygon Points="0,0 8,5 0,10" Stroke="Black" Fill="Black" />
         </Grid>
 
-        <StackPanel x:Name="grdPause"  Grid.Column="5" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"  >
-            <Rectangle Width="4" Height="10" Margin="0,0,1,0" Fill="Black" IsHitTestVisible="False" ></Rectangle>
-            <Rectangle Width="4" Height="10" Margin="1,0,0,0" Fill="Black" IsHitTestVisible="False" ></Rectangle>
+        <StackPanel x:Name="grdPause" Grid.Row="1"  Grid.Column="5" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" IsHitTestVisible="False"  >
+            <Rectangle Width="4" Height="10" Margin="0,0,1,0" Fill="Black" IsHitTestVisible="False" />
+            <Rectangle Width="4" Height="10" Margin="1,0,0,0" Fill="Black" IsHitTestVisible="False" />
         </StackPanel>
+
+        <Button Padding="0,-4,0,0" Margin="3,4,1,1" Height="15" VerticalAlignment="Bottom" x:Name="btnAddHours" Content="+"/>
+        <Button Padding="0,-4,0,0" Margin="0,4,0,1" Grid.Column="2" Height="15" VerticalAlignment="Bottom" x:Name="btnAddMinutes" Content="+"/>
+        <Button Padding="0,-4,0,0" Margin="0,4,0,1" Grid.Column="4" Height="15" VerticalAlignment="Bottom" x:Name="btnAddSeconds" Content="+"/>
+
+        <Button Padding="0,-4,0,0" Margin="3,1,1,4" Grid.Row="2" Height="15" VerticalAlignment="Top" x:Name="btnSubtractHours" Content="-"/>
+        <Button Padding="0,-4,0,0" Margin="0,1,0,4" Grid.Row="2" Grid.Column="2" Height="15" VerticalAlignment="Top" x:Name="btnSubtractMinutes" Content="-"/>
+        <Button Padding="0,-4,0,0" Margin="0,1,0,4" Grid.Row="2" Grid.Column="4" Height="15" VerticalAlignment="Top" x:Name="btnSubtractSeconds" Content="-"/>
     </Grid>
 </UserControl>

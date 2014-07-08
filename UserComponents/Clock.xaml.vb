@@ -84,16 +84,20 @@ Public Class Clock
         CType(sender, TextBox).SelectAll()
     End Sub
 
+    Private Sub txtTimerHours_PreviewMouseLeftButtonUp(sender As Object, e As MouseButtonEventArgs) Handles txtTimerHours.PreviewMouseLeftButtonUp
+        CType(sender, TextBox).SelectAll()
+    End Sub
+
     Private Sub txtTimerHours_PreviewTextInput(sender As Object, e As TextCompositionEventArgs) Handles txtTimerHours.PreviewTextInput
-        e.Handled = Not IsNumeric(e.Text)
+        If IsNumeric(e.Text) OrElse e.Text = String.Empty Then
+            e.Handled = True
+        Else
+            e.Handled = False
+        End If
     End Sub
 
     Private Sub txtTimer_TextChanged(sender As Object, e As TextChangedEventArgs) Handles txtTimerHours.TextChanged, txtTimerMinutes.TextChanged, txtTimerSeconds.TextChanged
         If Not TimerIsRunning AndAlso Not IsResetting Then
-
-            If txtTimerHours.Text = String.Empty Then txtTimerHours.Text = 0
-            If txtTimerMinutes.Text = String.Empty Then txtTimerMinutes.Text = 0
-            If txtTimerSeconds.Text = String.Empty Then txtTimerSeconds.Text = 0
 
             Dim Seconds As Integer = 0
             Dim Minutes As Integer = 0
@@ -132,12 +136,36 @@ Public Class Clock
         End If
         OnPropertyChanged("Duration")
     End Sub
+
     Protected Sub OnPropertyChanged(ByVal name As String)
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub
-
-
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
+
+
+    Private Sub btnAddHours_Click(sender As Object, e As Windows.RoutedEventArgs) Handles btnAddHours.Click
+        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerHours.Text = CInt(txtTimerHours.Text) + 1
+    End Sub
+
+    Private Sub btnAddMinutes_Click(sender As Object, e As RoutedEventArgs) Handles btnAddMinutes.Click
+        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerMinutes.Text = CInt(txtTimerMinutes.Text) + 1
+    End Sub
+
+    Private Sub btnAddSeconds_Click(sender As Object, e As RoutedEventArgs) Handles btnAddSeconds.Click
+        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerSeconds.Text = CInt(txtTimerSeconds.Text) + 1
+    End Sub
+
+    Private Sub btnSubtractHours_Click(sender As Object, e As Windows.RoutedEventArgs) Handles btnSubtractHours.Click
+        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerHours.Text = CInt(txtTimerHours.Text) - 1
+    End Sub
+
+    Private Sub btnSubtractMinutes_Click(sender As Object, e As Windows.RoutedEventArgs) Handles btnSubtractMinutes.Click
+        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerMinutes.Text = CInt(txtTimerMinutes.Text) - 1
+    End Sub
+
+    Private Sub btnSubtractSeconds_Click(sender As Object, e As Windows.RoutedEventArgs) Handles btnSubtractSeconds.Click
+        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerSeconds.Text = CInt(txtTimerSeconds.Text) - 1
+    End Sub
 End Class
 
 
@@ -145,7 +173,7 @@ Public Class TimeSpanToIntervalConverter
     Implements IValueConverter
 
     Public Function Convert(value As Object, targetType As Type, parameter As Object, culture As Globalization.CultureInfo) As Object Implements Windows.Data.IValueConverter.Convert
-        Dim iReturn As Integer
+        Dim iReturn As Nullable(Of Integer)
         Select Case parameter
             Case Is = "Hours"
                 iReturn = CType(value, TimeSpan).Hours
