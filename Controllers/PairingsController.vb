@@ -205,33 +205,33 @@ Public Class PairingsController
         Dim Player1 As doPlayer
         Dim Player2 As doPlayer
         If Model.CurrentRound.RoundNumber > 1 Then
-            'not the first round, use scoring model
-            While UnpairedPlayers
-                If EligablePlayers.Count > 1 Then
-                    Player1 = EligablePlayers.First
+            'not the first round, use wins model
+            Dim TopTP = (From p In EligablePlayers Select p.TourneyPoints).Max
 
-                    'Exclude player self-match
-                    Dim EligableOpponents = From p In EligablePlayers Where Not p Is Player1
-                    'Exclude previous matchups
-                    EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(p.PPHandle)
-                    'Eligable Opponents should already be listed in TP/SOS/CP/APD order, so the next option should be the best
-                    Player2 = EligableOpponents.FirstOrDefault
+            For WinsBucket As Integer = TopTP To 0 Step -1
+                Dim i As Integer = WinsBucket
+                Dim EligablePlayersInBucket = From p In EligablePlayers Where p.TourneyPoints = i
+                Player1 = EligablePlayersInBucket.First
+                'Exclude player self-match
+                Dim EligableOpponents = From p In EligablePlayers Where Not p Is Player1
+                'Exclude previous matchups
+                EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(p.PPHandle)
+                'If there are no eligable opponents, set the eligable opponents to the pair down bracket
+                If EligableOpponents.Count = 0 Then EligableOpponents = From p In EligablePlayers Where p.TourneyPoints = i - 1 AndAlso Not Player1.Oppontnents.Contains(p.PPHandle)
+                If EligableOpponents.Count = 0 Then Throw New Exception("Unable to find opponent or pair down opponent!")
+                Player2 = EligableOpponents(rnd.Next(0, EligableOpponents.Count - 1))
 
-                    EligablePlayers.Remove(Player1)
-                    EligablePlayers.Remove(Player2)
+                EligablePlayers.Remove(Player1)
+                EligablePlayers.Remove(Player2)
 
-                    Dim g As New doGame
-                    g.Player1 = Player1.Clone
-                    g.Player2 = Player2.Clone
-                    g.GameID = Guid.NewGuid
-                    Model.CurrentRound.Games.Add(g)
-                Else
-                    UnpairedPlayers = False
-                End If
-            End While
-
+                Dim g As New doGame
+                g.Player1 = Player1.Clone
+                g.Player2 = Player2.Clone
+                g.GameID = Guid.NewGuid
+                Model.CurrentRound.Games.Add(g)
+            Next
         Else
-            'use difference model
+            'first round, use difference model
             While UnpairedPlayers
                 If EligablePlayers.Count > 1 Then
                     Player1 = EligablePlayers(rnd.Next(EligablePlayers.Count - 1))
