@@ -41,7 +41,7 @@ Public Class doEventFormatCollection
         Dim lst As New List(Of String)
         lst.Add("SR2014")
         lst.Add("SR2014 Commanders Crucible")
-        lst.Add("SR2014 Hard-Core")
+        lst.Add("SR2014 Hardcore")
         lst.Add("SR2014 Masters")
         lst.Add("Iron Gauntlet Season 2")
         lst.Add("Who's the Boss")
