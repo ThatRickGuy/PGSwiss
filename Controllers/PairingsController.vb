@@ -165,7 +165,6 @@ Public Class PairingsController
     End Sub
 
     Public Sub GeneratePairings()
-        Dim UnpairedPlayers = True
         Dim rnd As New Random
 
         'Clear the current pairings in case this is a re-generate
@@ -210,28 +209,40 @@ Public Class PairingsController
 
             For WinsBucket As Integer = TopTP To 0 Step -1
                 Dim i As Integer = WinsBucket
-                Dim EligablePlayersInBucket = From p In EligablePlayers Where p.TourneyPoints = i
-                Player1 = EligablePlayersInBucket.First
-                'Exclude player self-match
-                Dim EligableOpponents = From p In EligablePlayers Where Not p Is Player1
-                'Exclude previous matchups
-                EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(p.PPHandle)
-                'If there are no eligable opponents, set the eligable opponents to the pair down bracket
-                If EligableOpponents.Count = 0 Then EligableOpponents = From p In EligablePlayers Where p.TourneyPoints = i - 1 AndAlso Not Player1.Oppontnents.Contains(p.PPHandle)
-                If EligableOpponents.Count = 0 Then Throw New Exception("Unable to find opponent or pair down opponent!")
-                Player2 = EligableOpponents(rnd.Next(0, EligableOpponents.Count - 1))
+                Dim UnpairedPlayers = True
+                While UnpairedPlayers
+                    Dim EligablePlayersInBucket = From p In EligablePlayers Where p.TourneyPoints = i
+                    If EligablePlayersInBucket.Count > 0 Then
+                        Player1 = EligablePlayersInBucket.First
+                        'Exclude player self-match
+                        Dim EligableOpponents = From p In EligablePlayersInBucket Where Not p Is Player1
+                        'Exclude previous matchups
+                        EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(p.PPHandle)
 
-                EligablePlayers.Remove(Player1)
-                EligablePlayers.Remove(Player2)
+                        'If there are no eligable opponents, set the eligable opponents to the pair down bracket
+                        If EligableOpponents.Count = 0 Then EligableOpponents = From p In EligablePlayers Where p.TourneyPoints = i - 1 AndAlso Not Player1.Oppontnents.Contains(p.PPHandle)
+                        If EligableOpponents.Count = 0 Then Throw New Exception("Unable to find opponent or pair down opponent!")
+                        Player2 = EligableOpponents(rnd.Next(0, EligableOpponents.Count - 1))
 
-                Dim g As New doGame
-                g.Player1 = Player1.Clone
-                g.Player2 = Player2.Clone
-                g.GameID = Guid.NewGuid
-                Model.CurrentRound.Games.Add(g)
+                        EligablePlayers.Remove(Player1)
+                        EligablePlayers.Remove(Player2)
+
+                        If EligablePlayers.Count = 0 Then UnpairedPlayers = False
+
+                        Dim g As New doGame
+                        g.Player1 = Player1.Clone
+                        g.Player2 = Player2.Clone
+                        g.GameID = Guid.NewGuid
+                        Model.CurrentRound.Games.Add(g)
+                    Else
+                        UnpairedPlayers = False
+                    End If
+                End While
             Next
         Else
             'first round, use difference model
+
+            Dim UnpairedPlayers = True
             While UnpairedPlayers
                 If EligablePlayers.Count > 1 Then
                     Player1 = EligablePlayers(rnd.Next(EligablePlayers.Count - 1))

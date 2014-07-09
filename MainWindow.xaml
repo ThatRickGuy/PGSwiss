@@ -314,7 +314,7 @@
             </Rectangle>
             <TextBlock Margin="4" FontWeight="Bold">
                 <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_1" NavigateUri="https://github.com/ThatRickGuy/PGSwiss/issues?state=open">Report Issue/Feedback</Hyperlink>
-                version 1.4beta
+                version 1.5beta
             </TextBlock>
         </Grid>
     </Grid>

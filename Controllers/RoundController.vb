@@ -96,6 +96,21 @@ Public Class RoundController
         Dim sReturn = String.Empty
         If BaseController.Model.CurrentRound.Scenario = String.Empty Then sReturn = "Scenario not selected" & ControlChars.CrLf
         If BaseController.Model.CurrentRound.Size = 0 Then sReturn &= "Size not selected"
+
+        If BaseController.Model.CurrentRound.Players.Count = 0 Then sReturn = "No players" & ControlChars.CrLf
+        If (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = String.Empty Or p.Name = String.Empty).Count > 0 Then sReturn &= "Players without PPHandle, Name, Faction, and/or Meta" & ControlChars.CrLf
+        If (From p In BaseController.Model.CurrentRound.Players Select p.PPHandle Distinct).Count < BaseController.Model.CurrentRound.Players.Count Then sReturn &= "Players must have unique PP Handles."
+
+        If sReturn = String.Empty Then SaveNewPlayers()
+
         Return sReturn.TrimEnd(ControlChars.CrLf)
     End Function
+
+    Private Sub SaveNewPlayers()
+        For Each p In BaseController.Model.CurrentRound.Players
+            If (From ap In Model.WMEvent.Players Where ap.PPHandle = p.PPHandle).Count = 0 Then
+                Model.WMEvent.Players.Add(p)
+            End If
+        Next
+    End Sub
 End Class

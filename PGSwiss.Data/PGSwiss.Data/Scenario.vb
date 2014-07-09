@@ -19,7 +19,7 @@ Public Class doScenarioCollection
                 Dim x As New XmlSerializer(Me.GetType)
                 Dim lst As New List(Of String)
                 lst.AddRange(x.Deserialize(objStreamReader))
-                Me.AddRange(From p In lst Order By p)
+                Me.AddRange(From p In lst Order By p.Split(".")(0).PadLeft(2, "0"c))
             End Using
         End If
         Return sReturn

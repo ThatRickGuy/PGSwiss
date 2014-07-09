@@ -16,7 +16,7 @@
             </DataTemplate>
             <DataTemplate x:Key="EditingFactionTemplate">
                 <ComboBox x:Name="cboFaction" 
-                          ItemsSource="{Binding Path=DataContext.Model.Factions, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WMEvent}}}" 
+                          ItemsSource="{Binding Path=DataContext.Model.Factions, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Round}}}" 
                           SelectedValue="{Binding Path=Faction}"></ComboBox>
                 <DataTemplate.Triggers>
                     <Trigger SourceName="cboFaction" Property="IsVisible" Value="True">
@@ -33,7 +33,7 @@
                 <ComboBox x:Name="cboMeta" LostFocus="ComboBox_LostFocus_1" IsEditable="True" 
                           ItemsSource="{Binding Path=DataContext.Model.Metas,
                           RelativeSource={RelativeSource FindAncestor, 
-                          AncestorType={x:Type local:WMEvent}}}" 
+                          AncestorType={x:Type local:Round}}}" 
                           SelectedValue="{Binding Path=Meta}"></ComboBox>
                 <DataTemplate.Triggers>
                     <Trigger SourceName="cboMeta" Property="IsVisible" Value="True">
@@ -48,10 +48,10 @@
                 <TextBlock Text="{Binding Path=PPHandle}"  />
             </DataTemplate>
             <DataTemplate x:Key="EditingPPHandleTemplate" >
-                <ComboBox x:Name="cboPPHandle" LostFocus="cboPPHandle_LostFocus_1" IsEditable="True" 
+                <ComboBox x:Name="cboPPHandle" LostFocus="cboPPHandle_LostFocus_1"  IsEditable="True" 
                           ItemsSource="{Binding Path=DataContext.Model.AllPlayers, 
                                         RelativeSource={RelativeSource FindAncestor, 
-                                                        AncestorType={x:Type local:WMEvent}}}" 
+                                                        AncestorType={x:Type local:Round}}}" 
                           DisplayMemberPath="PPHandle"
                           SelectedValuePath="PPHandle"
                           SelectedValue="{Binding Path=PPHandle}"></ComboBox>
