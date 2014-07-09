@@ -84,7 +84,6 @@
     <Compile Include="Player.vb" />
     <Compile Include="Round.vb" />
     <Compile Include="RoundSize.vb" />
-    <Compile Include="Scenario.vb" />
     <Compile Include="Standings.vb" />
     <Compile Include="WMEvent.vb" />
   </ItemGroup>

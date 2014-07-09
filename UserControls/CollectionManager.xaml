@@ -21,7 +21,6 @@
             <ComboBoxItem>Game Sizes</ComboBoxItem>
             <ComboBoxItem>Metas</ComboBoxItem>
             <ComboBoxItem>Players</ComboBoxItem>
-            <ComboBoxItem>Scenarios</ComboBoxItem>
         </ComboBox>
 
          <DataGrid x:Name="dgCollection" Margin="4" Grid.Row="2" AutoGenerateColumns="True" CanUserAddRows="True" CanUserDeleteRows="True">

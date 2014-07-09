@@ -1,9 +1,13 @@
 ﻿Imports System.IO
 Imports System.Xml.Serialization
 
+Public Class doEventFormat
+    Public Property Name As String
+    Public Property Scenarios As List(Of String)
+End Class
 
 Public Class doEventFormatCollection
-    Inherits List(Of String)
+    Inherits List(Of doEventFormat)
 
     Public Sub load()
         Me.Clear()
@@ -37,17 +41,64 @@ Public Class doEventFormatCollection
         End Try
     End Sub
 
-    Private Function Generate() As IEnumerable(Of String)
-        Dim lst As New List(Of String)
-        lst.Add("SR2014")
-        lst.Add("SR2014 Commanders Crucible")
-        lst.Add("SR2014 Hardcore")
-        lst.Add("SR2014 Masters")
-        lst.Add("Iron Gauntlet Season 2")
-        lst.Add("Who's the Boss")
-        lst.Add("Highlander")
-        lst.Add("Escalation")
-        lst.Add("Other")
+    Private Function Generate() As IEnumerable(Of doEventFormat)
+        Dim lst As New List(Of doEventFormat)
+        Dim ef As New doEventFormat
+        ef.Name = "SR2014"
+        ef.Scenarios.Add("1. Destruction")
+        ef.Scenarios.Add("2. Supply and Demand")
+        ef.Scenarios.Add("3. Balance of Power")
+        ef.Scenarios.Add("4. Process of Elimination")
+        ef.Scenarios.Add("5. Close Quarters")
+        ef.Scenarios.Add("6. Two Fronts")
+        ef.Scenarios.Add("7. Incoming")
+        ef.Scenarios.Add("8. Rally Point")
+        ef.Scenarios.Add("9. Incursion")
+        ef.Scenarios.Add("10. Outflank")
+        ef.Scenarios.Add("11. Into the Breach")
+        ef.Scenarios.Add("12. Fire Support")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "SR2014 Commanders Crucible"
+        ef.Scenarios.Add("1.")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "SR2014 Hardcore"
+        ef.Scenarios.Add("1.")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "SR2014 Masters"
+        ef.Scenarios.Add("1.")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "Iron Gauntlet Season 2"
+        ef.Scenarios.Add("1.")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "Who's the Boss"
+        ef.Scenarios.Add("1. Other")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "Highlander"
+        ef.Scenarios.Add("1. Other")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "Escalation"
+        ef.Scenarios.Add("1. Other")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "Other"
+        ef.Scenarios.Add("1. Other")
+        lst.Add(ef)
+
         Return lst
     End Function
 

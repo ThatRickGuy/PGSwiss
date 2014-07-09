@@ -15,7 +15,6 @@ Public Class CollectionManagerController
         _Metas.load()
         _Players.load()
         _Sizes.load()
-        _Scenarios.load()
 
     End Sub
 
@@ -25,7 +24,6 @@ Public Class CollectionManagerController
         _Metas.Save()
         _Players.Save()
         _Sizes.Save()
-        _Scenarios.Save()
     End Sub
 
     Private _EventFormats As New doEventFormatCollection
@@ -53,13 +51,6 @@ Public Class CollectionManagerController
     Public ReadOnly Property Players As doPlayerCollection
         Get
             Return _Players
-        End Get
-    End Property
-
-    Private _Scenarios As New doScenarioCollection
-    Public ReadOnly Property Scenarios As doScenarioCollection
-        Get
-            Return _Scenarios
         End Get
     End Property
 

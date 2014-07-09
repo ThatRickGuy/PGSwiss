@@ -33,7 +33,6 @@ Public Class WMEventViewModel
 
     Private Sub New()
         Factions.load()
-        Scenarios.load()
         Metas.load()
         AllPlayers.load()
         Formats.load()
@@ -52,7 +51,6 @@ Public Class WMEventViewModel
 
     Public Property Factions As New doFactionCollection
     Public Property AllPlayers As New doPlayerCollection
-    Public Property Scenarios As New doScenarioCollection
     Public Property Metas As New doMetaCollection
     Public Property Formats As New doEventFormatCollection
     Public Property Sizes As New doRoundSizeCollection
@@ -97,7 +95,6 @@ Public Class WMEventViewModel
             Next
         End If
         Factions.Save()
-        Scenarios.Save()
         Metas.Save()
         AllPlayers.Save()
         Formats.Save()

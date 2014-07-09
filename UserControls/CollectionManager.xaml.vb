@@ -5,9 +5,7 @@
         Dim Holder As New List(Of StringHolder)
         Select Case CType(cboCollection.SelectedItem, ComboBoxItem).Content
             Case Is = "Event Formats"
-                Dim q = From p In Controller.EventFormats Select New StringHolder With {.Value = p}
-                Holder.AddRange(q)
-                Me.dgCollection.ItemsSource = Holder
+                Me.dgCollection.ItemsSource = Controller.EventFormats
             Case Is = "Game Sizes"
                 Dim q = From p In Controller.Sizes Select New StringHolder With {.Value = p.ToString}
                 Holder.AddRange(q)
@@ -20,10 +18,6 @@
                 Me.dgCollection.ItemsSource = Controller.Players
             Case Is = "Metas"
                 Dim q = From p In Controller.Metas Select New StringHolder With {.Value = p}
-                Holder.AddRange(q)
-                Me.dgCollection.ItemsSource = Holder
-            Case Is = "Scenarios"
-                Dim q = From p In Controller.Scenarios Select New StringHolder With {.Value = p}
                 Holder.AddRange(q)
                 Me.dgCollection.ItemsSource = Holder
         End Select
@@ -68,10 +62,6 @@
                 Holder = Me.dgCollection.ItemsSource
                 Controller.Metas.Clear()
                 Controller.Metas.AddRange(From p In Holder Select p.Value)
-            Case Is = "Scenarios"
-                Holder = Me.dgCollection.ItemsSource
-                Controller.Scenarios.Clear()
-                Controller.Scenarios.AddRange(From p In Holder Select p.Value)
         End Select
     End Sub
 
