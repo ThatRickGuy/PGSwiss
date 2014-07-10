@@ -132,7 +132,7 @@ Public Class WMEvent
         End If
 
         If FoundIndex > 0 Then cbo.SelectedIndex = FoundIndex
-        
+
         e.Handled = True
     End Sub
 

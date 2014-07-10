@@ -211,7 +211,12 @@ Public Class PairingsController
                 Dim i As Integer = WinsBucket
                 Dim UnpairedPlayers = True
                 While UnpairedPlayers
-                    Dim EligablePlayersInBucket = From p In EligablePlayers Where p.TourneyPoints = i
+                    Dim EligablePlayersInBucket = (From p In EligablePlayers Where p.TourneyPoints = i).ToList
+                    If EligablePlayersInBucket.Count Mod 2 = 1 Then
+                        'odd number of players in bucket
+                        Dim EligablePlayersInNextBucket = (From p In EligablePlayers Where p.TourneyPoints = i - 1).ToList()
+                        EligablePlayersInBucket.add(EligablePlayersInNextBucket(rnd.Next(0, EligablePlayersInNextBucket.Count - 1)))
+                    End If
                     If EligablePlayersInBucket.Count > 0 Then
                         Player1 = EligablePlayersInBucket.First
                         'Exclude player self-match
@@ -219,13 +224,14 @@ Public Class PairingsController
                         'Exclude previous matchups
                         EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(p.PPHandle)
 
-                        'If there are no eligable opponents, set the eligable opponents to the pair down bracket
-                        If EligableOpponents.Count = 0 Then EligableOpponents = From p In EligablePlayers Where p.TourneyPoints = i - 1 AndAlso Not Player1.Oppontnents.Contains(p.PPHandle)
-                        If EligableOpponents.Count = 0 Then Throw New Exception("Unable to find opponent or pair down opponent!")
+                       If EligableOpponents.Count = 0 Then Throw New Exception("Unable to find opponent or pair down opponent!")
                         Player2 = EligableOpponents(rnd.Next(0, EligableOpponents.Count - 1))
 
                         EligablePlayers.Remove(Player1)
                         EligablePlayers.Remove(Player2)
+
+                        Player1.Oppontnents.Add(Player2.PPHandle)
+                        Player2.Oppontnents.Add(Player1.PPHandle)
 
                         If EligablePlayers.Count = 0 Then UnpairedPlayers = False
 
@@ -271,6 +277,9 @@ Public Class PairingsController
                     Player2 = MatchedOpponents.ToList.Item(rnd.Next(MatchedOpponents.Count - 1))
                     EligablePlayers.Remove(Player1)
                     EligablePlayers.Remove(Player2)
+
+                    Player1.Oppontnents.Add(Player2.PPHandle)
+                    Player2.Oppontnents.Add(Player1.PPHandle)
 
                     Dim g As New doGame
                     g.Player1 = Player1.Clone
