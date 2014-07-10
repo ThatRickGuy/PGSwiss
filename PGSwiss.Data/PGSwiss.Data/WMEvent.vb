@@ -19,7 +19,18 @@ Public Class doWMEvent
     Private _FileName As String
 
     Public Property EventID As Guid = Guid.NewGuid
-    Public Property EventFormat As String
+
+    Private _EventFormat As doEventFormat
+    Public Property EventFormat As doEventFormat
+        Get
+            Return _EventFormat
+        End Get
+        Set(value As doEventFormat)
+            _EventFormat = value
+            OnPropertyChanged("EventFormat")
+        End Set
+    End Property
+
     Private _Name As String
     Public Property Name As String
         Get

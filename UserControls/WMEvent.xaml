@@ -16,6 +16,7 @@
             </DataTemplate>
             <DataTemplate x:Key="EditingFactionTemplate">
                 <ComboBox x:Name="cboFaction" 
+                           PreviewKeyDown="cboFaction_PreviewKeyDown_1"
                           ItemsSource="{Binding Path=DataContext.Model.Factions, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WMEvent}}}" 
                           SelectedValue="{Binding Path=Faction}"></ComboBox>
                 <DataTemplate.Triggers>
@@ -95,8 +96,8 @@
         <Label Grid.Row="3" Margin="4,0,4,0" FontWeight="Bold">Format</Label>
         <ComboBox Name="cboFormat" Grid.Row="4" Margin="4,-4,4,0" 
                   ItemsSource ="{Binding Path=Model.Formats}" 
-                  SelectedValuePath="Name" 
-                  SelectedItem="{Binding Model.WMEvent.EventFormat}"></ComboBox>
+                  DisplayMemberPath="Name"
+                  SelectedItem="{Binding Model.WMEvent.EventFormat, Mode=TwoWay}"></ComboBox>
 
         <Label Grid.Row="5" FontWeight="Bold" Margin="4,0,4,0">Date</Label>
         <DatePicker Grid.Row="6" Name="dtpEventDate" Margin="4,-4,4,0" SelectedDate="{Binding Path=Model.WMEvent.EventDate}"></DatePicker>

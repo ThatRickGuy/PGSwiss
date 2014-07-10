@@ -27,7 +27,7 @@
         Next
         If Attendees <> String.Empty Then Attendees = Attendees.Substring(0, Attendees.Length - 2)
 
-        Notes = BaseController.Model.WMEvent.EventFormat & " - " & BaseController.Model.WMEvent.Name & " - " & BaseController.Model.WMEvent.EventDate & ControlChars.CrLf
+        Notes = BaseController.Model.WMEvent.EventFormat.Name & " - " & BaseController.Model.WMEvent.Name & " - " & BaseController.Model.WMEvent.EventDate & ControlChars.CrLf
 
         For Each r In BaseController.Model.WMEvent.Rounds
             Dim NonByeGames = From p In r.Games Where p.Player2 IsNot Nothing

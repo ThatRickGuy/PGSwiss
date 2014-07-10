@@ -3,7 +3,17 @@ Imports System.Xml.Serialization
 
 Public Class doEventFormat
     Public Property Name As String
-    Public Property Scenarios As List(Of String)
+    Public Property Scenarios As New List(Of String)
+
+
+    Public Overloads Overrides Function Equals(obj As Object) As Boolean
+
+        If obj Is Nothing OrElse Not Me.GetType() Is obj.GetType() Then
+            Return False
+        End If
+
+        Return Me.Name = CType(obj, doEventFormat).Name
+    End Function
 End Class
 
 Public Class doEventFormatCollection
@@ -12,14 +22,14 @@ Public Class doEventFormatCollection
     Public Sub load()
         Me.Clear()
         If Not IO.File.Exists("EventFormatCollection.xml") Then
-            Me.AddRange(From p In Generate() Order By p)
+            Me.AddRange(From p In Generate() Order By p.Name)
             Save()
         Else
             Using objStreamReader As New StreamReader("EventFormatCollection.xml")
                 Dim x As New XmlSerializer(Me.GetType)
-                Dim lst As New List(Of String)
+                Dim lst As New List(Of doEventFormat)
                 lst.AddRange(x.Deserialize(objStreamReader))
-                Me.AddRange(From p In lst Order By p)
+                Me.AddRange(From p In lst Order By p.Name)
             End Using
         End If
     End Sub
@@ -41,6 +51,7 @@ Public Class doEventFormatCollection
         End Try
     End Sub
 
+
     Private Function Generate() As IEnumerable(Of doEventFormat)
         Dim lst As New List(Of doEventFormat)
         Dim ef As New doEventFormat
@@ -61,22 +72,43 @@ Public Class doEventFormatCollection
 
         ef = New doEventFormat
         ef.Name = "SR2014 Commanders Crucible"
-        ef.Scenarios.Add("1.")
+        ef.Scenarios.Add("1. Destruction")
+        ef.Scenarios.Add("2. Supply and Demand")
+        ef.Scenarios.Add("3. Balance of Power")
+        ef.Scenarios.Add("4. Process of Elimination")
+        ef.Scenarios.Add("5. Close Quarters")
+        ef.Scenarios.Add("6. Two Fronts")
+        ef.Scenarios.Add("7. Incoming")
+        ef.Scenarios.Add("8. Rally Point")
+        ef.Scenarios.Add("9. Incursion")
+        ef.Scenarios.Add("10. Outflank")
+        ef.Scenarios.Add("11. Into the Breach")
+        ef.Scenarios.Add("12. Fire Support")
         lst.Add(ef)
 
         ef = New doEventFormat
         ef.Name = "SR2014 Hardcore"
-        ef.Scenarios.Add("1.")
+        ef.Scenarios.Add("1. Death Match")
         lst.Add(ef)
 
         ef = New doEventFormat
         ef.Name = "SR2014 Masters"
-        ef.Scenarios.Add("1.")
+        ef.Scenarios.Add("1. Destruction")
+        ef.Scenarios.Add("2. Balance of Power")
+        ef.Scenarios.Add("3. Close Quarters")
+        ef.Scenarios.Add("4. Incursion")
+        ef.Scenarios.Add("5. Outflank")
+        ef.Scenarios.Add("6. Fire Support")
         lst.Add(ef)
 
         ef = New doEventFormat
         ef.Name = "Iron Gauntlet Season 2"
-        ef.Scenarios.Add("1.")
+        ef.Scenarios.Add("1. Destruction")
+        ef.Scenarios.Add("2. Balance of Power")
+        ef.Scenarios.Add("3. Close Quarters")
+        ef.Scenarios.Add("4. Incursion")
+        ef.Scenarios.Add("5. Outflank")
+        ef.Scenarios.Add("6. Fire Support")
         lst.Add(ef)
 
         ef = New doEventFormat
@@ -86,12 +118,34 @@ Public Class doEventFormatCollection
 
         ef = New doEventFormat
         ef.Name = "Highlander"
-        ef.Scenarios.Add("1. Other")
+        ef.Scenarios.Add("1. Destruction")
+        ef.Scenarios.Add("2. Supply and Demand")
+        ef.Scenarios.Add("3. Balance of Power")
+        ef.Scenarios.Add("4. Process of Elimination")
+        ef.Scenarios.Add("5. Close Quarters")
+        ef.Scenarios.Add("6. Two Fronts")
+        ef.Scenarios.Add("7. Incoming")
+        ef.Scenarios.Add("8. Rally Point")
+        ef.Scenarios.Add("9. Incursion")
+        ef.Scenarios.Add("10. Outflank")
+        ef.Scenarios.Add("11. Into the Breach")
+        ef.Scenarios.Add("12. Fire Support")
         lst.Add(ef)
 
         ef = New doEventFormat
         ef.Name = "Escalation"
-        ef.Scenarios.Add("1. Other")
+        ef.Scenarios.Add("1. Destruction")
+        ef.Scenarios.Add("2. Supply and Demand")
+        ef.Scenarios.Add("3. Balance of Power")
+        ef.Scenarios.Add("4. Process of Elimination")
+        ef.Scenarios.Add("5. Close Quarters")
+        ef.Scenarios.Add("6. Two Fronts")
+        ef.Scenarios.Add("7. Incoming")
+        ef.Scenarios.Add("8. Rally Point")
+        ef.Scenarios.Add("9. Incursion")
+        ef.Scenarios.Add("10. Outflank")
+        ef.Scenarios.Add("11. Into the Breach")
+        ef.Scenarios.Add("12. Fire Support")
         lst.Add(ef)
 
         ef = New doEventFormat

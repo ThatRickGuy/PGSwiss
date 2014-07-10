@@ -101,5 +101,41 @@ Public Class WMEvent
     Private Sub WMEvent_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         Me.txtEventName.Focus()
     End Sub
+
+    Private Sub cboFaction_PreviewKeyDown_1(sender As Object, e As KeyEventArgs)
+        Dim cbo As ComboBox = CType(sender, ComboBox)
+        Dim FoundIndex As Integer = -1
+
+        If cbo.SelectedIndex > 0 Then
+            'something already selected
+            For i = cbo.SelectedIndex + 1 To cbo.Items.Count - 1
+                If cbo.Items(i).ToString.Substring(0, 1).ToUpper = e.Key.ToString.ToUpper Then
+                    FoundIndex = i 'found
+                    Exit For
+                End If
+            Next
+            If FoundIndex = -1 Then
+                For i = 1 To cbo.SelectedIndex - 1
+                    If cbo.Items(i).ToString.Substring(0, 1).ToUpper = e.Key.ToString.ToUpper Then
+                        FoundIndex = i 'found
+                        Exit For
+                    End If
+                Next
+            End If
+        Else
+            For i = 1 To cbo.Items.Count - 1
+                If cbo.Items(i).ToString.Substring(0, 1).ToUpper = e.Key.ToString.ToUpper Then
+                    FoundIndex = i 'found
+                    Exit For
+                End If
+            Next
+        End If
+
+        If FoundIndex > 0 Then cbo.SelectedIndex = FoundIndex
+        
+        e.Handled = True
+    End Sub
+
+
 End Class
 
