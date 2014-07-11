@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Xml.Serialization
 Imports System.ComponentModel
+Imports System.Text
 
 Public Class doWMEvent
     Implements INotifyPropertyChanged
@@ -76,6 +77,28 @@ Public Class doWMEvent
             End If
         End Try
     End Sub
+
+    Public Sub FromSerialization(SerializedWMEvent As String)
+        Dim x As New XmlSerializer(Me.GetType)
+        Dim temp As doWMEvent = (x.Deserialize(New MemoryStream(Encoding.UTF8.GetBytes(SerializedWMEvent))))
+
+        Me.EventID = temp.EventID
+        Me.EventFormat = temp.EventFormat
+        Me.Name = temp.Name
+        Me.EventDate = temp.EventDate
+        Me.Players = temp.Players
+        Me.Rounds = temp.Rounds
+    End Sub
+
+    Public Function ToSerialization() As String
+        Dim ms As New MemoryStream()
+        Dim x As New XmlSerializer(Me.GetType)
+        x.Serialize(ms, Me)
+        ms.Position = 0
+        Dim sr As New StreamReader(ms)
+        Dim x1 = sr.ReadToEnd
+        Return x1
+    End Function
 
     Protected Sub OnPropertyChanged(ByVal name As String)
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))

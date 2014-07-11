@@ -222,6 +222,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.vb" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.vb" />
     <Compile Include="Controllers\AccountController.vb" />
+    <Compile Include="Controllers\EventController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -264,7 +265,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Controllers\HomeController.vb" />
-    <Compile Include="Controllers\ValuesController.vb" />
+    <Compile Include="Controllers\ReportingController.vb" />
     <Compile Include="Providers\ApplicationOAuthProvider.vb" />
     <Compile Include="Results\ChallengeResult.vb" />
     <Compile Include="Startup.vb" />

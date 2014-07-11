@@ -197,4 +197,8 @@ Public Class GamesController
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub
 
+
+    Public Async Sub ReportRound()
+        Await WebAPIHelper.APIPOST("/api/event", Model.WMEvent.ToSerialization)
+    End Sub
 End Class

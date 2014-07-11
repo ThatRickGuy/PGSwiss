@@ -95,6 +95,7 @@
                 <Button x:Name="btnAcceptGame" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="2,4,2,2" Content="Accept"></Button>
             </Grid>
 
+            <Button x:Name="btnReport" Grid.Row="3" HorizontalAlignment="Left" Margin="4">Report Round</Button>
             <CheckBox x:Name="chkIsLastGame" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="4" IsChecked="{Binding Path=Model.CurrentRound.IsLastRound, Mode=TwoWay}" Content="Final Round"></CheckBox>
         </Grid>
     </Grid>

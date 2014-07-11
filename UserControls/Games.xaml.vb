@@ -31,6 +31,10 @@
     Public Sub ForceUpdate()
         Me.dgGames.Items.Refresh()
     End Sub
+
+    Private Sub btnReport_Click(sender As Object, e As RoutedEventArgs) Handles btnReport.Click
+        CType(BaseController.CurrentController, GamesController).ReportRound()
+    End Sub
 End Class
 
 Public Class BoolToColorConverter
