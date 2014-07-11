@@ -5,8 +5,12 @@ Public Class Pairings
     Private Sub btnGeneratePairing_Click(sender As Object, e As RoutedEventArgs) Handles btnGeneratePairing.Click
         btnGeneratePairing.Content = "Regenerate Pairings"
 
-        CType(BaseController.CurrentController, PairingsController).GeneratePairings()
-        Me.dgPairings.Items.Refresh()
+        Dim result = CType(BaseController.CurrentController, PairingsController).GeneratePairings()
+        If result = String.Empty Then
+            Me.dgPairings.Items.Refresh()
+        Else
+            MessageBox.Show(result)
+        End If
     End Sub
 
     Private Sub btnPrintPairing_Click(sender As Object, e As RoutedEventArgs) Handles btnPrintPairing.Click

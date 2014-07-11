@@ -12,7 +12,7 @@ Public Class StandingsController
 
         For Each Player In Model.CurrentRound.Players
             Player.StrengthOfSchedule = 0
-            For Each Opponent In Player.Oppontnents
+            For Each Opponent In Player.Opponents
                 Player.StrengthOfSchedule += (From p In Model.CurrentRound.Players Where p.PPHandle = Opponent).FirstOrDefault.TourneyPoints
             Next
         Next

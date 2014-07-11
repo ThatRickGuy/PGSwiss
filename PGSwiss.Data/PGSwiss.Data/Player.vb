@@ -67,7 +67,7 @@ Public Class doPlayer
     End Property
 
     Public Property ArmyPointsDestroyed As Integer
-    Public Property Oppontnents As New List(Of String)
+    Public Property Opponents As New List(Of String)
     Public Property Tables As New List(Of Integer)
     Public Property Rank As Integer
 

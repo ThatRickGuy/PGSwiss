@@ -36,7 +36,7 @@ Public Class PairingsController
             Player.Tables = PlayerFromLastRound.Tables
             Player.StrengthOfSchedule = PlayerFromLastRound.StrengthOfSchedule
             Player.Rank = PlayerFromLastRound.Rank
-            Player.Oppontnents = PlayerFromLastRound.Oppontnents
+            Player.Opponents = PlayerFromLastRound.Opponents
             Player.ControlPoints = PlayerFromLastRound.ControlPoints
             Player.ArmyPointsDestroyed = PlayerFromLastRound.ArmyPointsDestroyed
         Else
@@ -44,7 +44,7 @@ Public Class PairingsController
             Player.Tables.Clear()
             Player.StrengthOfSchedule = 0
             Player.Rank = 0
-            Player.Oppontnents.Clear()
+            Player.Opponents.Clear()
             Player.ControlPoints = 0
             Player.ArmyPointsDestroyed = 0
         End If
@@ -164,76 +164,130 @@ Public Class PairingsController
         End If
     End Sub
 
-    Public Sub GeneratePairings()
+    Public Function GeneratePairings() As String
         Dim rnd As New Random
+        Dim sReturn As String = String.Empty
 
-        'Clear the current pairings in case this is a re-generate
-        Model.CurrentRound.Games.Clear()
-        Model.CurrentRound.Games = Model.CurrentRound.Games
-        For Each p In Model.CurrentRound.Players
-            ResetPlayerToPreviousRound(p)
-        Next
+        Try
+            'Clear the current pairings in case this is a re-generate
+            Model.CurrentRound.Games.Clear()
+            Model.CurrentRound.Games = Model.CurrentRound.Games
+            For Each p In Model.CurrentRound.Players
+                ResetPlayerToPreviousRound(p)
+            Next
 
-        Dim EligablePlayers = (From p In Model.CurrentRound.Players Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending).ToList
+            Dim EligablePlayers = (From p In Model.CurrentRound.Players Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending).ToList
 
-        If EligablePlayers.Count Mod 2 = 1 Then
-            'Remove a bye volunteer
-            Model.CurrentRound.Bye = (From p In EligablePlayers Where p.ByeVol = True And p.TourneyPoints = 0).FirstOrDefault
-            If Model.CurrentRound.Bye Is Nothing Then
-                Dim EligableBye = (From p In EligablePlayers Where p.TourneyPoints = 0).ToList
-                If EligableBye.Count = 0 Then
-                    Dim AlreadyByed = (From p In Model.WMEvent.Rounds Select p.Bye).ToList
-                    Model.CurrentRound.Bye = (From p In EligablePlayers Where Not AlreadyByed.Contains(p) Order By p.Rank Ascending).FirstOrDefault
-                    If Model.CurrentRound.Bye Is Nothing Then
-                        Model.CurrentRound.Bye = EligablePlayers.Item(rnd.Next(EligableBye.Count - 1))
+            If EligablePlayers.Count Mod 2 = 1 Then
+                'Remove a bye volunteer
+                Model.CurrentRound.Bye = (From p In EligablePlayers Where p.ByeVol = True And p.TourneyPoints = 0).FirstOrDefault
+                If Model.CurrentRound.Bye Is Nothing Then
+                    Dim EligableBye = (From p In EligablePlayers Where p.TourneyPoints = 0).ToList
+                    If EligableBye.Count = 0 Then
+                        Dim AlreadyByed = (From p In Model.WMEvent.Rounds Select p.Bye).ToList
+                        Model.CurrentRound.Bye = (From p In EligablePlayers Where Not AlreadyByed.Contains(p) Order By p.Rank Ascending).FirstOrDefault
+                        If Model.CurrentRound.Bye Is Nothing Then
+                            Model.CurrentRound.Bye = EligablePlayers.Item(rnd.Next(EligableBye.Count - 1))
+                        End If
+                    Else
+                        Model.CurrentRound.Bye = EligableBye.Item(rnd.Next(EligableBye.Count - 1))
                     End If
-                Else
-                    Model.CurrentRound.Bye = EligableBye.Item(rnd.Next(EligableBye.Count - 1))
+
+
                 End If
-
-
+                EligablePlayers.Remove(Model.CurrentRound.Bye)
             End If
-            EligablePlayers.Remove(Model.CurrentRound.Bye)
-        End If
-        If Model.CurrentRound.Bye IsNot Nothing Then
-            Model.CurrentRound.Games.Add(New doGame)
-            Model.CurrentRound.Games.FirstOrDefault.Player1 = Model.CurrentRound.Bye.Clone
-            Model.CurrentRound.Games.FirstOrDefault.GameID = Guid.NewGuid
-        End If
+            If Model.CurrentRound.Bye IsNot Nothing Then
+                Model.CurrentRound.Games.Add(New doGame)
+                Model.CurrentRound.Games.FirstOrDefault.Player1 = Model.CurrentRound.Bye.Clone
+                Model.CurrentRound.Games.FirstOrDefault.GameID = Guid.NewGuid
+            End If
 
-        Dim Player1 As doPlayer
-        Dim Player2 As doPlayer
-        If Model.CurrentRound.RoundNumber > 1 Then
-            'not the first round, use wins model
-            Dim TopTP = (From p In EligablePlayers Select p.TourneyPoints).Max
+            Dim Player1 As doPlayer
+            Dim Player2 As doPlayer
+            If Model.CurrentRound.RoundNumber > 1 Then
+                'not the first round, use wins model
+                Dim TopTP = (From p In EligablePlayers Select p.TourneyPoints).Max
 
-            For WinsBucket As Integer = TopTP To 0 Step -1
-                Dim i As Integer = WinsBucket
+                For WinsBucket As Integer = TopTP To 0 Step -1
+                    Dim i As Integer = WinsBucket
+                    Dim UnpairedPlayers = True
+                    While UnpairedPlayers
+                        Dim EligablePlayersInBucket = (From p In EligablePlayers Where p.TourneyPoints = i).ToList
+                        If EligablePlayersInBucket.Count > 0 Then
+                            Player1 = EligablePlayersInBucket.First
+                            'Exclude player self-match
+                            Dim EligableOpponents = From p In EligablePlayersInBucket Where Not p Is Player1
+
+                            Dim j As Integer = 1
+                            While EligableOpponents.Count = 0 And i - j >= 0
+                                'pair down
+                                EligableOpponents = (From p In EligablePlayers Where p.TourneyPoints = i - j)
+                                j += 1
+                            End While
+
+                            'Exclude previous matchups
+                            EligableOpponents = From p In EligableOpponents Where Not Player1.Opponents.Contains(p.PPHandle)
+
+                            If EligableOpponents.Count = 0 Then Throw New Exception("Unable to find opponent or pair down opponent!")
+                            Player2 = EligableOpponents(rnd.Next(0, EligableOpponents.Count - 1))
+
+                            EligablePlayers.Remove(Player1)
+                            EligablePlayers.Remove(Player2)
+
+                            If Not Player1.Opponents.Contains(Player2.PPHandle) Then Player1.Opponents.Add(Player2.PPHandle)
+                            If Not Player2.Opponents.Contains(Player1.PPHandle) Then Player2.Opponents.Add(Player1.PPHandle)
+
+                            If EligablePlayers.Count = 0 Then UnpairedPlayers = False
+
+                            Dim g As New doGame
+                            g.Player1 = Player1.Clone
+                            g.Player2 = Player2.Clone
+                            g.GameID = Guid.NewGuid
+                            Model.CurrentRound.Games.Add(g)
+                        Else
+                            If EligablePlayers.Count = 0 Then UnpairedPlayers = False
+                        End If
+                    End While
+                Next
+            Else
+                'first round, use difference model
+
                 Dim UnpairedPlayers = True
                 While UnpairedPlayers
-                    Dim EligablePlayersInBucket = (From p In EligablePlayers Where p.TourneyPoints = i).ToList
-                    If EligablePlayersInBucket.Count Mod 2 = 1 Then
-                        'odd number of players in bucket
-                        Dim EligablePlayersInNextBucket = (From p In EligablePlayers Where p.TourneyPoints = i - 1).ToList()
-                        EligablePlayersInBucket.add(EligablePlayersInNextBucket(rnd.Next(0, EligablePlayersInNextBucket.Count - 1)))
-                    End If
-                    If EligablePlayersInBucket.Count > 0 Then
-                        Player1 = EligablePlayersInBucket.First
+                    If EligablePlayers.Count > 1 Then
+                        Player1 = EligablePlayers(rnd.Next(EligablePlayers.Count - 1))
                         'Exclude player self-match
-                        Dim EligableOpponents = From p In EligablePlayersInBucket Where Not p Is Player1
+                        Dim EligableOpponents = From p In EligablePlayers Where Not p Is Player1
                         'Exclude previous matchups
-                        EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(p.PPHandle)
-
-                       If EligableOpponents.Count = 0 Then Throw New Exception("Unable to find opponent or pair down opponent!")
-                        Player2 = EligableOpponents(rnd.Next(0, EligableOpponents.Count - 1))
-
+                        EligableOpponents = From p In EligableOpponents Where Not Player1.Opponents.Contains(p.PPHandle)
+                        'check for most distant pairing first:
+                        Dim MatchedOpponents = From p In EligableOpponents Where p.Meta <> Player1.Meta AndAlso p.Faction <> Player1.Faction
+                        'No one from a different meta with a different faction
+                        If MatchedOpponents.Count = 0 Then
+                            MatchedOpponents = From p In EligableOpponents Where p.Meta <> Player1.Meta
+                            'No one from a different meta
+                            If MatchedOpponents.Count = 0 Then
+                                MatchedOpponents = From p In EligableOpponents Where p.Faction <> Player1.Faction
+                                'No one from teh same meta with a different faction
+                                If MatchedOpponents.Count = 0 Then
+                                    'Screw it, give me anyone
+                                    MatchedOpponents = From p In EligableOpponents
+                                    If MatchedOpponents.Count = 0 Then
+                                        MessageBox.Show("Something bad happened in pairing: No possible matches in the first round!")
+                                    End If
+                                End If
+                            End If
+                        End If
+                        Player2 = MatchedOpponents.ToList.Item(rnd.Next(MatchedOpponents.Count - 1))
                         EligablePlayers.Remove(Player1)
                         EligablePlayers.Remove(Player2)
 
-                        Player1.Oppontnents.Add(Player2.PPHandle)
-                        Player2.Oppontnents.Add(Player1.PPHandle)
+                        Player1.Opponents.Add(Player2.PPHandle)
+                        Player2.Opponents.Add(Player1.PPHandle)
 
-                        If EligablePlayers.Count = 0 Then UnpairedPlayers = False
+                        If Not Player1.Opponents.Contains(Player2.PPHandle) Then Player1.Opponents.Add(Player2.PPHandle)
+                        If Not Player2.Opponents.Contains(Player1.PPHandle) Then Player2.Opponents.Add(Player1.PPHandle)
 
                         Dim g As New doGame
                         g.Player1 = Player1.Clone
@@ -243,71 +297,30 @@ Public Class PairingsController
                     Else
                         UnpairedPlayers = False
                     End If
+
                 End While
+            End If
+
+            'Tables
+            Dim NonByeGames = (From p In Model.CurrentRound.Games Where p.Player2 IsNot Nothing).ToArray
+            Dim Tables As New List(Of Integer)
+            For i = 1 To NonByeGames.Count
+                Tables.Add(i)
             Next
-        Else
-            'first round, use difference model
+            For Each game In (From p In NonByeGames Order By p.Player1.Rank + p.Player2.Rank Ascending)
+                Dim InvalidTables As New List(Of Integer)
+                InvalidTables.AddRange(game.Player1.Tables)
+                InvalidTables.AddRange(game.Player2.Tables)
+                game.TableNumber = (From p In Tables Where Not InvalidTables.Contains(p)).FirstOrDefault
+                If game.TableNumber = 0 Then game.TableNumber = Tables.First
+                Tables.Remove(game.TableNumber)
+            Next
+        Catch e As Exception
+            sReturn = e.Message
+        End Try
 
-            Dim UnpairedPlayers = True
-            While UnpairedPlayers
-                If EligablePlayers.Count > 1 Then
-                    Player1 = EligablePlayers(rnd.Next(EligablePlayers.Count - 1))
-                    'Exclude player self-match
-                    Dim EligableOpponents = From p In EligablePlayers Where Not p Is Player1
-                    'Exclude previous matchups
-                    EligableOpponents = From p In EligableOpponents Where Not Player1.Oppontnents.Contains(p.PPHandle)
-                    'check for most distant pairing first:
-                    Dim MatchedOpponents = From p In EligableOpponents Where p.Meta <> Player1.Meta AndAlso p.Faction <> Player1.Faction
-                    'No one from a different meta with a different faction
-                    If MatchedOpponents.Count = 0 Then
-                        MatchedOpponents = From p In EligableOpponents Where p.Meta <> Player1.Meta
-                        'No one from a different meta
-                        If MatchedOpponents.Count = 0 Then
-                            MatchedOpponents = From p In EligableOpponents Where p.Faction <> Player1.Faction
-                            'No one from teh same meta with a different faction
-                            If MatchedOpponents.Count = 0 Then
-                                'Screw it, give me anyone
-                                MatchedOpponents = From p In EligableOpponents
-                                If MatchedOpponents.Count = 0 Then
-                                    MessageBox.Show("Something bad happened in pairing: No possible matches in the first round!")
-                                End If
-                            End If
-                        End If
-                    End If
-                    Player2 = MatchedOpponents.ToList.Item(rnd.Next(MatchedOpponents.Count - 1))
-                    EligablePlayers.Remove(Player1)
-                    EligablePlayers.Remove(Player2)
-
-                    Player1.Oppontnents.Add(Player2.PPHandle)
-                    Player2.Oppontnents.Add(Player1.PPHandle)
-
-                    Dim g As New doGame
-                    g.Player1 = Player1.Clone
-                    g.Player2 = Player2.Clone
-                    g.GameID = Guid.NewGuid
-                    Model.CurrentRound.Games.Add(g)
-                Else
-                    UnpairedPlayers = False
-                End If
-
-            End While
-        End If
-
-        'Tables
-        Dim NonByeGames = (From p In Model.CurrentRound.Games Where p.Player2 IsNot Nothing).ToArray
-        Dim Tables As New List(Of Integer)
-        For i = 1 To NonByeGames.Count
-            Tables.Add(i)
-        Next
-        For Each game In (From p In NonByeGames Order By p.Player1.Rank + p.Player2.Rank Ascending)
-            Dim InvalidTables As New List(Of Integer)
-            InvalidTables.AddRange(game.Player1.Tables)
-            InvalidTables.AddRange(game.Player2.Tables)
-            game.TableNumber = (From p In Tables Where Not InvalidTables.Contains(p)).FirstOrDefault
-            If game.TableNumber = 0 Then game.TableNumber = Tables.First
-            Tables.Remove(game.TableNumber)
-        Next
-    End Sub
+        Return sReturn
+    End Function
 
     Public Sub SwapPlayers(Player1 As doPlayer, Player2 As doPlayer)
         Dim game1 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = Player1.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = Player1.PPHandle)).FirstOrDefault
@@ -340,8 +353,10 @@ Public Class PairingsController
 
     Protected Overrides Sub Activated()
         MyBase.Activated()
-
-        If Model.CurrentRound.Games.Count = 0 Then GeneratePairings()
+        If Model.CurrentRound.Games.Count = 0 Then
+            Dim result = GeneratePairings()
+            If result <> String.Empty Then MessageBox.Show(result)
+        End If
 
         Dim totalPlayers = Model.WMEvent.Players.Count
         Dim Rounds As Integer = 1
