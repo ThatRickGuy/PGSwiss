@@ -144,9 +144,6 @@ Public Class GamesController
                         Player2FromRound.ControlPoints = Player2.ControlPoints + Player2FromLastRound.ControlPoints
                         Player2FromRound.ArmyPointsDestroyed = Player2.ArmyPointsDestroyed + Player2FromLastRound.ArmyPointsDestroyed
                     End If
-
-                    Player1FromRound.Opponents.Add(Player2FromRound.PPHandle)
-                    Player2FromRound.Opponents.Add(Player1FromRound.PPHandle)
                 End If
 
                 Model.CurrentGame.Reported = True

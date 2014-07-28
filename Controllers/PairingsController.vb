@@ -217,17 +217,20 @@ Public Class PairingsController
                         If EligablePlayersInBucket.Count > 0 Then
                             Player1 = EligablePlayersInBucket.First
                             'Exclude player self-match
-                            Dim EligableOpponents = From p In EligablePlayersInBucket Where Not p Is Player1
+                            Dim EligableOpponents = From p In EligablePlayersInBucket Where p IsNot Player1 And
+                                                    Not Player1.Opponents.Contains(p.PPHandle)
 
+                            Dim EligableOpponents_Count = EligableOpponents.Count
+                            'Pairdown
                             Dim j As Integer = 1
-                            While EligableOpponents.Count = 0 And i - j >= 0
-                                'pair down
-                                EligableOpponents = (From p In EligablePlayers Where p.TourneyPoints = i - j)
+                            While EligableOpponents_Count = 0 AndAlso i - j >= 0
+                                EligableOpponents = (From p In EligablePlayers Where p.TourneyPoints = i - j And
+                                                    p IsNot Player1).ToList() ' And Not Player1.Opponents.Contains(p.PPHandle))
+                                EligableOpponents_Count = EligableOpponents.Count
                                 j += 1
                             End While
 
-                            'Exclude previous matchups
-                            EligableOpponents = From p In EligableOpponents Where Not Player1.Opponents.Contains(p.PPHandle)
+
 
                             If EligableOpponents.Count = 0 Then Throw New Exception("Unable to find opponent or pair down opponent!")
                             Player2 = EligableOpponents(rnd.Next(0, EligableOpponents.Count - 1))
@@ -282,9 +285,6 @@ Public Class PairingsController
                         Player2 = MatchedOpponents.ToList.Item(rnd.Next(MatchedOpponents.Count - 1))
                         EligablePlayers.Remove(Player1)
                         EligablePlayers.Remove(Player2)
-
-                        Player1.Opponents.Add(Player2.PPHandle)
-                        Player2.Opponents.Add(Player1.PPHandle)
 
                         If Not Player1.Opponents.Contains(Player2.PPHandle) Then Player1.Opponents.Add(Player2.PPHandle)
                         If Not Player2.Opponents.Contains(Player1.PPHandle) Then Player2.Opponents.Add(Player1.PPHandle)
