@@ -328,8 +328,7 @@ Public Class PairingsController
                 game.TableNumber = (From p In Tables Where Not InvalidTables.Contains(p)).FirstOrDefault
                 If game.TableNumber = 0 Then game.TableNumber = Tables.Item(rnd.Next(Tables.Count))
                 Tables.Remove(game.TableNumber)
-                If Not game.Player1.Tables.Contains(game.TableNumber) Then game.Player1.Tables.Add(game.TableNumber)
-                If Not game.Player2.Tables.Contains(game.TableNumber) Then game.Player2.Tables.Add(game.TableNumber)
+                SetPairingConditionTable(game)
             Next
         Catch e As Exception
             sReturn = e.Message
@@ -342,11 +341,14 @@ Public Class PairingsController
         If Player1.Meta = Player2.Meta Then
             game.PairingCondition = Color.FromArgb(55, Colors.Yellow.R, Colors.Yellow.G, Colors.Yellow.B)
         End If
-        If Player1.Tables.Contains(game.TableNumber) OrElse Player2.Tables.Contains(game.TableNumber) Then
-            game.PairingCondition = Color.FromArgb(55, Colors.Orange.R, Colors.Orange.G, Colors.Orange.B)
-        End If
         If Player1.Opponents.Contains(Player2.PPHandle) OrElse Player2.Opponents.Contains(Player1.PPHandle) Then
             game.PairingCondition = Color.FromArgb(55, Colors.Red.R, Colors.Red.G, Colors.Red.B)
+        End If
+    End Sub
+
+    Private Sub SetPairingConditionTable(game As Data.doGame)
+        If game.Player1.Tables.Contains(game.TableNumber) OrElse game.Player2.Tables.Contains(game.TableNumber) Then
+            If game.PairingCondition = Nothing Then game.PairingCondition = Color.FromArgb(55, Colors.Orange.R, Colors.Orange.G, Colors.Orange.B)
         End If
     End Sub
 

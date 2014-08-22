@@ -146,6 +146,8 @@ Public Class GamesController
                     End If
                     If Not Player1FromRound.Opponents.Contains(Player2FromRound.PPHandle) Then Player1FromRound.Opponents.Add(Player2FromRound.PPHandle)
                     If Not Player2FromRound.Opponents.Contains(Player1FromRound.PPHandle) Then Player2FromRound.Opponents.Add(Player1FromRound.PPHandle)
+                    If Not Player1FromRound.Tables.Contains(Model.CurrentGame.TableNumber) Then Player1FromRound.Tables.Add(Model.CurrentGame.TableNumber)
+                    If Not Player2FromRound.Tables.Contains(Model.CurrentGame.TableNumber) Then Player2FromRound.Tables.Add(Model.CurrentGame.TableNumber)
                 End If
 
 

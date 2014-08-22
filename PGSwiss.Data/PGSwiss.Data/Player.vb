@@ -77,6 +77,7 @@ Public Class doPlayer
         dopReturn.Meta = Me.Meta
         dopReturn.Name = Me.Name
         dopReturn.PPHandle = Me.PPHandle
+        dopReturn.Tables = Me.Tables
         Return dopReturn
     End Function
 
