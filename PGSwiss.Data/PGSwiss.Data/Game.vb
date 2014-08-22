@@ -1,4 +1,6 @@
 ﻿Imports System.ComponentModel
+Imports System.Drawing
+Imports System.Windows.Media
 
 Public Class doGame
     Implements INotifyPropertyChanged
@@ -18,6 +20,17 @@ Public Class doGame
         Set(value As Boolean)
             _Reported = value
             OnPropertyChanged("Reported")
+        End Set
+    End Property
+
+    Private _PairingCondition As Color
+    Public Property PairingCondition As Color
+        Get
+            Return _PairingCondition
+        End Get
+        Set(value As Color)
+            _PairingCondition = value
+            OnPropertyChanged("PairingCondition")
         End Set
     End Property
 

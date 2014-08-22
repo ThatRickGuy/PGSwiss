@@ -59,7 +59,6 @@ Public Class RoundController
         Model.CurrentRound.Players.Clear()
         Model.CurrentRound.Players.AddRange(tempPlayers)
 
-
         For Each Player In Model.CurrentRound.Players
             Player.StrengthOfSchedule = 0
             For Each Opponent In Player.Opponents

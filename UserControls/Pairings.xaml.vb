@@ -3,8 +3,6 @@
 Public Class Pairings
 
     Private Sub btnGeneratePairing_Click(sender As Object, e As RoutedEventArgs) Handles btnGeneratePairing.Click
-        btnGeneratePairing.Content = "Regenerate Pairings"
-
         Dim result = CType(BaseController.CurrentController, PairingsController).GeneratePairings()
         If result = String.Empty Then
             Me.dgPairings.Items.Refresh()
@@ -30,4 +28,19 @@ Public Class Pairings
             Me.dgPairings.Items.Refresh()
         End If
     End Sub
+End Class
+
+
+Public Class ColorToSolidBrushConverter
+    Implements IValueConverter
+
+    Public Function Convert(value As Object, targetType As Type, parameter As Object, culture As Globalization.CultureInfo) As Object Implements Windows.Data.IValueConverter.Convert
+        Dim brushReturn As SolidColorBrush = Nothing
+        If value IsNot Nothing Then brushReturn = New SolidColorBrush(value)
+        Return brushReturn
+    End Function
+
+    Public Function ConvertBack(value As Object, targetType As Type, parameter As Object, culture As Globalization.CultureInfo) As Object Implements Windows.Data.IValueConverter.ConvertBack
+        Return Nothing 'don't care!
+    End Function
 End Class
