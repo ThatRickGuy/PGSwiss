@@ -340,7 +340,7 @@ Public Class PairingsController
 
     Private Sub SetPairingCondition(game As Data.doGame, Player1 As doPlayer, Player2 As doPlayer)
         If Player1.Meta = Player2.Meta Then
-            game.PairingCondition = Color.FromArgb(55, System.Drawing.Color.Yellow.R, System.Drawing.Color.Yellow.G, System.Drawing.Color.Yellow.B)
+            game.PairingCondition = Color.FromArgb(55, Colors.Yellow.R, Colors.Yellow.G, Colors.Yellow.B)
         End If
         If Player1.Tables.Contains(game.TableNumber) OrElse Player2.Tables.Contains(game.TableNumber) Then
             game.PairingCondition = Color.FromArgb(55, Colors.Orange.R, Colors.Orange.G, Colors.Orange.B)
