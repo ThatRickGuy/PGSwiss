@@ -249,7 +249,7 @@ Public Class PairingsController
                             g.GameID = Guid.NewGuid
                             Model.CurrentRound.Games.Add(g)
                         Else
-                            If EligablePlayers.Count = 0 Then UnpairedPlayers = False
+                            UnpairedPlayers = False
                         End If
                     End While
                 Next
