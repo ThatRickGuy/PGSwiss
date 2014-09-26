@@ -18,4 +18,4 @@ it and run with it, be my guest!
 
 [![Build status](https://ci.appveyor.com/api/projects/status/33de6m4wcoib9jfp)](https://ci.appveyor.com/project/RickWay/pgswiss)
 
-Debug build: http://ringdev.com/code/pgswiss/bin/debug/PGSwiss.exe
+Debug build: http://ringdev.com/code/PGSwiss/bin.zip
