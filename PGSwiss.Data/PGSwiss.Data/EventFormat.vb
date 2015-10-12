@@ -55,97 +55,83 @@ Public Class doEventFormatCollection
     Private Function Generate() As IEnumerable(Of doEventFormat)
         Dim lst As New List(Of doEventFormat)
         Dim ef As New doEventFormat
-        ef.Name = "SR2014"
+        ef.Name = "2015 Steamroller"
         ef.Scenarios.Add("1. Destruction")
-        ef.Scenarios.Add("2. Supply and Demand")
-        ef.Scenarios.Add("3. Balance of Power")
-        ef.Scenarios.Add("4. Process of Elimination")
-        ef.Scenarios.Add("5. Close Quarters")
-        ef.Scenarios.Add("6. Two Fronts")
-        ef.Scenarios.Add("7. Incoming")
-        ef.Scenarios.Add("8. Rally Point")
-        ef.Scenarios.Add("9. Incursion")
-        ef.Scenarios.Add("10. Outflank")
-        ef.Scenarios.Add("11. Into the Breach")
-        ef.Scenarios.Add("12. Fire Support")
+        ef.Scenarios.Add("2. Two Fronts")
+        ef.Scenarios.Add("3. Close Quarters")
+        ef.Scenarios.Add("4. Fire Support")
+        ef.Scenarios.Add("5. Incoming")
+        ef.Scenarios.Add("6. Incursion")
+        ef.Scenarios.Add("7. Outflank")
+        ef.Scenarios.Add("8. Recon")
         lst.Add(ef)
 
         ef = New doEventFormat
-        ef.Name = "SR2014 Commanders Crucible"
-        ef.Scenarios.Add("1. Destruction")
-        ef.Scenarios.Add("2. Supply and Demand")
-        ef.Scenarios.Add("3. Balance of Power")
-        ef.Scenarios.Add("4. Process of Elimination")
-        ef.Scenarios.Add("5. Close Quarters")
-        ef.Scenarios.Add("6. Two Fronts")
-        ef.Scenarios.Add("7. Incoming")
-        ef.Scenarios.Add("8. Rally Point")
-        ef.Scenarios.Add("9. Incursion")
-        ef.Scenarios.Add("10. Outflank")
-        ef.Scenarios.Add("11. Into the Breach")
-        ef.Scenarios.Add("12. Fire Support")
-        lst.Add(ef)
-
-        ef = New doEventFormat
-        ef.Name = "SR2014 Hardcore"
+        ef.Name = "2015 Hardcore"
         ef.Scenarios.Add("1. Death Match")
         lst.Add(ef)
 
         ef = New doEventFormat
-        ef.Name = "SR2014 Masters"
+        ef.Name = "2015 Masters"
         ef.Scenarios.Add("1. Destruction")
-        ef.Scenarios.Add("2. Balance of Power")
+        ef.Scenarios.Add("2. Two Fronts")
         ef.Scenarios.Add("3. Close Quarters")
-        ef.Scenarios.Add("4. Incursion")
-        ef.Scenarios.Add("5. Outflank")
-        ef.Scenarios.Add("6. Fire Support")
+        ef.Scenarios.Add("4. Fire Support")
+        ef.Scenarios.Add("5. Incoming")
+        ef.Scenarios.Add("6. Incursion")
+        ef.Scenarios.Add("7. Outflank")
+        ef.Scenarios.Add("8. Recon")
         lst.Add(ef)
 
         ef = New doEventFormat
-        ef.Name = "Iron Gauntlet Season 2"
+        ef.Name = "2015-2016 Iron Gauntlet"
         ef.Scenarios.Add("1. Destruction")
-        ef.Scenarios.Add("2. Balance of Power")
+        ef.Scenarios.Add("2. Two Fronts")
         ef.Scenarios.Add("3. Close Quarters")
-        ef.Scenarios.Add("4. Incursion")
-        ef.Scenarios.Add("5. Outflank")
-        ef.Scenarios.Add("6. Fire Support")
+        ef.Scenarios.Add("4. Fire Support")
+        ef.Scenarios.Add("5. Incoming")
+        ef.Scenarios.Add("6. Incursion")
+        ef.Scenarios.Add("7. Outflank")
+        ef.Scenarios.Add("8. Recon")
         lst.Add(ef)
 
         ef = New doEventFormat
         ef.Name = "Who's the Boss"
-        ef.Scenarios.Add("1. Other")
+        ef.Scenarios.Add("1. Destruction")
+        ef.Scenarios.Add("2. Two Fronts")
+        ef.Scenarios.Add("3. Close Quarters")
+        ef.Scenarios.Add("4. Fire Support")
+        ef.Scenarios.Add("5. Incoming")
+        ef.Scenarios.Add("6. Incursion")
+        ef.Scenarios.Add("7. Outflank")
+        ef.Scenarios.Add("8. Recon")
+        ef.Scenarios.Add("9. Other")
         lst.Add(ef)
 
         ef = New doEventFormat
         ef.Name = "Highlander"
         ef.Scenarios.Add("1. Destruction")
-        ef.Scenarios.Add("2. Supply and Demand")
-        ef.Scenarios.Add("3. Balance of Power")
-        ef.Scenarios.Add("4. Process of Elimination")
-        ef.Scenarios.Add("5. Close Quarters")
-        ef.Scenarios.Add("6. Two Fronts")
-        ef.Scenarios.Add("7. Incoming")
-        ef.Scenarios.Add("8. Rally Point")
-        ef.Scenarios.Add("9. Incursion")
-        ef.Scenarios.Add("10. Outflank")
-        ef.Scenarios.Add("11. Into the Breach")
-        ef.Scenarios.Add("12. Fire Support")
+        ef.Scenarios.Add("2. Two Fronts")
+        ef.Scenarios.Add("3. Close Quarters")
+        ef.Scenarios.Add("4. Fire Support")
+        ef.Scenarios.Add("5. Incoming")
+        ef.Scenarios.Add("6. Incursion")
+        ef.Scenarios.Add("7. Outflank")
+        ef.Scenarios.Add("8. Recon")
+        ef.Scenarios.Add("9. Other")
         lst.Add(ef)
 
         ef = New doEventFormat
         ef.Name = "Escalation"
         ef.Scenarios.Add("1. Destruction")
-        ef.Scenarios.Add("2. Supply and Demand")
-        ef.Scenarios.Add("3. Balance of Power")
-        ef.Scenarios.Add("4. Process of Elimination")
-        ef.Scenarios.Add("5. Close Quarters")
-        ef.Scenarios.Add("6. Two Fronts")
-        ef.Scenarios.Add("7. Incoming")
-        ef.Scenarios.Add("8. Rally Point")
-        ef.Scenarios.Add("9. Incursion")
-        ef.Scenarios.Add("10. Outflank")
-        ef.Scenarios.Add("11. Into the Breach")
-        ef.Scenarios.Add("12. Fire Support")
+        ef.Scenarios.Add("2. Two Fronts")
+        ef.Scenarios.Add("3. Close Quarters")
+        ef.Scenarios.Add("4. Fire Support")
+        ef.Scenarios.Add("5. Incoming")
+        ef.Scenarios.Add("6. Incursion")
+        ef.Scenarios.Add("7. Outflank")
+        ef.Scenarios.Add("8. Recon")
+        ef.Scenarios.Add("9. Other")
         lst.Add(ef)
 
         ef = New doEventFormat
