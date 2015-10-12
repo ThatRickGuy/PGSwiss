@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.Resources>
-            <local:ColorToSolidBrushConverter x:Key="ColorToSolidBrushConverter"/>
+            <local:IntToBrushConverter x:Key="IntToBrushConverter"/>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -24,7 +24,7 @@
         <DataGrid Name="dgPairings" ItemsSource="{Binding Path=Model.CurrentRound.Games}" Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False" CanUserAddRows="False"   >
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
-                    <Setter Property="Background" Value="{Binding PairingCondition, Converter={StaticResource ColorToSolidBrushConverter}}"/>
+                    <Setter Property="Background" Value="{Binding PairingCondition, Converter={StaticResource IntToBrushConverter}}"/>
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>

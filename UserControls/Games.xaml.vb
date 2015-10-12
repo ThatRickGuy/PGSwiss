@@ -34,17 +34,27 @@
 End Class
 
 Public Class BoolToColorConverter
-    Implements IValueConverter
+    Implements IMultiValueConverter
 
-    Public Function Convert(value As Object, targetType As Type, parameter As Object, culture As Globalization.CultureInfo) As Object Implements IValueConverter.Convert
+    Public Function Convert(values() As Object, targetType As Type, parameter As Object, culture As Globalization.CultureInfo) As Object Implements IMultiValueConverter.Convert
         Dim cReturn As SolidColorBrush = New SolidColorBrush(Colors.White)
-        If CType(value, Boolean) = True Then cReturn = New SolidColorBrush(Colors.LightGreen)
+        If values(0) = True AndAlso (values(1) And 8) = 8 Then
+            'reported pairdown
+            cReturn = New SolidColorBrush(Colors.LimeGreen)
+        ElseIf values(0) = True Then
+            'reported
+            cReturn = New SolidColorBrush(Colors.LightGreen)
+        ElseIf (values(1) And 8) = 8 Then
+            'unreported pairdown
+            cReturn = New SolidColorBrush(Colors.LightGray)
+        Else
+            'unreported
+        End If
         Return cReturn
     End Function
 
-    Public Function ConvertBack(value As Object, targetType As Type, parameter As Object, culture As Globalization.CultureInfo) As Object Implements IValueConverter.ConvertBack
-        Dim bReturn As Boolean = True
-        If CType(value, SolidColorBrush).Color = Colors.White Then bReturn = False
-        Return bReturn
+    Public Function ConvertBack(value As Object, targetTypes() As Type, parameter As Object, culture As Globalization.CultureInfo) As Object() Implements IMultiValueConverter.ConvertBack
+        'don't care
+        Return Nothing
     End Function
 End Class

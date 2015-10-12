@@ -172,6 +172,10 @@ Public Class PairingsController
             'Clear the current pairings in case this is a re-generate
             Model.CurrentRound.Games.Clear()
             Model.CurrentRound.Bye = Nothing
+            'clear the pairdowns from generations this round
+            For Each player In Model.CurrentRound.Players
+                If Not GetPlayerFromLastRound(player).HasBeenPairedDown Then player.HasBeenPairedDown = False
+            Next
 
             'add late arrivals
             For Each player In Model.WMEvent.Players
@@ -185,7 +189,6 @@ Public Class PairingsController
             For Each drop In drops
                 Model.CurrentRound.Players.Remove(drop)
             Next
-            
 
             For Each p In Model.CurrentRound.Players
                 ResetPlayerToPreviousRound(p)
@@ -193,6 +196,9 @@ Public Class PairingsController
 
             Dim EligablePlayers = (From p In Model.CurrentRound.Players Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending).ToList
 
+            '***************************************************************
+            '*** Bye                                                
+            '***************************************************************
             If EligablePlayers.Count Mod 2 = 1 Then
                 'Remove a bye volunteer
                 Model.CurrentRound.Bye = (From p In EligablePlayers Where p.ByeVol = True And p.TourneyPoints = 0).FirstOrDefault
@@ -217,6 +223,7 @@ Public Class PairingsController
                 Model.CurrentRound.Games.FirstOrDefault.Player1 = Model.CurrentRound.Bye.Clone
                 Model.CurrentRound.Games.FirstOrDefault.GameID = Guid.NewGuid
             End If
+            '***************************************************************
 
             Dim Player1 As doPlayer
             Dim Player2 As doPlayer
@@ -226,45 +233,32 @@ Public Class PairingsController
 
                 For WinsBucket As Integer = TopTP To 0 Step -1
                     Dim i As Integer = WinsBucket
-                    Dim UnpairedPlayers = True
-                    While UnpairedPlayers
+                    While (From p In EligablePlayers Where p.TourneyPoints = i).Count > 0
                         Dim EligablePlayersInBucket = (From p In EligablePlayers Where p.TourneyPoints = i).ToList
-                        If EligablePlayersInBucket.Count > 0 Then
+
+                        If EligablePlayersInBucket.Count Mod 2 = 1 Then
+                            'Pairdown!
+                            Player1 = (From p In EligablePlayersInBucket Where p.HasBeenPairedDown = False Select p Order By Guid.NewGuid()).First()
+                            Player1.HasBeenPairedDown = True
+                            Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).First
+                        ElseIf EligablePlayersInBucket.Count > 0 Then
+                            'Standard pairing
                             Player1 = EligablePlayersInBucket.First
-                            'Exclude player self-match
-                            Dim EligableOpponents = From p In EligablePlayersInBucket Where p IsNot Player1 And
-                                                    Not Player1.Opponents.Contains(p.PPHandle)
-
-                            Dim EligableOpponents_Count = EligableOpponents.Count
-                            'Pairdown
-                            Dim j As Integer = 1
-                            While EligableOpponents_Count = 0 AndAlso i - j >= 0
-                                EligableOpponents = (From p In EligablePlayers Where p.TourneyPoints = i - j And
-                                                    p IsNot Player1).ToList() ' And Not Player1.Opponents.Contains(p.PPHandle))
-                                EligableOpponents_Count = EligableOpponents.Count
-                                j += 1
-                            End While
-
-
-
-                            If EligableOpponents.Count = 0 Then Throw New Exception("Unable to find opponent or pair down opponent!")
-                            Player2 = EligableOpponents(rnd.Next(0, EligableOpponents.Count - 1))
-
-                            EligablePlayers.Remove(Player1)
-                            EligablePlayers.Remove(Player2)
-
-                            If EligablePlayers.Count = 0 Then UnpairedPlayers = False
-
-                            Dim g As New doGame
-                            g.Player1 = Player1.Clone
-                            g.Player2 = Player2.Clone
-                            g.GameID = Guid.NewGuid
-                            Model.CurrentRound.Games.Add(g)
-
-                            SetPairingCondition(g, Player1, Player2)
-                        Else
-                            UnpairedPlayers = False
+                            Player2 = (From p In EligablePlayersInBucket Where Player1.PPHandle <> p.PPHandle AndAlso Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then
+                                Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).First
+                            End If
                         End If
+
+                        EligablePlayers.Remove(Player1)
+                        EligablePlayers.Remove(Player2)
+
+                        Dim g As New doGame
+                        g.Player1 = Player1.Clone
+                        g.Player2 = Player2.Clone
+                        g.GameID = Guid.NewGuid
+                        If Player1.TourneyPoints <> Player2.TourneyPoints Then g.IsPairdown = True
+                        Model.CurrentRound.Games.Add(g)
                     End While
                 Next
             Else
@@ -306,8 +300,6 @@ Public Class PairingsController
                         g.Player2 = Player2.Clone
                         g.GameID = Guid.NewGuid
                         Model.CurrentRound.Games.Add(g)
-
-                        SetPairingCondition(g, Player1, Player2)
                     Else
                         UnpairedPlayers = False
                     End If
@@ -328,27 +320,37 @@ Public Class PairingsController
                 game.TableNumber = (From p In Tables Where Not InvalidTables.Contains(p)).FirstOrDefault
                 If game.TableNumber = 0 Then game.TableNumber = Tables.Item(rnd.Next(Tables.Count))
                 Tables.Remove(game.TableNumber)
-                SetPairingConditionTable(game)
+                SetPairingCondition(game)
             Next
+            _ErrorRetryCount = 0
         Catch e As Exception
-            sReturn = e.Message
+            _ErrorRetryCount += 1
+            If _ErrorRetryCount <= 5 Then
+                GeneratePairings()
+            Else
+                sReturn = e.Message & ControlChars.CrLf & "Please regenerate the pairing!"
+                Model.CurrentRound.Games.Clear()
+            End If
+            
         End Try
 
         Return sReturn
     End Function
 
-    Private Sub SetPairingCondition(game As Data.doGame, Player1 As doPlayer, Player2 As doPlayer)
-        If Player1.Meta = Player2.Meta Then
-            game.PairingCondition = Color.FromArgb(55, Colors.Yellow.R, Colors.Yellow.G, Colors.Yellow.B)
-        End If
-        If Player1.Opponents.Contains(Player2.PPHandle) OrElse Player2.Opponents.Contains(Player1.PPHandle) Then
-            game.PairingCondition = Color.FromArgb(55, Colors.Red.R, Colors.Red.G, Colors.Red.B)
-        End If
-    End Sub
+    Private _ErrorRetryCount As Integer = 0
 
-    Private Sub SetPairingConditionTable(game As Data.doGame)
+    Private Sub SetPairingCondition(game As Data.doGame)
+        If game.Player1.Meta = game.Player2.Meta Then
+            game.PairingCondition += 1
+        End If
         If game.Player1.Tables.Contains(game.TableNumber) OrElse game.Player2.Tables.Contains(game.TableNumber) Then
-            If game.PairingCondition = Nothing Then game.PairingCondition = Color.FromArgb(55, Colors.Orange.R, Colors.Orange.G, Colors.Orange.B)
+            game.PairingCondition += 2
+        End If
+        If game.Player1.Opponents.Contains(game.Player2.PPHandle) OrElse game.Player2.Opponents.Contains(game.Player1.PPHandle) Then
+            game.PairingCondition += 4
+        End If
+        If game.IsPairdown Then
+            game.PairingCondition += 8
         End If
     End Sub
 

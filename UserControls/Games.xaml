@@ -11,7 +11,14 @@
         <local:BoolToColorConverter x:Key="converter" />
         <Style TargetType="{x:Type DataGridRow}">
             <Style.Setters>
-                <Setter Property="Background" Value="{Binding Path=Reported, Converter={StaticResource converter}}"></Setter>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource converter}">
+                            <Binding Path="Reported"></Binding>
+                            <Binding Path="PairingCondition"></Binding>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>            
             </Style.Setters>
         </Style>
     </UserControl.Resources>
