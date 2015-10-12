@@ -16,6 +16,6 @@ Partial Public Class WMEvent
     Public Property [Date] As Date
     Public Property Format As String
 
-    Public Overridable Property WMEventStanding As WMEventStanding
+    Public Overridable Property WMEventStandings As ICollection(Of WMEventStanding) = New HashSet(Of WMEventStanding)
 
 End Class

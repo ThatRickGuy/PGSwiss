@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="PGSwissModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PGSwissModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="WMEvent">
           <Key>
             <PropertyRef Name="WMEventId" />
@@ -17,6 +17,7 @@
         <EntityType Name="WMEventStandings">
           <Key>
             <PropertyRef Name="WMEventID" />
+            <PropertyRef Name="PPHandle" />
           </Key>
           <Property Name="WMEventID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Rank" Type="int" Nullable="false" />
@@ -29,7 +30,7 @@
         </EntityType>
         <Association Name="FK_WMEventStandings_ToWMEvent">
           <End Role="WMEvent" Type="Self.WMEvent" Multiplicity="1" />
-          <End Role="WMEventStandings" Type="Self.WMEventStandings" Multiplicity="0..1" />
+          <End Role="WMEventStandings" Type="Self.WMEventStandings" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WMEvent">
               <PropertyRef Name="WMEventId" />
@@ -59,12 +60,12 @@
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Format" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="WMEventStanding" Relationship="PGSwissModel.FK_WMEventStandings_ToWMEvent" FromRole="WMEvent" ToRole="WMEventStanding" />
+          <NavigationProperty Name="WMEventStandings" Relationship="PGSwissModel.WMEventWMEventStanding" FromRole="WMEvent" ToRole="WMEventStanding" />
         </EntityType>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="WMEvents" EntityType="Self.WMEvent" />
           <EntitySet Name="WMEventStandings" EntityType="PGSwissModel.WMEventStanding" />
-          <AssociationSet Name="FK_WMEventStandings_ToWMEvent" Association="PGSwissModel.FK_WMEventStandings_ToWMEvent">
+          <AssociationSet Name="WMEventWMEventStanding" Association="PGSwissModel.WMEventWMEventStanding">
             <End Role="WMEvent" EntitySet="WMEvents" />
             <End Role="WMEventStanding" EntitySet="WMEventStandings" />
           </AssociationSet>
@@ -72,20 +73,21 @@
         <EntityType Name="WMEventStanding">
           <Key>
             <PropertyRef Name="WMEventID" />
+            <PropertyRef Name="PPHandle" />
           </Key>
           <Property Name="WMEventID" Type="Guid" Nullable="false" />
-          <Property Name="Rank" Type="Int32" Nullable="false" />
           <Property Name="PPHandle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Rank" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TP" Type="Int32" Nullable="false" />
           <Property Name="CP" Type="Int32" Nullable="false" />
           <Property Name="APD" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="WMEvent" Relationship="PGSwissModel.FK_WMEventStandings_ToWMEvent" FromRole="WMEventStanding" ToRole="WMEvent" />
           <Property Name="Faction" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="WMEvent" Relationship="PGSwissModel.WMEventWMEventStanding" FromRole="WMEventStanding" ToRole="WMEvent" />
         </EntityType>
-        <Association Name="FK_WMEventStandings_ToWMEvent">
+        <Association Name="WMEventWMEventStanding">
           <End Type="PGSwissModel.WMEvent" Role="WMEvent" Multiplicity="1" />
-          <End Type="PGSwissModel.WMEventStanding" Role="WMEventStanding" Multiplicity="0..1" />
+          <End Type="PGSwissModel.WMEventStanding" Role="WMEventStanding" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WMEvent">
               <PropertyRef Name="WMEventId" />

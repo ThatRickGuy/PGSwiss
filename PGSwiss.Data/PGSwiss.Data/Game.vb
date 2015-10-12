@@ -12,6 +12,7 @@ Public Class doGame
     Public Property Winner As String
     Public Property Condition As String
     Public Property TableNumber As Integer
+    Public Property IsPairdown As Boolean = False
     Private _Reported As Boolean = False
     Public Property Reported As Boolean
         Get
@@ -23,12 +24,12 @@ Public Class doGame
         End Set
     End Property
 
-    Private _PairingCondition As Color
-    Public Property PairingCondition As Color
+    Private _PairingCondition As Integer
+    Public Property PairingCondition As Integer
         Get
             Return _PairingCondition
         End Get
-        Set(value As Color)
+        Set(value As Integer)
             _PairingCondition = value
             OnPropertyChanged("PairingCondition")
         End Set

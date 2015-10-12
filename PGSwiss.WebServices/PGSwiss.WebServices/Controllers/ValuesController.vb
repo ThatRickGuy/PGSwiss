@@ -10,7 +10,7 @@ Public Class ValuesController
         Dim context As New PGSwiss.WebServices.Entities
         Dim WMEventEntity As New WMEvent
         WMEventEntity.Date = WMEvent.EventDate
-        WMEventEntity.Format = WMEvent.EventFormat
+        WMEventEntity.Format = WMEvent.EventFormat.Name
         WMEventEntity.Name = WMEvent.Name
         WMEventEntity.WMEventId = WMEvent.EventID
 

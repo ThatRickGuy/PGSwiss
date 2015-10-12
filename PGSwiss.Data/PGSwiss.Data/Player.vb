@@ -54,6 +54,7 @@ Public Class doPlayer
     Public Property Drop As Boolean
     Public Property TourneyPoints As Integer
     Public Property StrengthOfSchedule As Integer
+    Public Property HasBeenPairedDown As Boolean = False
 
     Private _ControlPoints As Integer
     Public Property ControlPoints As Integer

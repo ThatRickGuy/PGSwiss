@@ -12,8 +12,8 @@ Imports System.Collections.Generic
 
 Partial Public Class WMEventStanding
     Public Property WMEventID As System.Guid
-    Public Property Rank As Integer
     Public Property PPHandle As String
+    Public Property Rank As Integer
     Public Property Name As String
     Public Property TP As Integer
     Public Property CP As Integer

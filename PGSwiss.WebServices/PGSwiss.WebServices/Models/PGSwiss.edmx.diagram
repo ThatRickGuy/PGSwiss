@@ -6,8 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="c08a601fd6c64579b2a112469f183951" Name="Diagram1">
         <EntityTypeShape EntityType="PGSwissModel.WMEvent" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="PGSwissModel.WMEventStanding" Width="1.5" PointX="3.375" PointY="0.75" />
-        <AssociationConnector Association="PGSwissModel.FK_WMEventStandings_ToWMEvent" />
+        <EntityTypeShape EntityType="PGSwissModel.WMEventStanding" Width="1.5" PointX="4.375" PointY="0.875" />
+        <AssociationConnector Association="PGSwissModel.WMEventWMEventStanding" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

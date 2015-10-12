@@ -13,9 +13,9 @@ Imports System.Windows
 
 <Assembly: AssemblyTitle("PGSwiss")> 
 <Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("WTS Paradigm")> 
+<Assembly: AssemblyCompany("RingDev")> 
 <Assembly: AssemblyProduct("PGSwiss")> 
-<Assembly: AssemblyCopyright("Copyright © WTS Paradigm 2014")> 
+<Assembly: AssemblyCopyright("Copyright © RingDev")> 
 <Assembly: AssemblyTrademark("")> 
 <Assembly: ComVisible(false)>
 
@@ -55,5 +55,5 @@ Imports System.Windows
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: AssemblyVersion("1.2.0.0")> 
+<Assembly: AssemblyFileVersion("1.2.0.0")> 
