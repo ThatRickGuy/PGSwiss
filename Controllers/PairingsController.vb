@@ -238,16 +238,21 @@ Public Class PairingsController
 
                         If EligablePlayersInBucket.Count Mod 2 = 1 Then
                             'Pairdown!
-                            Player1 = (From p In EligablePlayersInBucket Where p.HasBeenPairedDown = False Select p Order By Guid.NewGuid()).First()
+                            Player1 = (From p In EligablePlayersInBucket Where p.HasBeenPairedDown = False Select p Order By Guid.NewGuid()).FirstOrDefault()
+                            If Player1 Is Nothing Then Player1 = (From p In EligablePlayersInBucket Select p Order By Guid.NewGuid()).First()
                             Player1.HasBeenPairedDown = True
-                            Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).First
+                            Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 2 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 3 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 4 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
                         ElseIf EligablePlayersInBucket.Count > 0 Then
                             'Standard pairing
                             Player1 = EligablePlayersInBucket.First
                             Player2 = (From p In EligablePlayersInBucket Where Player1.PPHandle <> p.PPHandle AndAlso Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then
-                                Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).First
-                            End If
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 2 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 3 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 4 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
                         End If
 
                         EligablePlayers.Remove(Player1)
