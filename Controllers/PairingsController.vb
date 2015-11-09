@@ -173,14 +173,18 @@ Public Class PairingsController
             Model.CurrentRound.Games.Clear()
             Model.CurrentRound.Bye = Nothing
             'clear the pairdowns from generations this round
-            For Each player In Model.CurrentRound.Players
-                If Not GetPlayerFromLastRound(player).HasBeenPairedDown Then player.HasBeenPairedDown = False
+            For Each player In (From p In Model.CurrentRound.Players Where p.Drop = False)
+                If Model.CurrentRound.RoundNumber > 1 Then
+                    If Not GetPlayerFromLastRound(player).HasBeenPairedDown Then player.HasBeenPairedDown = False
+                Else
+                    player.HasBeenPairedDown = False
+                End If
             Next
 
             'add late arrivals
             For Each player In Model.WMEvent.Players
                 If (From p In Model.CurrentRound.Players Where p.PPHandle = player.PPHandle).FirstOrDefault Is Nothing Then
-                    Model.CurrentRound.Players.Add(player)
+                    Model.CurrentRound.Players.Add(player.Clone)
                 End If
             Next
 
@@ -190,33 +194,36 @@ Public Class PairingsController
                 Model.CurrentRound.Players.Remove(drop)
             Next
 
-            For Each p In Model.CurrentRound.Players
-                ResetPlayerToPreviousRound(p)
-            Next
+            'For Each p In Model.CurrentRound.Players
+            '    ResetPlayerToPreviousRound(p)
+            'Next
 
-            Dim EligablePlayers = (From p In Model.CurrentRound.Players Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending).ToList
+            Dim EligablePlayers As New List(Of doPlayer)
+            EligablePlayers.AddRange(From p In Model.CurrentRound.Players Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
 
             '***************************************************************
             '*** Bye                                                
             '***************************************************************
             If EligablePlayers.Count Mod 2 = 1 Then
                 'Remove a bye volunteer
-                Model.CurrentRound.Bye = (From p In EligablePlayers Where p.ByeVol = True And p.TourneyPoints = 0).FirstOrDefault
+                Model.CurrentRound.Bye = (From p In Model.CurrentRound.Players Where p.ByeVol = True And p.TourneyPoints = 0).FirstOrDefault
                 If Model.CurrentRound.Bye Is Nothing Then
-                    Dim EligableBye = (From p In EligablePlayers Where p.TourneyPoints = 0).ToList
-                    If EligableBye.Count = 0 Then
-                        Dim AlreadyByed = (From p In Model.WMEvent.Rounds Select p.Bye).ToList
-                        Model.CurrentRound.Bye = (From p In EligablePlayers Where Not AlreadyByed.Contains(p) Order By p.Rank Ascending).FirstOrDefault
-                        If Model.CurrentRound.Bye Is Nothing Then
-                            Model.CurrentRound.Bye = EligablePlayers.Item(rnd.Next(EligableBye.Count))
+                    Model.CurrentRound.Bye = (From p In Model.CurrentRound.Players Where p.ByeVol = True).FirstOrDefault
+                    If Model.CurrentRound.Bye Is Nothing Then
+                        Dim EligableBye = (From p In Model.CurrentRound.Players Where p.TourneyPoints = 0).ToList
+                        If EligableBye.Count = 0 Then
+                            Dim AlreadyByed = (From p In Model.WMEvent.Rounds Select p.Bye).ToList
+                            Model.CurrentRound.Bye = (From p In EligablePlayers Where Not AlreadyByed.Contains(p) Order By p.Rank Ascending).FirstOrDefault
+                            If Model.CurrentRound.Bye Is Nothing Then
+                                Model.CurrentRound.Bye = EligablePlayers.Item(rnd.Next(EligableBye.Count))
+                            End If
+                        Else
+                            Model.CurrentRound.Bye = EligableBye.Item(rnd.Next(EligableBye.Count))
                         End If
-                    Else
-                        Model.CurrentRound.Bye = EligableBye.Item(rnd.Next(EligableBye.Count))
+
                     End If
-
-
                 End If
-                EligablePlayers.Remove(Model.CurrentRound.Bye)
+                EligablePlayers.Remove((From p In EligablePlayers Where p.PPHandle = Model.CurrentRound.Bye.PPHandle).FirstOrDefault)
             End If
             If Model.CurrentRound.Bye IsNot Nothing Then
                 Model.CurrentRound.Games.Add(New doGame)
@@ -229,7 +236,7 @@ Public Class PairingsController
             Dim Player2 As doPlayer
             If Model.CurrentRound.RoundNumber > 1 Then
                 'not the first round, use wins model
-                Dim TopTP = (From p In EligablePlayers Select p.TourneyPoints).Max
+                Dim TopTP = Model.CurrentRound.RoundNumber '  (From p In EligablePlayers Select p.TourneyPoints).Max
 
                 For WinsBucket As Integer = TopTP To 0 Step -1
                     Dim i As Integer = WinsBucket
@@ -336,7 +343,7 @@ Public Class PairingsController
                 sReturn = e.Message & ControlChars.CrLf & "Please regenerate the pairing!"
                 Model.CurrentRound.Games.Clear()
             End If
-            
+
         End Try
 
         Return sReturn
@@ -359,27 +366,63 @@ Public Class PairingsController
         End If
     End Sub
 
-    Public Sub SwapPlayers(Player1 As doPlayer, Player2 As doPlayer)
-        Dim game1 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = Player1.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = Player1.PPHandle)).FirstOrDefault
-        Dim Game1Player1 As Boolean = False
-        If game1.Player1.PPHandle = Player1.PPHandle Then Game1Player1 = True
-        Dim game2 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = Player2.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = Player2.PPHandle)).FirstOrDefault
-        Dim Game2Player1 As Boolean = False
-        If game2.Player1.PPHandle = Player2.PPHandle Then Game2Player1 = True
+    Public Sub SwapPlayers(PlayerA As doPlayer, PlayerB As doPlayer)
+        Dim SourceGame = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = PlayerA.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = PlayerA.PPHandle)).FirstOrDefault
+        Dim TargetGame = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = PlayerB.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = PlayerB.PPHandle)).FirstOrDefault
 
-
-        'todo:This needs to be fixed to not use currentRound.player!!!
-        If Game1Player1 Then
-            game1.Player1 = (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = Player2.PPHandle).FirstOrDefault
+        If SourceGame.Player1.PPHandle = PlayerA.PPHandle Then
+            If TargetGame.Player1.PPHandle = PlayerB.PPHandle Then
+                'Source.1 => Target.1
+                'Target.1 => Source.1
+                Dim temp = TargetGame.Player1
+                TargetGame.Player1 = SourceGame.Player1
+                SourceGame.Player1 = temp
+            Else
+                'Source.1 => Target.2
+                'Target.2 => Source.1
+                Dim temp = TargetGame.Player2
+                TargetGame.Player2 = SourceGame.Player1
+                SourceGame.Player1 = temp
+            End If
         Else
-            game1.Player2 = (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = Player2.PPHandle).FirstOrDefault
+            If TargetGame.Player1.PPHandle = PlayerB.PPHandle Then
+                'Source.1 => Target.1
+                'Target.1 => Source.1
+                Dim temp = TargetGame.Player1
+                TargetGame.Player1 = SourceGame.Player2
+                SourceGame.Player2 = temp
+            Else
+                'Source.1 => Target.2
+                'Target.2 => Source.1
+                Dim temp = TargetGame.Player2
+                TargetGame.Player2 = SourceGame.Player2
+                SourceGame.Player2 = temp
+            End If
         End If
 
-        If Game2Player1 Then
-            game2.Player1 = (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = Player1.PPHandle).FirstOrDefault
-        Else
-            game2.Player2 = (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = Player1.PPHandle).FirstOrDefault
-        End If
+
+
+        'Dim game1 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = PlayerA.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = PlayerA.PPHandle)).FirstOrDefault
+        'Dim Game1Player1 As Boolean = False
+        'If game1.Player1.PPHandle = PlayerA.PPHandle Then Game1Player1 = True
+        'Dim game2 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = PlayerB.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = PlayerB.PPHandle)).FirstOrDefault
+        'Dim Game2Player1 As Boolean = False
+        'If game2.Player1.PPHandle = PlayerB.PPHandle Then Game2Player1 = True
+
+
+        ''todo:This needs to be fixed to not use currentRound.player!!!
+        'If Game1Player1 Then
+
+        '    game1.Player1 = game1.Player1 ' (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = Player2.PPHandle).FirstOrDefault
+        'Else
+        '    game1.Player2 = game1.Player2 '(From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = Player2.PPHandle).FirstOrDefault
+        'End If
+
+        'If Game2Player1 Then
+        '    game2.Player1 = (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = PlayerA.PPHandle).FirstOrDefault
+        'Else
+        '    game2.Player2 = (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = PlayerA.PPHandle).FirstOrDefault
+        'End If
     End Sub
 
     Public Overrides Function Validate() As String

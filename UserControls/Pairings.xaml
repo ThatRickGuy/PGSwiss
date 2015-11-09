@@ -4,11 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PGSwiss"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.Resources>
             <local:IntToBrushConverter x:Key="IntToBrushConverter"/>
+            <CollectionViewSource x:Key="SortedPlayers1" Source="{Binding Path=Model.CurrentRound.Players}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="PPHandle"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+            <CollectionViewSource x:Key="SortedPlayers2" Source="{Binding Path=Model.CurrentRound.Players}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="PPHandle"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -63,9 +74,9 @@
             </Grid.ColumnDefinitions>
             <TextBlock Margin="4,2,0,0">Player</TextBlock>
             <TextBlock Grid.Column="2" Margin="4,2,0,0">Player</TextBlock>
-            <ComboBox Name="cboSwapPlayerq1" ItemsSource="{Binding Path=Model.CurrentRound.Players}" DisplayMemberPath="PPHandle" Grid.Row="1" Margin="4"></ComboBox>
+            <ComboBox Name="cboSwapPlayerq1" ItemsSource="{Binding Source={StaticResource SortedPlayers1}}" DisplayMemberPath="PPHandle" Grid.Row="1" Margin="4"></ComboBox>
             <TextBlock Grid.Row="1" Grid.Column="1"  Margin="4" VerticalAlignment="Center" >with</TextBlock>
-            <ComboBox Name="cboSwapPlayerq2" ItemsSource="{Binding Path=Model.CurrentRound.Players}" DisplayMemberPath="PPHandle" Grid.Row="1" Grid.Column="2" Margin="4"></ComboBox>
+            <ComboBox Name="cboSwapPlayerq2" ItemsSource="{Binding Source={StaticResource SortedPlayers2}}" DisplayMemberPath="PPHandle" Grid.Row="1" Grid.Column="2" Margin="4"></ComboBox>
             <Button Name="btnSwap" Grid.Row="1" Grid.Column="3" Margin="4">Swap</Button>
         </Grid>
         <StackPanel Grid.Row="6" HorizontalAlignment="Center" Orientation="Horizontal" >

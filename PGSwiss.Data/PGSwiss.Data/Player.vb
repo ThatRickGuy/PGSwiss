@@ -79,6 +79,7 @@ Public Class doPlayer
         dopReturn.Name = Me.Name
         dopReturn.PPHandle = Me.PPHandle
         dopReturn.Tables = Me.Tables
+        dopReturn.ByeVol = Me.ByeVol
         Return dopReturn
     End Function
 

@@ -11,6 +11,7 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
 
         <TextBlock FontWeight="Bold" FontSize="18" HorizontalAlignment="Center">Standings</TextBlock>
@@ -28,5 +29,10 @@
                 <DataGridTextColumn Header="APD" Width="auto" Binding="{Binding ArmyPointsDestroyed}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"   Grid.Row="4">
+            <Button Margin="2,2,2,4" x:Name="btnPrintStandings">Print Standings</Button>
+            <Button Margin="2,2,2,4" x:Name="btnUploadStandings">Upload Standings</Button>
+        </StackPanel>
     </Grid>
 </UserControl>

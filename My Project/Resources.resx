@@ -227,4 +227,62 @@
     <value>&lt;div id="Item"&gt;&lt;span id="Table"&gt;Table {0}&lt;/span&gt;&lt;span id="Player"&gt; {1}&lt;/span&gt;&lt;span id="Player_Handle"&gt;({2})&lt;/span&gt;&lt;span id="Table"&gt;vs&lt;/span&gt;&lt;span id="Player"&gt; {3}&lt;/span&gt;&lt;span id="Player_Handle"&gt;({4})&lt;/span&gt;&lt;br&gt;
 &lt;/div&gt;</value>
   </data>
+  <data name="HTMLHeaderStandings" xml:space="preserve">
+    <value>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"&gt;
+	&lt;title&gt;Warmachine Event Standings&lt;/title&gt;
+	&lt;style type="text/css" media="screen, print, projection"&gt;
+	body,
+	html {
+		margin:0;
+		padding:0;
+		color:#000;
+		height:100%;
+	}
+	#wrap {
+		width:750px;
+		height:100%;
+		margin:0 auto;
+	}
+	#header {
+		text-align:center;
+	}
+	#Item {
+		margin-left:50px;
+		margin-right:50px;
+		margin-bottom:10px;
+	}
+	#Player {
+		color:#222; 
+		font-family:arial,sans-serif; 
+		font-size=small;
+	}
+	#Table {
+		margin-left:10px; 
+		color:#006621; 
+		font-style:normal; 
+		font-size:13px; 
+		font-family:arial,sans-serif; 
+		line-height:22px;
+	}
+	#Opponent {
+		margin-left:10px; 
+		color:#222; 
+		font-style:normal; 
+		font-size:13px; 
+		font-family:arial,sans-serif; 
+		line-height:22PX;
+	}
+	#Player_Handle {
+		font-size: 9pt;
+		margin-left: 10px;
+		color: #696969;
+	}
+	&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;div id="wrap"&gt;</value>
+  </data>
 </root>

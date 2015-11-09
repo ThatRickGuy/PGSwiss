@@ -118,6 +118,38 @@ Namespace My.Resources
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;
+        '''&lt;html lang=&quot;en&quot;&gt;
+        '''&lt;head&gt;
+        '''	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
+        '''	&lt;title&gt;Warmachine Event Standings&lt;/title&gt;
+        '''	&lt;style type=&quot;text/css&quot; media=&quot;screen, print, projection&quot;&gt;
+        '''	body,
+        '''	html {
+        '''		margin:0;
+        '''		padding:0;
+        '''		color:#000;
+        '''		height:100%;
+        '''	}
+        '''	#wrap {
+        '''		width:750px;
+        '''		height:100%;
+        '''		margin:0 auto;
+        '''	}
+        '''	#header {
+        '''		text-align:center;
+        '''	}
+        '''	#Item {
+        '''		margin-left:50px;
+        '''		margin [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property HTMLHeaderStandings() As String
+            Get
+                Return ResourceManager.GetString("HTMLHeaderStandings", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to &lt;div id=&quot;Item&quot;&gt;
         '''	&lt;span id=&quot;Player&quot;&gt;{0}&lt;/span&gt;&lt;span id=&quot;Player_Handle&quot;&gt; ({1})&lt;br&gt;
         '''	&lt;span id=&quot;Table&quot;&gt;Table {2}&lt;/span&gt;

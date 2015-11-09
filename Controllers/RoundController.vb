@@ -47,11 +47,14 @@ Public Class RoundController
         For Each p In BaseController.Model.WMEvent.Players
             If (From p1 In tempPlayers Where p1.PPHandle = p.PPHandle).Count = 0 Then PlayersToAdd.Add(p)
         Next
+        'For Each p In PlayersToAdd
+        '    tempPlayers.Add(p.Clone)
+        'Next
         tempPlayers.AddRange(PlayersToAdd)
 
         Dim PlayersToRemove As New List(Of doPlayer)
         For Each p In tempPlayers
-            If (From p1 In BaseController.Model.WMEvent.Players Where p1.PPHandle = p.PPHandle).Count = 0 Then PlayersToRemove.Add(p)
+            If (From p1 In BaseController.Model.WMEvent.Players Where p1.PPHandle = p.PPHandle).Count = 0 Then PlayersToRemove.Add(p.Clone)
         Next
         For Each p In PlayersToRemove
             tempPlayers.Remove(p)
@@ -62,7 +65,8 @@ Public Class RoundController
         For Each Player In Model.CurrentRound.Players
             Player.StrengthOfSchedule = 0
             For Each Opponent In Player.Opponents
-                Player.StrengthOfSchedule += (From p In Model.CurrentRound.Players Where p.PPHandle = Opponent).FirstOrDefault.TourneyPoints
+                Dim po = (From p In Model.CurrentRound.Players Where p.PPHandle = Opponent).FirstOrDefault
+                If Not po Is Nothing Then Player.StrengthOfSchedule += po.TourneyPoints
             Next
         Next
 
