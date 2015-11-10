@@ -68,8 +68,7 @@ Public Class doPlayer
     End Property
 
     Public Property ArmyPointsDestroyed As Integer
-    Public Property Opponents As New List(Of String)
-    Public Property Tables As New List(Of Integer)
+
     Public Property Rank As Integer
 
     Public Function Clone() As doPlayer
@@ -79,9 +78,14 @@ Public Class doPlayer
         dopReturn.Name = Me.Name
         dopReturn.PPHandle = Me.PPHandle
         dopReturn.Tables = Me.Tables
+        dopReturn.Opponents = Me.Opponents
         dopReturn.ByeVol = Me.ByeVol
         Return dopReturn
     End Function
+
+
+    Public Property Opponents As List(Of String)
+    Public Property Tables As List(Of Integer)
 
 
     ' Create the OnPropertyChanged method to raise the event 

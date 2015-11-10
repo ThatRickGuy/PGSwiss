@@ -66,6 +66,47 @@ Public Class WMEventViewModel
         End Set
     End Property
 
+    Private _LastRoundRetrieved As Integer
+    Private _LastGamesCountRetrived As Integer
+    Private _cachedRoundPlayers As List(Of doPlayer)
+    Public ReadOnly Property CurrentRoundPlayers As List(Of doPlayer)
+        Get
+            If _LastRoundRetrieved <> _CurrentRound.RoundNumber OrElse _LastGamesCountRetrived <> (From p In _CurrentRound.Games Where p.Reported = True).Count Then
+                _cachedRoundPlayers = _CurrentRound.GetPlayers(_WMEvent)
+                _LastRoundRetrieved = _CurrentRound.RoundNumber
+                _LastGamesCountRetrived = (From p In _CurrentRound.Games Where p.Reported = True).Count
+            End If
+            Return _cachedRoundPlayers
+        End Get
+    End Property
+
+    Public Function PlayerOpponents(Player As doPlayer) As List(Of doPlayer)
+        Dim oReturn As New List(Of doPlayer)
+        For Each Round In WMEvent.Rounds
+            Dim game = (From p In Round.Games Where p.Player1.PPHandle = Player.PPHandle Or p.Player2.PPHandle = Player.PPHandle).FirstOrDefault
+            If Not game Is Nothing Then
+                If game.Player1.PPHandle = Player.PPHandle Then
+                    If Not game.Player2 Is Nothing Then oReturn.Add(game.Player2)
+                Else
+                    If Not game.Player1 Is Nothing Then oReturn.Add(game.Player1)
+                End If
+            End If
+        Next
+        Return oReturn
+    End Function
+
+    Public Function PlayerTables(Player As doPlayer) As List(Of Integer)
+        Dim ilReturn As New List(Of Integer)
+        For Each Round In WMEvent.Rounds
+            Dim game = (From p In Round.Games Where p.Player1.PPHandle = Player.PPHandle Or p.Player2.PPHandle = Player.PPHandle).FirstOrDefault
+            If Not game Is Nothing Then
+                ilReturn.Add(game.TableNumber)
+            End If
+        Next
+        Return ilReturn
+    End Function
+
+
     Private _CurrentGame As doGame
     Public Property CurrentGame As doGame
         Get

@@ -86,6 +86,7 @@
                     <ComboBoxItem>Time</ComboBoxItem>
                     <ComboBoxItem>Concession</ComboBoxItem>
                     <ComboBoxItem>Disqualification</ComboBoxItem>
+                    <ComboBoxItem>Bye</ComboBoxItem>
                 </ComboBox>
 
                 <TextBlock x:Name="lblPlayer1" Grid.Row="4" Grid.ColumnSpan="2" FontWeight="Bold" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player1.PPHandle}"/></TextBlock>

@@ -18,15 +18,8 @@ Public Class RoundController
         If _Round Is Nothing Then
             _Round = New doRound
             _Round.RoundNumber = TargetRoundNumber
-            If _Round.RoundNumber = 1 Then
-                _Round.Players.AddRange(Model.WMEvent.Players)
-            Else
-                _Round.Players.AddRange(Model.WMEvent.Rounds.Last.Players)
-            End If
             Model.WMEvent.Rounds.Add(_Round)
         End If
-
-        _Round.Players.ForEach(Sub(s As doPlayer) s.ByeVol = False)
 
         If Model.CurrentRound IsNot Nothing Then _Round.Size = Model.CurrentRound.Size
 
@@ -39,49 +32,6 @@ Public Class RoundController
     Protected Overrides Sub Activated()
 
         Model.CurrentRound = _Round
-
-        Dim tempPlayers As New doPlayerCollection
-        tempPlayers.AddRange(BaseController.Model.CurrentRound.Players.ToArray)
-
-        Dim PlayersToAdd As New List(Of doPlayer)
-        For Each p In BaseController.Model.WMEvent.Players
-            If (From p1 In tempPlayers Where p1.PPHandle = p.PPHandle).Count = 0 Then PlayersToAdd.Add(p)
-        Next
-        'For Each p In PlayersToAdd
-        '    tempPlayers.Add(p.Clone)
-        'Next
-        tempPlayers.AddRange(PlayersToAdd)
-
-        Dim PlayersToRemove As New List(Of doPlayer)
-        For Each p In tempPlayers
-            If (From p1 In BaseController.Model.WMEvent.Players Where p1.PPHandle = p.PPHandle).Count = 0 Then PlayersToRemove.Add(p.Clone)
-        Next
-        For Each p In PlayersToRemove
-            tempPlayers.Remove(p)
-        Next
-        Model.CurrentRound.Players.Clear()
-        Model.CurrentRound.Players.AddRange(tempPlayers)
-
-        For Each Player In Model.CurrentRound.Players
-            Player.StrengthOfSchedule = 0
-            For Each Opponent In Player.Opponents
-                Dim po = (From p In Model.CurrentRound.Players Where p.PPHandle = Opponent).FirstOrDefault
-                If Not po Is Nothing Then Player.StrengthOfSchedule += po.TourneyPoints
-            Next
-        Next
-
-        Dim temp = (From p In Model.CurrentRound.Players Order By p.TourneyPoints Descending,
-                                                                p.StrengthOfSchedule Descending,
-                                                                p.ControlPoints Descending,
-                                                                p.ArmyPointsDestroyed Descending).ToList
-        Model.CurrentRound.Players.Clear()
-        Model.CurrentRound.Players.AddRange(temp)
-        Dim i As Integer = 1
-        For Each p In Model.CurrentRound.Players
-            p.Rank = i
-            i += 1
-        Next
-
 
         Dim totalPlayers = Model.WMEvent.Players.Count
         Dim Rounds As Integer = 1
@@ -100,20 +50,13 @@ Public Class RoundController
         If BaseController.Model.CurrentRound.Scenario = String.Empty Then sReturn = "Scenario not selected" & ControlChars.CrLf
         If BaseController.Model.CurrentRound.Size = 0 Then sReturn &= "Size not selected"
 
-        If BaseController.Model.CurrentRound.Players.Count = 0 Then sReturn = "No players" & ControlChars.CrLf
-        If (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = String.Empty Or p.Name = String.Empty).Count > 0 Then sReturn &= "Players without PPHandle, Name, Faction, and/or Meta" & ControlChars.CrLf
-        If (From p In BaseController.Model.CurrentRound.Players Select p.PPHandle Distinct).Count < BaseController.Model.CurrentRound.Players.Count Then sReturn &= "Players must have unique PP Handles."
-
-        If sReturn = String.Empty Then SaveNewPlayers()
+        Dim CurrentRoundPlayers = Model.CurrentRoundPlayers
+        If CurrentRoundPlayers.Count = 0 Then sReturn = "No players" & ControlChars.CrLf
+        If (From p In CurrentRoundPlayers Where p.PPHandle = String.Empty Or p.Name = String.Empty).Count > 0 Then sReturn &= "Players without PPHandle, Name, Faction, and/or Meta" & ControlChars.CrLf
+        If (From p In CurrentRoundPlayers Select p.PPHandle Distinct).Count < CurrentRoundPlayers.Count Then sReturn &= "Players must have unique PP Handles."
+        Model.CurrentRound.ByeVolunteers.AddRange(From p In CurrentRoundPlayers Where p.ByeVol)
 
         Return sReturn.TrimEnd(ControlChars.CrLf)
     End Function
 
-    Private Sub SaveNewPlayers()
-        For Each p In BaseController.Model.CurrentRound.Players
-            If (From ap In Model.WMEvent.Players Where ap.PPHandle = p.PPHandle).Count = 0 Then
-                Model.WMEvent.Players.Add(p)
-            End If
-        Next
-    End Sub
 End Class

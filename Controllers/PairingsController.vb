@@ -29,36 +29,6 @@ Public Class PairingsController
         End Get
     End Property
 
-    Public Shared Sub ResetPlayerToPreviousRound(Player As doPlayer)
-        Dim PlayerFromLastRound = GetPlayerFromLastRound(Player)
-        If PlayerFromLastRound IsNot Nothing Then
-            Player.TourneyPoints = PlayerFromLastRound.TourneyPoints
-            Player.Tables = PlayerFromLastRound.Tables
-            Player.StrengthOfSchedule = PlayerFromLastRound.StrengthOfSchedule
-            Player.Rank = PlayerFromLastRound.Rank
-            Player.Opponents = PlayerFromLastRound.Opponents
-            Player.ControlPoints = PlayerFromLastRound.ControlPoints
-            Player.ArmyPointsDestroyed = PlayerFromLastRound.ArmyPointsDestroyed
-        Else
-            Player.TourneyPoints = 0
-            Player.Tables.Clear()
-            Player.StrengthOfSchedule = 0
-            Player.Rank = 0
-            Player.Opponents.Clear()
-            Player.ControlPoints = 0
-            Player.ArmyPointsDestroyed = 0
-        End If
-    End Sub
-
-    Private Shared Function GetPlayerFromLastRound(TargetPlayer As doPlayer) As doPlayer
-        Dim dopReturn As doPlayer = Nothing
-        If Model.CurrentRound.RoundNumber > 1 Then
-            Dim TargetRound = (From p In Model.WMEvent.Rounds Where p.RoundNumber = Model.CurrentRound.RoundNumber - 1).FirstOrDefault
-            If Not TargetPlayer Is Nothing Then dopReturn = (From p In TargetRound.Players Where p.PPHandle = TargetPlayer.PPHandle).FirstOrDefault
-        End If
-
-        Return dopReturn
-    End Function
 
 
     Public Sub PrintPairingsByTableNumber()
@@ -116,7 +86,7 @@ Public Class PairingsController
             Dim sbRightBlock As New StringBuilder()
 
             Dim PlayerGames As New List(Of PlayerGame)
-            For Each player In (From p In Model.CurrentRound.Players Order By p.Name)
+            For Each player In (From p In Model.CurrentRoundPlayers Order By p.Name)
                 Dim game = (From p In Model.CurrentRound.Games Where p.Player1.PPHandle = player.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = player.PPHandle)).FirstOrDefault
 
                 Dim pg As PlayerGame = Nothing
@@ -172,53 +142,35 @@ Public Class PairingsController
             'Clear the current pairings in case this is a re-generate
             Model.CurrentRound.Games.Clear()
             Model.CurrentRound.Bye = Nothing
-            'clear the pairdowns from generations this round
-            For Each player In (From p In Model.CurrentRound.Players Where p.Drop = False)
-                If Model.CurrentRound.RoundNumber > 1 Then
-                    If Not GetPlayerFromLastRound(player).HasBeenPairedDown Then player.HasBeenPairedDown = False
-                Else
-                    player.HasBeenPairedDown = False
-                End If
-            Next
-
-            'add late arrivals
-            For Each player In Model.WMEvent.Players
-                If (From p In Model.CurrentRound.Players Where p.PPHandle = player.PPHandle).FirstOrDefault Is Nothing Then
-                    Model.CurrentRound.Players.Add(player.Clone)
-                End If
-            Next
-
-            'remove drops
-            Dim drops = (From p In Model.CurrentRound.Players Where p.Drop = True).ToList
-            For Each drop In drops
-                Model.CurrentRound.Players.Remove(drop)
-            Next
-
-            'For Each p In Model.CurrentRound.Players
-            '    ResetPlayerToPreviousRound(p)
-            'Next
 
             Dim EligablePlayers As New List(Of doPlayer)
-            EligablePlayers.AddRange(From p In Model.CurrentRound.Players Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
+            EligablePlayers.AddRange(From p In Model.CurrentRoundPlayers Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
 
             '***************************************************************
             '*** Bye                                                
             '***************************************************************
             If EligablePlayers.Count Mod 2 = 1 Then
                 'Remove a bye volunteer
-                Model.CurrentRound.Bye = (From p In Model.CurrentRound.Players Where p.ByeVol = True And p.TourneyPoints = 0).FirstOrDefault
+                'volunteers at 0 points
+                Model.CurrentRound.Bye = (From p In EligablePlayers Where p.ByeVol = True And p.TourneyPoints = 0).FirstOrDefault
                 If Model.CurrentRound.Bye Is Nothing Then
-                    Model.CurrentRound.Bye = (From p In Model.CurrentRound.Players Where p.ByeVol = True).FirstOrDefault
+                    'volunteers at >0 points
+                    Model.CurrentRound.Bye = (From p In EligablePlayers Where p.ByeVol = True).FirstOrDefault
                     If Model.CurrentRound.Bye Is Nothing Then
-                        Dim EligableBye = (From p In Model.CurrentRound.Players Where p.TourneyPoints = 0).ToList
-                        If EligableBye.Count = 0 Then
-                            Dim AlreadyByed = (From p In Model.WMEvent.Rounds Select p.Bye).ToList
-                            Model.CurrentRound.Bye = (From p In EligablePlayers Where Not AlreadyByed.Contains(p) Order By p.Rank Ascending).FirstOrDefault
-                            If Model.CurrentRound.Bye Is Nothing Then
-                                Model.CurrentRound.Bye = EligablePlayers.Item(rnd.Next(EligableBye.Count))
-                            End If
-                        Else
+                        Dim EligableBye = (From p In EligablePlayers Where p.TourneyPoints = 0).ToList
+                        If EligableBye.Count > 0 Then
+                            'random person at 0 points (since they are at 0 points, we know they haven't been byed already
                             Model.CurrentRound.Bye = EligableBye.Item(rnd.Next(EligableBye.Count))
+                        Else
+                            'no one at 0 points
+                            'get a list of people who have been byed
+                            Dim AlreadyByed = (From p In Model.WMEvent.Rounds Select p.Bye).ToList
+                            'get the bottom ranking person who hasn't been byed
+                            Model.CurrentRound.Bye = (From p In EligablePlayers Where Not AlreadyByed.Contains(p) Order By p.Rank Descending).FirstOrDefault
+                            If Model.CurrentRound.Bye Is Nothing Then
+                                'no idea how this is possible, but when in doubt, get the bottom ranked person
+                                Model.CurrentRound.Bye = (From p In EligablePlayers Order By p.Rank Descending).FirstOrDefault
+                            End If
                         End If
 
                     End If

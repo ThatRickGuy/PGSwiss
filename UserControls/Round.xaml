@@ -91,9 +91,9 @@
 
         <DataGrid Name="dgPlayers" 
                   Grid.Row="4" Margin="4,0,4,4"  Grid.ColumnSpan="2"
-                  ItemsSource="{Binding Path=Model.CurrentRound.Players}"
+                  ItemsSource="{Binding Path=Model.CurrentRoundPlayers}"
                   CanUserAddRows="True" 
-                  AutoGenerateColumns="False" >
+                  AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Rank" IsReadOnly="True" Width="auto" Binding="{Binding Rank}"></DataGridTextColumn>
                 <DataGridTemplateColumn Header="PP Handle" Width="*" 
@@ -114,7 +114,7 @@
                 <DataGridTextColumn Header="SOS" IsReadOnly="True" Width="auto" Binding="{Binding Path=StrengthOfSchedule}"></DataGridTextColumn>
                 <DataGridTextColumn Header="CP" IsReadOnly="True" Width="auto" Binding="{Binding Path=ControlPoints}"></DataGridTextColumn>
                 <DataGridTextColumn Header="APD" IsReadOnly="True" Width="auto" Binding="{Binding Path=ArmyPointsDestroyed}"></DataGridTextColumn>
-                <DataGridCheckBoxColumn Header="Drop" Width="auto" Binding="{Binding Drop}" ></DataGridCheckBoxColumn>
+                <DataGridCheckBoxColumn Header="Drop" Width="auto" Binding="{Binding Drop}"  ></DataGridCheckBoxColumn>
                 <DataGridCheckBoxColumn Header="Bye Vol" Width="auto" Binding="{Binding ByeVol}"></DataGridCheckBoxColumn>
             </DataGrid.Columns>
         </DataGrid>

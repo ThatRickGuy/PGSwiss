@@ -12,23 +12,6 @@ Public Class StandingsController
 
     Public Sub New()
         Me.View = New Standings
-
-        For Each Player In Model.CurrentRound.Players
-            Player.StrengthOfSchedule = 0
-            For Each Opponent In Player.Opponents
-                Dim po = (From p In Model.CurrentRound.Players Where p.PPHandle = Opponent).FirstOrDefault
-                If Not po Is Nothing Then Player.StrengthOfSchedule += po.TourneyPoints
-            Next
-        Next
-
-        Dim Standings As New doStandings
-        Standings.Standings.AddRange((From p In Model.CurrentRound.Players Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending).ToList)
-        Dim i As Integer = 1
-        For Each s In Standings.Standings
-            s.Rank = i
-            i += 1
-        Next
-        Me.View.DataContext = Standings
     End Sub
 
     Public Overrides Function Validate() As String
@@ -37,15 +20,10 @@ Public Class StandingsController
 
     Protected Overrides Sub Activated()
         MyBase.Activated()
+        Dim Standings As New doStandings
+        Standings.Standings = Model.CurrentRound.GetPlayers(Model.WMEvent)
+        Me.View.DataContext = Standings
         Model.CurrentProgress = 90
-
-        For Each Player In Model.CurrentRound.Players
-            Player.StrengthOfSchedule = 0
-            For Each Opponent In Player.Opponents
-                Dim po = (From p In Model.CurrentRound.Players Where p.PPHandle = Opponent).FirstOrDefault
-                If Not po Is Nothing Then Player.StrengthOfSchedule += po.TourneyPoints
-            Next
-        Next
     End Sub
 
     Public Sub PrintStandings(Upload As Boolean)
@@ -56,7 +34,7 @@ Public Class StandingsController
         sbOutput.Append("<table>")
         sbOutput.AppendFormat("<tr><td><b>{0}</b></td><td><b>{1}</b></td><td><b>{2}</b></td><td><b>{3}</b></td><td><b>{4}</b></td><td><b>{5}</b></td><td><b>{6}</b></td><td><b>{7}</b></td><td><b>{8}</b></td></tr>", {"Rank", "Name", "PPHandle", "Faction", "Meta", "TP", "SOS", "CP", "APD"})
 
-        For Each player In (From p In Model.CurrentRound.Players Order By p.Rank)
+        For Each player In (From p In Model.CurrentRoundPlayers Order By p.Rank)
             sbOutput.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>", _
                                  {player.Rank.ToString, player.Name, player.PPHandle, player.Faction, player.Meta, player.TourneyPoints, player.StrengthOfSchedule, player.ControlPoints, player.ArmyPointsDestroyed})
         Next
