@@ -12,7 +12,7 @@ Imports System.Windows
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("PGSwiss")> 
-<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyDescription("Swiss pairings tournament management software just for the Press Gang")> 
 <Assembly: AssemblyCompany("RingDev")> 
 <Assembly: AssemblyProduct("PGSwiss")> 
 <Assembly: AssemblyCopyright("Copyright © RingDev")> 
@@ -55,5 +55,5 @@ Imports System.Windows
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.2.0.0")> 
-<Assembly: AssemblyFileVersion("1.2.0.0")> 
+<Assembly: AssemblyVersion("1.3.0.0")> 
+<Assembly: AssemblyFileVersion("1.3.0.0")> 

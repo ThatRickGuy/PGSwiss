@@ -63,16 +63,20 @@ Public Class doRound
             'again, for pairdowns
             For Each game In round.Games
                 If Not game.Player2 Is Nothing Then
-                    If game.Player1.TourneyPoints > game.Player2.TourneyPoints Then
-                        Dim player = (From p In PlayerList Where p.PPHandle = game.Player1.PPHandle).FirstOrDefault
-                        If Not player Is Nothing Then
-                            player.HasBeenPairedDown = True
-                        End If
-                    ElseIf game.Player1.TourneyPoints < game.Player2.TourneyPoints Then
-                        Dim player = (From p In PlayerList Where p.PPHandle = game.Player2.PPHandle).FirstOrDefault
-                        If Not player Is Nothing Then
-                            player.HasBeenPairedDown = True
-                        End If
+
+                    Dim player = (From p In PlayerList Where p.PPHandle = game.Player1.PPHandle).FirstOrDefault
+                    If Not player Is Nothing Then
+                        player.Opponents.Add(game.Player2.PPHandle)
+                        player.Tables.Add(game.TableNumber)
+                        If game.Player1.TourneyPoints > game.Player2.TourneyPoints Then player.HasBeenPairedDown = True
+                    End If
+
+                    player = (From p In PlayerList Where p.PPHandle = game.Player2.PPHandle).FirstOrDefault
+                    If Not player Is Nothing Then
+                        player.HasBeenPairedDown = True
+                        player.Opponents.Add(game.Player1.PPHandle)
+                        player.Tables.Add(game.TableNumber)
+                        If game.Player1.TourneyPoints < game.Player2.TourneyPoints Then player.HasBeenPairedDown = True
                     End If
                 End If
             Next

@@ -29,17 +29,48 @@ Public Class StandingsController
     Public Sub PrintStandings(Upload As Boolean)
         Dim sbOutput As New StringBuilder
         sbOutput.Append(My.Resources.HTMLHeaderStandings)
-        sbOutput.AppendFormat("<h1>{0}</h1><hr><h3>{1}</h3><br>", {Model.WMEvent.Name, Model.WMEvent.EventDate.ToShortDateString})
 
-        sbOutput.Append("<table>")
+
+        'sbOutput.AppendFormat("<h1>{0}</h1><hr><h3>{1}</h3><br>", {Model.WMEvent.Name, Model.WMEvent.EventDate.ToShortDateString})
+        sbOutput.Append("<br/><div class=""CSSTableGenerator""><table>")
+        sbOutput.AppendFormat("<tr><td><h1>{0}</h1></td></tr><tr><td>{1}</td></tr>", {Model.WMEvent.Name, Model.WMEvent.EventDate.ToShortDateString})
+        sbOutput.Append("</table></div><br/>")
+
+
+        sbOutput.Append("<div class=""CSSTableGenerator""><table>")
         sbOutput.AppendFormat("<tr><td><b>{0}</b></td><td><b>{1}</b></td><td><b>{2}</b></td><td><b>{3}</b></td><td><b>{4}</b></td><td><b>{5}</b></td><td><b>{6}</b></td><td><b>{7}</b></td><td><b>{8}</b></td></tr>", {"Rank", "Name", "PPHandle", "Faction", "Meta", "TP", "SOS", "CP", "APD"})
 
         For Each player In (From p In Model.CurrentRoundPlayers Order By p.Rank)
             sbOutput.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>", _
                                  {player.Rank.ToString, player.Name, player.PPHandle, player.Faction, player.Meta, player.TourneyPoints, player.StrengthOfSchedule, player.ControlPoints, player.ArmyPointsDestroyed})
         Next
-        sbOutput.Append("</table>")
+        sbOutput.Append("</table></div><br/>")
 
+        sbOutput.Append("<div class=""CSSTableGenerator""><table>")
+        sbOutput.AppendFormat("<tr><td><b>{0}</b></td><td><b>{1}</b></td><td><b>{2}</b></td><td><b>{3}</b></td><td><b>{4}</b></td><td><b>{5}</b></td><td><b>{6}</b></td><td><b>{7}</b></td><td><b>{8}</b></td></tr>",
+                              {"Round #", "Size", "Scenario", "# of Games", "Assassinations", "Scenario", "Clock", "Average CP", "Average APD"})
+        For Each r In BaseController.Model.WMEvent.Rounds
+            Dim NonByeGames = From p In r.Games Where p.Player2 IsNot Nothing
+            'Get all the CP's for Player1 where they have an opponent (ie: no Byes!)
+            Dim q = (From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player1.ControlPoints).ToList
+            'Get all the CP's for Player2
+            q.AddRange(From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player2.ControlPoints)
+            Dim ACP = q.Average.ToString("#.#")
+
+            'Get all the APD's for Player1 where they have an opponent (ie: no Byes!)
+            q = (From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player1.ArmyPointsDestroyed).ToList
+            'Get all the APD's for Player2
+            q.AddRange(From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player2.ArmyPointsDestroyed)
+            Dim AAPD = q.Average.ToString("#.#")
+
+            sbOutput.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>",
+                      {r.RoundNumber, r.Size, r.Scenario, NonByeGames.Count,
+                       (From p In NonByeGames Where p.Condition = "Assassination").Count,
+                       (From p In NonByeGames Where p.Condition = "Scenario").Count,
+                       (From p In NonByeGames Where p.Condition = "Time").Count,
+                       ACP, AAPD})
+        Next
+        sbOutput.Append("</table></div><br/>")
         sbOutput.Append(My.Resources.Footer)
 
         IO.File.WriteAllText(".\" & Model.WMEvent.EventID.ToString & ".html", sbOutput.ToString)
