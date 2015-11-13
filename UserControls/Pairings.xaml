@@ -10,12 +10,12 @@
     <Grid>
         <Grid.Resources>
             <local:IntToBrushConverter x:Key="IntToBrushConverter"/>
-            <CollectionViewSource x:Key="SortedPlayers1" Source="{Binding Path=Model.CurrentRound.Players}">
+            <CollectionViewSource x:Key="SortedPlayers1" Source="{Binding Path=Model.CurrentRoundPlayers}">
                 <CollectionViewSource.SortDescriptions>
                     <scm:SortDescription PropertyName="PPHandle"/>
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
-            <CollectionViewSource x:Key="SortedPlayers2" Source="{Binding Path=Model.CurrentRound.Players}">
+            <CollectionViewSource x:Key="SortedPlayers2" Source="{Binding Path=Model.CurrentRoundPlayers}">
                 <CollectionViewSource.SortDescriptions>
                     <scm:SortDescription PropertyName="PPHandle"/>
                 </CollectionViewSource.SortDescriptions>

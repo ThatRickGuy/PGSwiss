@@ -6,6 +6,11 @@ Public Class PairingsController
     Inherits BaseController
     Implements INotifyPropertyChanged
 
+    Public ReadOnly Property Players
+        Get
+            Return Model.CurrentRoundPlayers
+        End Get
+    End Property
 
     Protected Overrides Function CreateNext() As BaseController
         Return New GamesController
