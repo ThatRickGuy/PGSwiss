@@ -84,8 +84,8 @@ Public Class doPlayer
     End Function
 
 
-    Public Property Opponents As List(Of String)
-    Public Property Tables As List(Of Integer)
+    Public Property Opponents As New List(Of String)
+    Public Property Tables As New List(Of Integer)
 
 
     ' Create the OnPropertyChanged method to raise the event 
