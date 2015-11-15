@@ -57,3 +57,5 @@ Imports System.Windows
 
 <Assembly: AssemblyVersion("1.3.0.0")> 
 <Assembly: AssemblyFileVersion("1.3.0.0")> 
+
+<Assembly: NeutralResourcesLanguageAttribute("en")> 

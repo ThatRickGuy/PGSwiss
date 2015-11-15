@@ -61,6 +61,10 @@ Public Class Round
     End Sub
 
 
+    Public Sub Refresh()
+        dgPlayers.GetBindingExpression(DataGrid.ItemsSourceProperty).UpdateTarget()
+    End Sub
+
     Private Sub dgPlayers_PreviewKeyDown(sender As Object, e As KeyEventArgs) Handles dgPlayers.PreviewKeyDown
         Dim values = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890D1D2D3D4D5D6D7D8D9D0!@#$%^&*(),./;'[]<>?:""{}\|-=_+"
 
@@ -80,5 +84,20 @@ Public Class Round
                 End If
             End If
         End If
+    End Sub
+
+    Private Sub btnRandomScenario_Click(sender As Object, e As RoutedEventArgs)
+        Dim model = WMEventViewModel.GetSingleton()
+        Dim ExclusionList As New List(Of String)
+        For Each Round In model.WMEvent.Rounds
+            ExclusionList.Add(Round.Scenario)
+        Next
+
+        Dim Attempts As Integer = 0
+        Dim rnd As New Random
+        While ExclusionList.Contains(cboFormat.SelectedValue) AndAlso Attempts < 10
+            Attempts += 1
+            cboFormat.SelectedIndex = rnd.Next(cboFormat.Items.Count - 1)
+        End While
     End Sub
 End Class

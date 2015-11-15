@@ -77,8 +77,8 @@ Public Class doPlayer
         dopReturn.Meta = Me.Meta
         dopReturn.Name = Me.Name
         dopReturn.PPHandle = Me.PPHandle
-        dopReturn.Tables = Me.Tables
-        dopReturn.Opponents = Me.Opponents
+        'dopReturn.Tables = Me.Tables
+        'dopReturn.Opponents = Me.Opponents
         dopReturn.ByeVol = Me.ByeVol
         Return dopReturn
     End Function

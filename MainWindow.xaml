@@ -6,7 +6,8 @@
         Left="100" Top="100"
         Title="MainWindow" Height="600" Width="800"
         WindowStyle="ThreeDBorderWindow"
-        AllowsTransparency="False" Icon="pgswiss.ico"     >
+        AllowsTransparency="False" Icon="pgswiss.ico"  
+        x:Name="Window1">
     <Window.Resources>
         <Style x:Key="GlassButton" TargetType="{x:Type Button}">
             <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -312,10 +313,14 @@
                 </Rectangle.Stroke>
 
             </Rectangle>
-            <TextBlock Margin="4" FontWeight="Bold">
-                <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_1" NavigateUri="https://github.com/ThatRickGuy/PGSwiss/issues?state=open">Report Issue/Feedback</Hyperlink>
-                version 1.3beta
-            </TextBlock>
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Margin="4" FontWeight="Bold">
+                    <Hyperlink RequestNavigate="Hyperlink_RequestNavigate_1" NavigateUri="https://github.com/ThatRickGuy/PGSwiss/issues?state=open">Report Issue/Feedback</Hyperlink>
+                </TextBlock>
+                <TextBlock Text="{Binding ElementName=Window1, Path=Version}" VerticalAlignment="Center" Margin="0,4,4,4"></TextBlock>
+            </StackPanel>
+            
+            
         </Grid>
     </Grid>
 

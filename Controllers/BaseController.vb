@@ -79,6 +79,8 @@
             Else
                 MessageBox.Show("Please correct the following issue(s) before continuing:" & ControlChars.CrLf & ControlChars.CrLf & sValidated)
             End If
+        Else
+            Return Nothing
         End If
     End Function
 
@@ -89,6 +91,8 @@
             End If
             _CurrentController.Activated()
             Return _CurrentController
+        Else
+            Return Nothing
         End If
     End Function
 

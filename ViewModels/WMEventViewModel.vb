@@ -69,6 +69,7 @@ Public Class WMEventViewModel
     Private _LastRoundRetrieved As Integer
     Private _LastGamesCountRetrived As Integer
     Private _cachedRoundPlayers As List(Of doPlayer)
+
     Public ReadOnly Property CurrentRoundPlayers As List(Of doPlayer)
         Get
             If _LastRoundRetrieved <> _CurrentRound.RoundNumber OrElse _LastGamesCountRetrived <> (From p In _CurrentRound.Games Where p.Reported = True).Count Then

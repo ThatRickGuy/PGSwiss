@@ -13,6 +13,7 @@ Public Class Clock
         tmrUpate.Interval = TimeSpan.FromSeconds(1)
         Me.DataContext = Me
         Me.grdPause.Visibility = Windows.Visibility.Collapsed
+        Me.grdReset.Visibility = Windows.Visibility.Collapsed
     End Sub
 
     Private _SetDuration As TimeSpan
@@ -37,7 +38,7 @@ Public Class Clock
     End Sub
 
     Private Sub recButton_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles recButton.MouseUp
-        If (Now - MouseDownTime).TotalSeconds > 5 Then
+        If Me.Duration.TotalSeconds = 0 Then
             tmrUpate.Stop()
             TimerIsRunning = False
             IsResetting = True
@@ -51,6 +52,7 @@ Public Class Clock
             txtTimerMinutes.IsTabStop = True
             txtTimerSeconds.IsTabStop = True
             Me.grdPause.Visibility = Windows.Visibility.Collapsed
+            Me.grdReset.Visibility = Windows.Visibility.Collapsed
             Me.grdPlay.Visibility = Windows.Visibility.Visible
         Else
             If TimerIsRunning Then
@@ -63,6 +65,7 @@ Public Class Clock
                 txtTimerMinutes.IsTabStop = True
                 txtTimerSeconds.IsTabStop = True
                 Me.grdPause.Visibility = Windows.Visibility.Collapsed
+                Me.grdReset.Visibility = Windows.Visibility.Collapsed
                 Me.grdPlay.Visibility = Windows.Visibility.Visible
             Else
                 'resume
@@ -74,6 +77,7 @@ Public Class Clock
                 txtTimerMinutes.IsTabStop = False
                 txtTimerSeconds.IsTabStop = False
                 Me.grdPause.Visibility = Windows.Visibility.Visible
+                Me.grdReset.Visibility = Windows.Visibility.Collapsed
                 Me.grdPlay.Visibility = Windows.Visibility.Collapsed
             End If
             TimerIsRunning = Not TimerIsRunning
@@ -116,7 +120,7 @@ Public Class Clock
         Me.Duration -= TimeSpan.FromSeconds(1)
         If Me.Duration = TimeSpan.FromSeconds(0) Then
             tmrUpate.Stop()
-            Me.Duration = Me.SetDuration
+            'Me.Duration = Me.SetDuration
             txtTimerHours.IsReadOnly = False
             txtTimerMinutes.IsReadOnly = False
             txtTimerSeconds.IsReadOnly = False
@@ -125,8 +129,10 @@ Public Class Clock
             txtTimerSeconds.IsTabStop = True
 
             Me.grdPause.Visibility = Windows.Visibility.Collapsed
-            Me.grdPlay.Visibility = Windows.Visibility.Visible
+            Me.grdReset.Visibility = Windows.Visibility.Visible
+            Me.grdPlay.Visibility = Windows.Visibility.Collapsed
             TimerIsRunning = False
+            IsResetting = True
             Beep()
             System.Threading.Thread.Sleep(300)
             Beep()
@@ -135,6 +141,7 @@ Public Class Clock
 
         End If
         OnPropertyChanged("Duration")
+        IsResetting = False
     End Sub
 
     Protected Sub OnPropertyChanged(ByVal name As String)

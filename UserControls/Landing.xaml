@@ -36,7 +36,6 @@
             
             
             
-            <TextBlock HorizontalAlignment="Right" VerticalAlignment="top" Text="{Binding Version}" Margin="0,0,4,0"></TextBlock>
             <TextBlock HorizontalAlignment="Center"  FontWeight="Bold" FontSize="55" Foreground="#A5000000" VerticalAlignment="Top" Margin="0,-10,0,0">BETA</TextBlock>
             <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,1,3" BorderBrush="Black" >
                 <TextBlock TextWrapping="Wrap"  Margin="4">

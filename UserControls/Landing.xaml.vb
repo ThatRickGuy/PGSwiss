@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.Win32
+Imports System.Reflection
 
 Public Class Landing
 
@@ -31,7 +32,6 @@ Public Class Landing
         Process.Start(New ProcessStartInfo(e.Uri.AbsoluteUri))
         e.Handled = True
     End Sub
-
 
     Private Async Sub btnDoit_Click(sender As Object, e As RoutedEventArgs) Handles btnDoit.Click
         MessageBox.Show(Await WebAPIHelper.APIGET("/api/values"))

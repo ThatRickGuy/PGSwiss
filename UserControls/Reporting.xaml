@@ -27,7 +27,7 @@
         <TextBlock Grid.Row="3" Margin="4,4,4,-0" FontWeight="Bold">Attendees</TextBlock>
         <TextBox Name="txtAttendees" Grid.Row="4" Margin="6,2,6,6" Text="{Binding Path=Attendees}" VerticalScrollBarVisibility="Auto" ></TextBox>
         <TextBlock Grid.Row="5" Margin="4,4,4,-0" FontWeight="Bold">Notes</TextBlock>
-        <TextBox Name="txtNotes" Grid.Row="6" Margin="6,2,6,6" Text="{Binding Path=Notes}" VerticalScrollBarVisibility="Auto" ></TextBox>
+        <TextBox Name="txtNotes" Grid.Row="6" Margin="6,2,6,6" Text="{Binding Path=Notes}" VerticalScrollBarVisibility="Auto" FontFamily="Courier New" ></TextBox>
         
         <TextBlock Grid.Row="7" Margin="4,2,4,0" FontWeight="Bold">Statistics</TextBlock>
         <Rectangle Grid.Row="8" Grid.RowSpan="2" Stroke="#FF0051FF" RadiusX="4" RadiusY="4" Margin="2,0,2,2"></Rectangle>

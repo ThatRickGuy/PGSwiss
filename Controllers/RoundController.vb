@@ -42,8 +42,9 @@ Public Class RoundController
         Model.CurrentProgress = ValuePerRoundScreen * (Model.CurrentRound.RoundNumber * 3 + 0) 'current round + the screen of the round
 
         If (From p In Model.CurrentRound.Games Where p.Reported).Count > 0 Then CType(Me.View, Round).dgPlayers.CanUserAddRows = False
-        CType(Me.View, Round).dgPlayers.Items.Refresh()
+        CType(Me.View, Round).Refresh()
     End Sub
+
 
     Public Overrides Function Validate() As String
         Dim sReturn = String.Empty

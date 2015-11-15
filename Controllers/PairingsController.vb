@@ -189,8 +189,8 @@ Public Class PairingsController
             End If
             '***************************************************************
 
-            Dim Player1 As doPlayer
-            Dim Player2 As doPlayer
+            Dim Player1 As doPlayer = Nothing
+            Dim Player2 As doPlayer = Nothing
             If Model.CurrentRound.RoundNumber > 1 Then
                 'not the first round, use wins model
                 Dim TopTP = Model.CurrentRound.RoundNumber '  (From p In EligablePlayers Select p.TourneyPoints).Max

@@ -33,7 +33,6 @@ Public Class doRound
 
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
 
-    ' Create the OnPropertyChanged method to raise the event 
     Protected Sub OnPropertyChanged(ByVal name As String)
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub

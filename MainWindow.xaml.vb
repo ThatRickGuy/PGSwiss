@@ -1,4 +1,6 @@
 ﻿Imports System.Windows.Media.Animation
+Imports System.Reflection
+Imports System.Deployment.Application
 
 Class MainWindow
     Public Sub New()
@@ -46,7 +48,7 @@ Class MainWindow
 
         grdPanel1Content.Children.Clear()
         grdPanel2Content.Children.Clear()
-        
+
         Dim TargetMargin As Thickness
         If _IsMovingPrev Then
             'start on cell #2
@@ -119,6 +121,17 @@ Class MainWindow
         Process.Start(New ProcessStartInfo(e.Uri.AbsoluteUri))
         e.Handled = True
     End Sub
+
+    Public ReadOnly Property Version
+        Get
+            If ApplicationDeployment.IsNetworkDeployed Then
+                Return ApplicationDeployment.CurrentDeployment.CurrentVersion
+            Else
+                Return Assembly.GetExecutingAssembly().GetName().Version
+            End If
+
+        End Get
+    End Property
 End Class
 
 
