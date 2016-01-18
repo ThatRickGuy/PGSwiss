@@ -21,7 +21,10 @@
     End Sub
 
     Private Sub cboCondition_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles cboCondition.SelectionChanged
-        If BaseController.Model.CurrentGame IsNot Nothing AndAlso BaseController.Model.CurrentGame.Winner <> String.Empty AndAlso BaseController.Model.CurrentGame.Winner <> "Draw" Then
+        If BaseController.Model.CurrentGame IsNot Nothing AndAlso
+           BaseController.Model.CurrentGame.Winner <> String.Empty AndAlso
+           BaseController.Model.CurrentGame.Winner <> "Draw" AndAlso
+           BaseController.CurrentController.GetType Is GetType(GamesController) Then
             If CType(e.AddedItems(0), ComboBoxItem).Content = "Scenario" Then CType(BaseController.CurrentController, GamesController).SetWinnerByScenario(BaseController.Model.CurrentGame.Winner)
             If CType(e.AddedItems(0), ComboBoxItem).Content = "Concession" Then CType(BaseController.CurrentController, GamesController).SetWinnerByConcession(BaseController.Model.CurrentGame.Winner)
             If CType(e.AddedItems(0), ComboBoxItem).Content = "Disqualification" Then CType(BaseController.CurrentController, GamesController).SetWinnerByConcession(BaseController.Model.CurrentGame.Winner)
