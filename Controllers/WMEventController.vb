@@ -1,4 +1,6 @@
-﻿Public Class WMEventController
+﻿Imports System.ComponentModel
+
+Public Class WMEventController
     Inherits BaseController
 
     Protected Overrides Function CreateNext() As BaseController
@@ -34,4 +36,5 @@
         MyBase.Activated()
         Model.CurrentProgress = 10
     End Sub
+
 End Class

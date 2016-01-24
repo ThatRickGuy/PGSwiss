@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Xml.Serialization
 Imports System.ComponentModel
+Imports System.Collections.ObjectModel
 
 Public Class doWMEvent
     Implements INotifyPropertyChanged
@@ -42,8 +43,22 @@ Public Class doWMEvent
         End Set
     End Property
     Public Property EventDate As Date = Today
-    Public Property Players As New List(Of doPlayer)
+
+    Private WithEvents _Players As New ObservableCollection(Of doPlayer)
+    Public Property Players As ObservableCollection(Of doPlayer)
+        Get
+            Return _Players
+        End Get
+        Set(value As ObservableCollection(Of doPlayer))
+            _Players = value
+        End Set
+    End Property
     Public Property Rounds As New List(Of doRound)
+
+    Public Sub x() Handles _Players.CollectionChanged
+        OnPropertyChanged("Players")
+    End Sub
+
 
     Public Sub load()
         If File.Exists(_FileName) Then

@@ -68,7 +68,6 @@ Public Class StandingsController
                        (From p In NonByeGames Where p.Condition = "Assassination").Count,
                        (From p In NonByeGames Where p.Condition = "Scenario").Count,
                        (From p In NonByeGames Where p.Condition = "Time").Count,
-                       (From p In NonByeGames Where p.Condition = "Concession" Or p.Condition = "Disqualification").Count,
                        ACP, AAPD})
         Next
         sbOutput.Append("</table></div><br/>")

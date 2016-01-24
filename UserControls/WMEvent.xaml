@@ -103,7 +103,7 @@
         <DatePicker Grid.Row="6" Name="dtpEventDate" Margin="4,-4,4,0" SelectedDate="{Binding Path=Model.WMEvent.EventDate}"></DatePicker>
         <StackPanel Orientation="Horizontal" Grid.Row="7">
             <Label Grid.Row="7" FontWeight="Bold" Margin="4,0,4,0">Players</Label>
-            <TextBlock  Text="{Binding PlayerCount}" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Name="txtPlayercount"  Text="{Binding Path=Model.WMEvent.Players.Count}" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
         <DataGrid Name="dgPlayers"
                   ItemsSource="{Binding Path=Model.WMEvent.Players}"

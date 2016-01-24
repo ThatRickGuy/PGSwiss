@@ -115,11 +115,14 @@ Public Class GamesController
         If Model.CurrentGame.Condition = String.Empty Then sReturn &= "Condition not set"
         If sReturn = String.Empty Then
             If BaseController.Model.CurrentGame IsNot Nothing Then
-                Model.CurrentGame.Player1.Tables.Add(Model.CurrentGame.TableNumber)
+                Dim q = (From p In Model.WMEvent.Players Where p.PPHandle = Model.CurrentGame.Player1.PPHandle Select p).FirstOrDefault
+                If Not q Is Nothing Then q.Tables.Add(Model.CurrentGame.TableNumber)
+
                 If Not Model.CurrentGame.Player2 Is Nothing Then
-                    Model.CurrentGame.Player2.Tables.Add(Model.CurrentGame.TableNumber)
                     Model.CurrentGame.Player1.Opponents.Add(Model.CurrentGame.Player2.PPHandle)
                     Model.CurrentGame.Player2.Opponents.Add(Model.CurrentGame.Player1.PPHandle)
+                    q = (From p In Model.WMEvent.Players Where p.PPHandle = Model.CurrentGame.Player2.PPHandle Select p).FirstOrDefault
+                    If Not q Is Nothing Then q.Tables.Add(Model.CurrentGame.TableNumber)
                 End If
 
                 Model.CurrentGame.Reported = True
@@ -132,9 +135,9 @@ Public Class GamesController
                 Dim RemainingGames = From p In Model.CurrentRound.Games Where p.Reported = False
 
                 If RemainingGames.Count = 0 Then
-                    Dim q = From p In Model.CurrentRoundPlayers Where p.TourneyPoints = Model.CurrentRound.RoundNumber
+                    Dim q2 = From p In Model.CurrentRoundPlayers Where p.TourneyPoints = Model.CurrentRound.RoundNumber
 
-                    If q.Count < 2 Then
+                    If q2.Count < 2 Then
                         Model.CurrentRound.IsLastRound = True
                     End If
                 End If

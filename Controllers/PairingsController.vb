@@ -284,8 +284,12 @@ Public Class PairingsController
             Next
             For Each game In (From p In NonByeGames Order By p.Player1.Rank + p.Player2.Rank Ascending)
                 Dim InvalidTables As New List(Of Integer)
-                InvalidTables.AddRange(game.Player1.Tables)
-                InvalidTables.AddRange(game.Player2.Tables)
+                Dim EventPlayer1 = (From p In Model.WMEvent.Players Where p.PPHandle = game.Player1.PPHandle Select p).FirstOrDefault
+                Dim EventPlayer2 = (From p In Model.WMEvent.Players Where p.PPHandle = game.Player2.PPHandle Select p).FirstOrDefault
+                If Not EventPlayer1 Is Nothing AndAlso Not EventPlayer2 Is Nothing Then
+                    InvalidTables.AddRange(EventPlayer1.Tables)
+                    InvalidTables.AddRange(EventPlayer2.Tables)
+                End If
                 game.TableNumber = (From p In Tables Where Not InvalidTables.Contains(p)).FirstOrDefault
                 If game.TableNumber = 0 Then game.TableNumber = Tables.Item(rnd.Next(Tables.Count))
                 Tables.Remove(game.TableNumber)
@@ -312,9 +316,14 @@ Public Class PairingsController
         If game.Player1.Meta = game.Player2.Meta Then
             game.PairingCondition += 1
         End If
-        If game.Player1.Tables.Contains(game.TableNumber) OrElse game.Player2.Tables.Contains(game.TableNumber) Then
-            game.PairingCondition += 2
+        Dim EventPlayer1 = (From p In Model.WMEvent.Players Where p.PPHandle = game.Player1.PPHandle Select p).FirstOrDefault
+        Dim EventPlayer2 = (From p In Model.WMEvent.Players Where p.PPHandle = game.Player2.PPHandle Select p).FirstOrDefault
+        If EventPlayer1 IsNot Nothing AndAlso EventPlayer2 IsNot Nothing Then
+            If EventPlayer1.Tables.Contains(game.TableNumber) OrElse EventPlayer2.Tables.Contains(game.TableNumber) Then
+                game.PairingCondition += 2
+            End If
         End If
+
         If game.Player1.Opponents.Contains(game.Player2.PPHandle) OrElse game.Player2.Opponents.Contains(game.Player1.PPHandle) Then
             game.PairingCondition += 4
         End If

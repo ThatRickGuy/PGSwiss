@@ -48,7 +48,7 @@ Public Class IntToBrushConverter
 
         Dim brushReturn As SolidColorBrush = Nothing
         Dim bgColor As Color = Colors.Transparent
-        If value IsNot Nothing Then
+        If value IsNot Nothing AndAlso value > 0 Then
             If (value And GameCondition.SameMeta) = GameCondition.SameMeta Then
                 bgColor = Colors.Yellow
             End If

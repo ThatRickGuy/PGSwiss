@@ -4,6 +4,7 @@ Imports System.ComponentModel
 Imports PGSwiss.Data
 
 Public Class WMEvent
+
     Public Sub New()
 
         ' This call is required by the designer.
@@ -134,6 +135,7 @@ Public Class WMEvent
         If FoundIndex > 0 Then cbo.SelectedIndex = FoundIndex
         If e.Key <> Key.Tab Then e.Handled = True
     End Sub
+
 
 
 End Class
