@@ -93,28 +93,29 @@ Public Class PairingsController
             Dim PlayerGames As New List(Of PlayerGame)
             For Each player In (From p In Model.CurrentRoundPlayers Order By p.Name)
                 Dim game = (From p In Model.CurrentRound.Games Where p.Player1.PPHandle = player.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = player.PPHandle)).FirstOrDefault
-
-                Dim pg As PlayerGame = Nothing
-                If game.Player2 Is Nothing Then
-                    'bye
-                    pg.Player = game.Player1.Name
-                    pg.PlayerHandle = game.Player1.PPHandle
-                    pg.Table = 0
-                    pg.Opponent = "Bye"
-                ElseIf game.Player1.PPHandle = player.PPHandle Then
-                    pg.Player = game.Player1.Name
-                    pg.PlayerHandle = game.Player1.PPHandle
-                    pg.Table = game.TableNumber
-                    pg.Opponent = game.Player2.Name
-                    pg.OpponentHandle = game.Player2.PPHandle
-                ElseIf game.Player2.PPHandle = player.PPHandle Then
-                    pg.Player = game.Player2.Name
-                    pg.PlayerHandle = game.Player2.PPHandle
-                    pg.Table = game.TableNumber
-                    pg.Opponent = game.Player1.Name
-                    pg.OpponentHandle = game.Player1.PPHandle
+                If Not game Is Nothing Then
+                    Dim pg As PlayerGame = Nothing
+                    If game.Player2 Is Nothing Then
+                        'bye
+                        pg.Player = game.Player1.Name
+                        pg.PlayerHandle = game.Player1.PPHandle
+                        pg.Table = 0
+                        pg.Opponent = "Bye"
+                    ElseIf game.Player1.PPHandle = player.PPHandle Then
+                        pg.Player = game.Player1.Name
+                        pg.PlayerHandle = game.Player1.PPHandle
+                        pg.Table = game.TableNumber
+                        pg.Opponent = game.Player2.Name
+                        pg.OpponentHandle = game.Player2.PPHandle
+                    ElseIf game.Player2.PPHandle = player.PPHandle Then
+                        pg.Player = game.Player2.Name
+                        pg.PlayerHandle = game.Player2.PPHandle
+                        pg.Table = game.TableNumber
+                        pg.Opponent = game.Player1.Name
+                        pg.OpponentHandle = game.Player1.PPHandle
+                    End If
+                    PlayerGames.Add(pg)
                 End If
-                PlayerGames.Add(pg)
             Next
 
             Dim LastNameInFirstColumn As String = String.Empty
