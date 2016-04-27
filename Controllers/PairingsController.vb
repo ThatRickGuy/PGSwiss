@@ -1,6 +1,7 @@
 ﻿Imports System.Text
 Imports PGSwiss.Data
 Imports System.ComponentModel
+Imports System.IO
 
 Public Class PairingsController
     Inherits BaseController
@@ -37,58 +38,62 @@ Public Class PairingsController
 
 
     Public Sub PrintPairingsByTableNumber()
-        If Model.CurrentRound.Games.Count > 0 Then
-            Dim sbOutput As New StringBuilder
-            sbOutput.Append(My.Resources.HTMLHeader)
-            sbOutput.AppendFormat(My.Resources.Header, Model.WMEvent.Name, Model.CurrentRound.RoundNumber, Model.CurrentRound.Scenario & " " & Model.CurrentRound.Size & "pts")
+        'If Model.CurrentRound.Games.Count > 0 Then
+        '    Dim sbOutput As New StringBuilder
+        '    sbOutput.Append(My.Resources.HTMLHeader)
+        '    sbOutput.AppendFormat(My.Resources.Header, Model.WMEvent.Name, Model.CurrentRound.RoundNumber, Model.CurrentRound.Scenario & " " & Model.CurrentRound.Size & "pts")
 
-            Dim sbLeftBlock As New StringBuilder()
-            Dim sbRightBlock As New StringBuilder()
+        '    Dim sbLeftBlock As New StringBuilder()
+        '    Dim sbRightBlock As New StringBuilder()
 
-            Dim i As Integer
-            Dim LastTableInLeftColumn As Integer = 0
-            Dim FirstTableInRightColumn As Integer = 0
-            Dim LastTableInRightColumn As Integer = 0
-            For Each game In (From p In Model.CurrentRound.Games Order By p.TableNumber Ascending)
-                If game.Player2 Is Nothing Then
-                    If i < Math.Ceiling(Model.CurrentRound.Games.Count / 2) Then
-                        sbLeftBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, "BYE", "")
-                        LastTableInLeftColumn = game.TableNumber
-                    Else
-                        sbRightBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, "BYE", "")
-                        If FirstTableInRightColumn = 0 Then FirstTableInRightColumn = game.TableNumber
-                        LastTableInRightColumn = game.TableNumber
-                    End If
-                Else
-                    If i < Math.Ceiling(Model.CurrentRound.Games.Count / 2) Then
-                        sbLeftBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, game.Player2.Name, game.Player2.PPHandle)
-                        LastTableInLeftColumn = game.TableNumber
-                    Else
-                        sbRightBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, game.Player2.Name, game.Player2.PPHandle)
-                        If FirstTableInRightColumn = 0 Then FirstTableInRightColumn = game.TableNumber
-                        LastTableInRightColumn = game.TableNumber
-                    End If
-                End If
-                i += 1
-            Next
+        '    Dim i As Integer
+        '    Dim LastTableInLeftColumn As Integer = 0
+        '    Dim FirstTableInRightColumn As Integer = 0
+        '    Dim LastTableInRightColumn As Integer = 0
+        '    For Each game In (From p In Model.CurrentRound.Games Order By p.TableNumber Ascending)
+        '        If game.Player2 Is Nothing Then
+        '            If i < Math.Ceiling(Model.CurrentRound.Games.Count / 2) Then
+        '                sbLeftBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, "BYE", "")
+        '                LastTableInLeftColumn = game.TableNumber
+        '            Else
+        '                sbRightBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, "BYE", "")
+        '                If FirstTableInRightColumn = 0 Then FirstTableInRightColumn = game.TableNumber
+        '                LastTableInRightColumn = game.TableNumber
+        '            End If
+        '        Else
+        '            If i < Math.Ceiling(Model.CurrentRound.Games.Count / 2) Then
+        '                sbLeftBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, game.Player2.Name, game.Player2.PPHandle)
+        '                LastTableInLeftColumn = game.TableNumber
+        '            Else
+        '                sbRightBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, game.Player2.Name, game.Player2.PPHandle)
+        '                If FirstTableInRightColumn = 0 Then FirstTableInRightColumn = game.TableNumber
+        '                LastTableInRightColumn = game.TableNumber
+        '            End If
+        '        End If
+        '        i += 1
+        '    Next
 
-            sbOutput.AppendFormat(My.Resources.LeftColumn, "Tables 1 - " & LastTableInLeftColumn, sbLeftBlock.ToString)
-            sbOutput.AppendFormat(My.Resources.RightColumn, "Tables " & FirstTableInRightColumn & " - " & LastTableInRightColumn, sbRightBlock.ToString)
-            sbOutput.Append(My.Resources.Footer)
+        '    sbOutput.AppendFormat(My.Resources.LeftColumn, "Tables 1 - " & LastTableInLeftColumn, sbLeftBlock.ToString)
+        '    sbOutput.AppendFormat(My.Resources.RightColumn, "Tables " & FirstTableInRightColumn & " - " & LastTableInRightColumn, sbRightBlock.ToString)
+        '    sbOutput.Append(My.Resources.Footer)
 
-            IO.File.WriteAllText(".\PairingsList.html", sbOutput.ToString)
-            Process.Start(".\PairingsList.html")
-        End If
+        '    IO.File.WriteAllText(".\PairingsList.html", sbOutput.ToString)
+        '    Process.Start(".\PairingsList.html")
+        'End If
     End Sub
 
     Public Sub PrintPairingsAlphaBetical()
         If Model.CurrentRound.Games.Count > 0 Then
-            Dim sbOutput As New StringBuilder
-            sbOutput.Append(My.Resources.HTMLHeader)
-            sbOutput.AppendFormat(My.Resources.Header, Model.WMEvent.Name, Model.CurrentRound.RoundNumber, Model.CurrentRound.Scenario & " " & Model.CurrentRound.Size & "pts")
+            Dim sbOutput As New StringBuilder()
+            sbOutput.Append(My.Resources.TablesAlpha)
+            sbOutput.Replace("[Event Title]", Model.WMEvent.Name)
+            sbOutput.Replace("[Date]", Model.WMEvent.EventDate.ToShortDateString)
+            sbOutput.Replace("[Location]", "")
+            sbOutput.Replace("[Format]", Model.WMEvent.EventFormat.Name)
+            sbOutput.Replace("[PG]", "")
+            sbOutput.Replace("[Version]", My.Application.Info.Version.ToString())
+            sbOutput.Replace("[RoundNum]", Model.CurrentRound.RoundNumber)
 
-            Dim sbLeftBlock As New StringBuilder()
-            Dim sbRightBlock As New StringBuilder()
 
             Dim PlayerGames As New List(Of PlayerGame)
             For Each player In (From p In Model.CurrentRoundPlayers Order By p.Name)
@@ -118,23 +123,44 @@ Public Class PairingsController
                 End If
             Next
 
+            Dim sbLeftBlock As New StringBuilder()
+            Dim sbRightBlock As New StringBuilder()
+
             Dim LastNameInFirstColumn As String = String.Empty
             For i As Integer = 0 To PlayerGames.Count - 1
                 If i < Math.Ceiling(PlayerGames.Count / 2) Then
-                    sbLeftBlock.AppendFormat(My.Resources.Item, New String() {PlayerGames(i).Player, PlayerGames(i).PlayerHandle, PlayerGames(i).Table, PlayerGames(i).Opponent, PlayerGames(i).OpponentHandle})
+                    sbLeftBlock.Append("<div class=""row""><h3>[PlayerName] </h3><h4>Table [TableNumber]<small> vs [Opponent]</small></h4></div>")
+                    Dim name = PlayerGames(i).Player
+                    If PlayerGames(i).Player.ToLower <> PlayerGames(i).PlayerHandle.ToLower AndAlso PlayerGames(i).PlayerHandle IsNot Nothing Then name &= " <small>(" & PlayerGames(i).PlayerHandle & ")</small>"
+                    sbLeftBlock.Replace("[PlayerName]", name)
+                    sbLeftBlock.Replace("[TableNumber]", PlayerGames(i).Table)
+                    name = PlayerGames(i).Opponent
+                    If PlayerGames(i).Opponent.ToLower <> PlayerGames(i).OpponentHandle.ToLower AndAlso PlayerGames(i).OpponentHandle IsNot Nothing Then name &= " <small>(" & PlayerGames(i).OpponentHandle & ")</small>"
+                    sbLeftBlock.Replace("[Opponent]", name)
                     LastNameInFirstColumn = PlayerGames(i).Player
                 Else
-                    sbRightBlock.AppendFormat(My.Resources.Item, New String() {PlayerGames(i).Player, PlayerGames(i).PlayerHandle, PlayerGames(i).Table, PlayerGames(i).Opponent, PlayerGames(i).OpponentHandle})
+                    sbRightBlock.Append("<div class=""row""><h3>[PlayerName] </h3><h4>Table [TableNumber]<small> vs [Opponent]</small></h4></div>")
+                    Dim name = PlayerGames(i).Player
+                    If PlayerGames(i).Player.ToLower <> PlayerGames(i).PlayerHandle.ToLower AndAlso PlayerGames(i).PlayerHandle IsNot Nothing Then name &= " <small>(" & PlayerGames(i).PlayerHandle & ")</small>"
+                    sbRightBlock.Replace("[PlayerName]", name)
+                    sbRightBlock.Replace("[TableNumber]", PlayerGames(i).Table)
+                    name = PlayerGames(i).Opponent
+                    If PlayerGames(i).Opponent.ToLower <> PlayerGames(i).OpponentHandle.ToLower AndAlso PlayerGames(i).OpponentHandle IsNot Nothing Then name &= " <small>(" & PlayerGames(i).OpponentHandle & ")</small>"
+                    sbRightBlock.Replace("[Opponent]", name)
                 End If
             Next
 
 
 
-            sbOutput.AppendFormat(My.Resources.LeftColumn, "Player Names A - " & LastNameInFirstColumn.Substring(0, 1).ToUpper, sbLeftBlock.ToString)
-            sbOutput.AppendFormat(My.Resources.RightColumn, "Player Names " & Chr(Asc(LastNameInFirstColumn.Substring(0, 1).ToUpper) + 1) & " - Z", sbRightBlock.ToString)
-            sbOutput.Append(My.Resources.Footer)
+            sbOutput.Replace("[ColumnHeader1]", "A - " & LastNameInFirstColumn.Substring(0, 1).ToUpper)
+            sbOutput.Replace("[Rows1]", sbLeftBlock.ToString())
 
+            sbOutput.Replace("[ColumnHeader2]", Chr(Asc(LastNameInFirstColumn.Substring(0, 1).ToUpper) + 1) & " - Z")
+            sbOutput.Replace("[Rows2]", sbRightBlock.ToString())
 
+            If Not IO.File.Exists(".\Ringdev.png") Then My.Resources.RingDev.Save(".\Ringdev.png")
+            If Not IO.File.Exists(".\pgswiss_small.png") Then My.Resources.pgswiss_small.Save(".\pgswiss_small.png")
+            If Not IO.File.Exists(".\pgswiss_icon.png") Then My.Resources.pgswiss_icon.Save(".\pgswiss_icon.png")
             IO.File.WriteAllText(".\PairingsList.html", sbOutput.ToString)
             Process.Start(".\PairingsList.html")
         End If

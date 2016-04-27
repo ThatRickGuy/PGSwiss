@@ -61,148 +61,72 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &lt;div id=&quot;vr&quot;&gt;
-        '''		&lt;/div&gt;
-        '''	&lt;/div&gt;
-        '''&lt;/body&gt;.
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
-        Friend ReadOnly Property Footer() As String
+        Friend ReadOnly Property pgswiss_icon() As System.Drawing.Bitmap
             Get
-                Return ResourceManager.GetString("Footer", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;div id=&quot;header&quot;&gt;
-        '''	&lt;h1&gt;{0}&lt;/h1&gt;
-        '''	&lt;h2 style=&quot;margin-top:-20px;&quot;&gt;Round {1} Pairings&lt;/h2&gt;
-        '''	&lt;h2 style=&quot;margin-top:-20px;&quot;&gt;Scenario {2} &lt;/h2&gt;&lt;/div&gt;.
-        '''</summary>
-        Friend ReadOnly Property Header() As String
-            Get
-                Return ResourceManager.GetString("Header", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;
-        '''&lt;html lang=&quot;en&quot;&gt;
-        '''&lt;head&gt;
-        '''	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
-        '''	&lt;title&gt;Warmachine Event Pairing&lt;/title&gt;
-        '''	&lt;style type=&quot;text/css&quot; media=&quot;screen, print, projection&quot;&gt;
-        '''	body,
-        '''	html {
-        '''		margin:0;
-        '''		padding:0;
-        '''		color:#000;
-        '''		height:100%;
-        '''	}
-        '''	#wrap {
-        '''		width:750px;
-        '''		height:100%;
-        '''		margin:0 auto;
-        '''	}
-        '''	#header {
-        '''		text-align:center;
-        '''	}
-        '''	#LeftColumn {
-        '''		float:left;
-        '''	}
-        '''	#Righ [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property HTMLHeader() As String
-            Get
-                Return ResourceManager.GetString("HTMLHeader", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;
-        '''&lt;html lang=&quot;en&quot;&gt;
-        '''&lt;head&gt;
-        '''	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
-        '''	&lt;title&gt;Warmachine Event Standings&lt;/title&gt;
-        '''	&lt;style type=&quot;text/css&quot; media=&quot;screen, print, projection&quot;&gt;
-        '''	body,
-        '''	html {
-        '''		margin:0;
-        '''		padding:0;
-        '''		color:#000;
-        '''		height:100%;
-        '''	}
-        '''	#wrap {
-        '''		width:750px;
-        '''		height:100%;
-        '''		margin:0 auto;
-        '''	}
-        '''	#header {
-        '''		text-align:center;
-        '''	}
-        '''	#Item {
-        '''		margin-left:50px;
-        '''		margin [rest of string was truncated]&quot;;.
-        '''</summary>
-        Friend ReadOnly Property HTMLHeaderStandings() As String
-            Get
-                Return ResourceManager.GetString("HTMLHeaderStandings", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;div id=&quot;Item&quot;&gt;
-        '''	&lt;span id=&quot;Player&quot;&gt;{0}&lt;/span&gt;&lt;span id=&quot;Player_Handle&quot;&gt; ({1})&lt;br&gt;
-        '''	&lt;span id=&quot;Table&quot;&gt;Table {2}&lt;/span&gt;
-        '''	&lt;span id=&quot;Opponent&quot;&gt;vs {3}&lt;/span&gt;&lt;span id=&quot;Player_Handle&quot;&gt; ({4})&lt;br&gt;
-        '''&lt;/div&gt;.
-        '''</summary>
-        Friend ReadOnly Property Item() As String
-            Get
-                Return ResourceManager.GetString("Item", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized string similar to &lt;div id=&quot;LeftColumn&quot;&gt;
-        '''	&lt;H3&gt;{0}&lt;/H3&gt;
-        '''	{1}
-        '''&lt;/div&gt;.
-        '''</summary>
-        Friend ReadOnly Property LeftColumn() As String
-            Get
-                Return ResourceManager.GetString("LeftColumn", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("pgswiss_icon", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
-        Friend ReadOnly Property PGSwiss() As System.Drawing.Bitmap
+        Friend ReadOnly Property pgswiss_small() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("PGSwiss", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("pgswiss_small", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &lt;div id=&quot;RightColumn&quot;&gt;
-        '''	&lt;H3&gt;{0}&lt;/H3&gt;
-        '''	{1}
-        '''&lt;/div&gt;.
+        '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
-        Friend ReadOnly Property RightColumn() As String
+        Friend ReadOnly Property RingDev() As System.Drawing.Bitmap
             Get
-                Return ResourceManager.GetString("RightColumn", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("RingDev", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to &lt;div id=&quot;Item&quot;&gt;&lt;span id=&quot;Table&quot;&gt;Table {0}&lt;/span&gt;&lt;span id=&quot;Player&quot;&gt; {1}&lt;/span&gt;&lt;span id=&quot;Player_Handle&quot;&gt;({2})&lt;/span&gt;&lt;span id=&quot;Table&quot;&gt;vs&lt;/span&gt;&lt;span id=&quot;Player&quot;&gt; {3}&lt;/span&gt;&lt;span id=&quot;Player_Handle&quot;&gt;({4})&lt;/span&gt;&lt;br&gt;
-        '''&lt;/div&gt;.
+        '''  Looks up a localized string similar to 
+        '''&lt;!DOCTYPE html&gt;
+        '''&lt;html lang=&quot;en&quot;&gt;
+        '''	&lt;head&gt;
+        '''		&lt;link rel=&quot;stylesheet&quot; href=&quot;http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css&quot;&gt;
+        '''		&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js&quot;&gt;&lt;/script&gt;
+        '''		&lt;script src=&quot;http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;	
+        '''		&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;pgswiss_icon.png&quot;&gt;
+        '''		&lt;meta charset=&quot;utf-8&quot;&gt; 
+        '''		&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+        '''		&lt;style&gt;
+        '''			 [rest of string was truncated]&quot;;.
         '''</summary>
-        Friend ReadOnly Property Table() As String
+        Friend ReadOnly Property Standings() As String
             Get
-                Return ResourceManager.GetString("Table", resourceCulture)
+                Return ResourceManager.GetString("Standings", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to 
+        '''&lt;!DOCTYPE html&gt;
+        '''&lt;html lang=&quot;en&quot;&gt;
+        '''	&lt;head&gt;
+        '''		&lt;link rel=&quot;stylesheet&quot; href=&quot;http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css&quot;&gt;
+        '''		&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js&quot;&gt;&lt;/script&gt;
+        '''		&lt;script src=&quot;http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;	
+        '''		&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;pgswiss_icon.png&quot;&gt;
+        '''		&lt;meta charset=&quot;utf-8&quot;&gt; 
+        '''		&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+        '''		&lt;style&gt;
+        '''			 [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property TablesAlpha() As String
+            Get
+                Return ResourceManager.GetString("TablesAlpha", resourceCulture)
             End Get
         End Property
     End Module

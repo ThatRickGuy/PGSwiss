@@ -65,11 +65,26 @@
             Dim sValidated = Validate()
             If sValidated = String.Empty Then
                 Model.Save()
+
+
+                If _Stack.Count > _Stack.IndexOf(Me) + 1 Then
+                    If (Not Model.CurrentRound.IsLastRound And _Stack.Item(_Stack.IndexOf(Me) + 1).GetType Is (New StandingsController).GetType) Or
+                        (Model.CurrentRound.IsLastRound And _Stack.Item(_Stack.IndexOf(Me) + 1).GetType IsNot (New StandingsController).GetType) Then
+                        'is not last round, but next item in stack is a standings controller, delete rest of stack
+                        'or is last roung, but next item in stack is not a standings controller, delete rest of stack
+                        Dim ControlsToDelete = _Stack.Count - _Stack.IndexOf(Me) - 1
+                        For i = 1 To ControlsToDelete
+                            _Stack.Remove(_Stack.Item(_Stack.IndexOf(Me) + 1))
+                        Next
+                    End If
+                End If
+
                 If _Stack.Count = _Stack.IndexOf(Me) + 1 Then
                     Dim NextControl = CreateNext()
                     If Not NextControl Is Nothing Then _Stack.Add(NextControl)
                 End If
                 If _Stack.IndexOf(Me) + 1 < _Stack.Count Then
+
                     _CurrentController = _Stack.Item(_Stack.IndexOf(Me) + 1)
                     _CurrentController.Activated()
                 Else
