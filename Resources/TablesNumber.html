@@ -20,7 +20,9 @@
 					}
 			h2 {margin-top:0px; margin-bottom:0px;}
 			h3 {margin-top:0px; margin-bottom:1px; font-size:18px;}
-			h4 {margin-top:0px; margin-bottom:3px; margin-left:75px; font-size:12px;}
+			h4 {margin-top:0px; margin-bottom:3px; margin-left:0px; font-size:12px;}
+			.tableNumber {background-color:#333333;color:#dddddd;width:50px;}
+			.blankCell {border-top-style: none;width:50px;}
 			.well {margin-bottom:5px;}
 			.well-sm {padding:3px;}
 			.panel {margin-bottom:5px;}
@@ -59,22 +61,10 @@
 			</div>
 			<div class="well well-sm"><center><h2>ROUND [RoundNum]</h2></center></div>
 			<div class="panel-body">
-				<div class="row">
-					<div class="col-xs-6">
-						<!-- left col-->
-						<center><h2 style="margin-top:0px;">[ColumnHeader1]</h2></center>
-						<div style="margin-left:25px;margin-right:25px;">
-							[Rows1]
-						</div>
-					</div>
-					<div class="col-xs-6">
-						<center><h2 style="margin-top:0px;">[ColumnHeader2]</h2></center>
-						<!-- right col-->
-						<div style="margin-left:25px;margin-right:25px;">
-							[Rows2]
-						</div>
-					</div>
-				</div>
+				<table class="table">
+					[Rows]
+				</table>
+				
 			</div>
 			
 			<div class="row">

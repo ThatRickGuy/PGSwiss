@@ -35,6 +35,8 @@ Public Class StandingsController
         sbOutput.Replace("[Format]", Model.WMEvent.EventFormat.Name)
         sbOutput.Replace("[PG]", "")
         sbOutput.Replace("[Version]", My.Application.Info.Version.ToString())
+        sbOutput.Replace("[EventDate]", Model.WMEvent.EventDate.ToShortDateString)
+        sbOutput.Replace("[EventTitle]", Model.WMEvent.Name)
 
         
         Dim sbRows As New StringBuilder()
@@ -53,20 +55,22 @@ Public Class StandingsController
             Dim q = (From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player1.ControlPoints).ToList
             'Get all the CP's for Player2
             q.AddRange(From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player2.ControlPoints)
-            Dim ACP = q.Average.ToString("#.#")
+            Dim ACP = 0
+            If q.Count > 0 Then ACP = q.Average
 
             'Get all the APD's for Player1 where they have an opponent (ie: no Byes!)
             q = (From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player1.ArmyPointsDestroyed).ToList
             'Get all the APD's for Player2
             q.AddRange(From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player2.ArmyPointsDestroyed)
-            Dim AAPD = q.Average.ToString("#.#")
+            Dim AAPD = 0
+            If q.Count > 0 Then AAPD = q.Average
 
             sbRows.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>",
                       {r.RoundNumber, r.Size, r.Scenario, NonByeGames.Count,
                        (From p In NonByeGames Where p.Condition = "Assassination").Count,
                        (From p In NonByeGames Where p.Condition = "Scenario").Count,
                        (From p In NonByeGames Where p.Condition = "Time").Count,
-                       ACP, AAPD})
+                       ACP.ToString("#.#"), AAPD.ToString("#.#")})
         Next
         sbOutput.Replace("[StatRows]", sbRows.ToString())
 

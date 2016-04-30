@@ -42,12 +42,16 @@ Public Class ReportingController
             Dim q = (From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player1.ControlPoints).ToList
             'Get all the CP's for Player2
             q.AddRange(From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player2.ControlPoints)
-            sbNotes.Append(ControlChars.Tab & q.Average.ToString("#.#") & " CP average" & ControlChars.CrLf)
+            Dim ACP = 0
+            If q.Count > 0 Then ACP = q.Average
+            sbNotes.Append(ControlChars.Tab & ACP.ToString("#.#") & " CP average" & ControlChars.CrLf)
             'Get all the APD's for Player1 where they have an opponent (ie: no Byes!)
             q = (From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player1.ArmyPointsDestroyed).ToList
             'Get all the APD's for Player2
             q.AddRange(From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player2.ArmyPointsDestroyed)
-            sbNotes.Append(ControlChars.Tab & q.Average.ToString("#.#") & " APD average" & ControlChars.CrLf)
+            Dim AAPD = 0
+            If q.Count > 0 Then AAPD = q.Average
+            sbNotes.Append(ControlChars.Tab & AAPD.ToString("#.#") & " APD average" & ControlChars.CrLf)
         Next
 
 

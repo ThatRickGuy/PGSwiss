@@ -38,48 +38,51 @@ Public Class PairingsController
 
 
     Public Sub PrintPairingsByTableNumber()
-        'If Model.CurrentRound.Games.Count > 0 Then
-        '    Dim sbOutput As New StringBuilder
-        '    sbOutput.Append(My.Resources.HTMLHeader)
-        '    sbOutput.AppendFormat(My.Resources.Header, Model.WMEvent.Name, Model.CurrentRound.RoundNumber, Model.CurrentRound.Scenario & " " & Model.CurrentRound.Size & "pts")
+        Dim RowString = "<tr><td rowspan=2 class=""tableNumber""><center>Table <br>[ColATableNum]</center></td><td><h4>[ColAPlayer1]</h4><h4><small>[ColAPlayer1alt]</small></h4></td><td class=""blankCell""></td><td><h4>[ColBPlayer1]</h4><h4><small>[ColBPlayer1alt]</small></h4></td><td rowspan=""2"" class=""tableNumber""><center>Table <br>[ColBTableNum]</center></td></tr>" &
+                                                                                                          "<tr><td><h4>[ColAPlayer2]</h4><h4><small>[ColAPlayer2alt]</small></h4></td><td class=""blankCell""></td><td><h4>[ColBPlayer2]</h4><h4><small>[ColBPlayer2alt]</small></h4></td></tr><tr><td colspan=""9""></td></tr>"
+        If Model.CurrentRound.Games.Count > 0 Then
+            Dim sbOutput As New StringBuilder()
+            sbOutput.Append(My.Resources.TablesNumber)
+            sbOutput.Replace("[Event Title]", Model.WMEvent.Name)
+            sbOutput.Replace("[Date]", Model.WMEvent.EventDate.ToShortDateString)
+            sbOutput.Replace("[Location]", "")
+            sbOutput.Replace("[Format]", Model.WMEvent.EventFormat.Name)
+            sbOutput.Replace("[PG]", "")
+            sbOutput.Replace("[Version]", My.Application.Info.Version.ToString())
+            sbOutput.Replace("[RoundNum]", Model.CurrentRound.RoundNumber)
+            sbOutput.Replace("[EventDate]", Model.WMEvent.EventDate.ToShortDateString)
+            sbOutput.Replace("[EventTitle]", Model.WMEvent.Name)
 
-        '    Dim sbLeftBlock As New StringBuilder()
-        '    Dim sbRightBlock As New StringBuilder()
+            Dim index = 1
+            Dim row = String.Empty
+            Dim rows = String.Empty
+            For Each game In (From p In Model.CurrentRound.Games Order By p.TableNumber)
+                If index Mod 2 <> 0 Then
+                    row = RowString
+                    row = row.Replace("[ColATableNum]", game.TableNumber)
+                    row = row.Replace("[ColAPlayer1]", game.Player1.Name)
+                    If game.Player1.PPHandle <> String.Empty AndAlso game.Player1.PPHandle <> game.Player1.Name Then row = row.Replace("[ColAPlayer1alt]", "(" & game.Player1.Name & ")")
+                    row = row.Replace("[ColAPlayer2]", game.Player2.Name)
+                    If game.Player2.PPHandle <> String.Empty AndAlso game.Player2.PPHandle <> game.Player2.Name Then row = row.Replace("[ColAPlayer1alt]", "(" & game.Player2.Name & ")")
+                Else
+                    row = row.Replace("[ColBTableNum]", game.TableNumber)
+                    row = row.Replace("[ColBPlayer1]", game.Player1.Name)
+                    If game.Player1.PPHandle <> String.Empty AndAlso game.Player1.PPHandle <> game.Player1.Name Then row = row.Replace("[ColBPlayer1alt]", "(" & game.Player1.Name & ")")
+                    row = row.Replace("[ColBPlayer2]", game.Player2.Name)
+                    If game.Player2.PPHandle <> String.Empty AndAlso game.Player2.PPHandle <> game.Player2.Name Then row = row.Replace("[ColBPlayer1alt]", "(" & game.Player2.Name & ")")
+                    rows &= row
+                End If
+                index += 1
+            Next
 
-        '    Dim i As Integer
-        '    Dim LastTableInLeftColumn As Integer = 0
-        '    Dim FirstTableInRightColumn As Integer = 0
-        '    Dim LastTableInRightColumn As Integer = 0
-        '    For Each game In (From p In Model.CurrentRound.Games Order By p.TableNumber Ascending)
-        '        If game.Player2 Is Nothing Then
-        '            If i < Math.Ceiling(Model.CurrentRound.Games.Count / 2) Then
-        '                sbLeftBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, "BYE", "")
-        '                LastTableInLeftColumn = game.TableNumber
-        '            Else
-        '                sbRightBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, "BYE", "")
-        '                If FirstTableInRightColumn = 0 Then FirstTableInRightColumn = game.TableNumber
-        '                LastTableInRightColumn = game.TableNumber
-        '            End If
-        '        Else
-        '            If i < Math.Ceiling(Model.CurrentRound.Games.Count / 2) Then
-        '                sbLeftBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, game.Player2.Name, game.Player2.PPHandle)
-        '                LastTableInLeftColumn = game.TableNumber
-        '            Else
-        '                sbRightBlock.AppendFormat(My.Resources.Table, game.TableNumber, game.Player1.Name, game.Player1.PPHandle, game.Player2.Name, game.Player2.PPHandle)
-        '                If FirstTableInRightColumn = 0 Then FirstTableInRightColumn = game.TableNumber
-        '                LastTableInRightColumn = game.TableNumber
-        '            End If
-        '        End If
-        '        i += 1
-        '    Next
+            sbOutput.Replace("[Rows]", rows)
+            If Not IO.File.Exists(".\Ringdev.png") Then My.Resources.RingDev.Save(".\Ringdev.png")
+            If Not IO.File.Exists(".\pgswiss_small.png") Then My.Resources.pgswiss_small.Save(".\pgswiss_small.png")
+            If Not IO.File.Exists(".\pgswiss_icon.png") Then My.Resources.pgswiss_icon.Save(".\pgswiss_icon.png")
+            IO.File.WriteAllText(".\PairingsList.html", sbOutput.ToString)
+            Process.Start(".\PairingsList.html")
+        End If
 
-        '    sbOutput.AppendFormat(My.Resources.LeftColumn, "Tables 1 - " & LastTableInLeftColumn, sbLeftBlock.ToString)
-        '    sbOutput.AppendFormat(My.Resources.RightColumn, "Tables " & FirstTableInRightColumn & " - " & LastTableInRightColumn, sbRightBlock.ToString)
-        '    sbOutput.Append(My.Resources.Footer)
-
-        '    IO.File.WriteAllText(".\PairingsList.html", sbOutput.ToString)
-        '    Process.Start(".\PairingsList.html")
-        'End If
     End Sub
 
     Public Sub PrintPairingsAlphaBetical()
@@ -93,7 +96,8 @@ Public Class PairingsController
             sbOutput.Replace("[PG]", "")
             sbOutput.Replace("[Version]", My.Application.Info.Version.ToString())
             sbOutput.Replace("[RoundNum]", Model.CurrentRound.RoundNumber)
-
+            sbOutput.Replace("[EventDate]", Model.WMEvent.EventDate.ToShortDateString)
+            sbOutput.Replace("[EventTitle]", Model.WMEvent.Name)
 
             Dim PlayerGames As New List(Of PlayerGame)
             For Each player In (From p In Model.CurrentRoundPlayers Order By p.Name)
