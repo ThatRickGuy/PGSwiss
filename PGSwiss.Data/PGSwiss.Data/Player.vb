@@ -31,6 +31,7 @@ Public Class doPlayer
     Private _Meta As String
     Public Property Meta As String
         Get
+            If _Meta Is Nothing Then _Meta = ""
             Return _Meta
         End Get
         Set(value As String)

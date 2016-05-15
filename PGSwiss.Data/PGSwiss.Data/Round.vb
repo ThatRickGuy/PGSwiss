@@ -49,13 +49,13 @@ Public Class doRound
                 If Not player Is Nothing Then
                     player.ArmyPointsDestroyed += game.Player1.ArmyPointsDestroyed
                     player.ControlPoints += game.Player1.ControlPoints
-                    If game.Winner = player.PPHandle Then player.TourneyPoints += 1
+                    If game.Winner = player.PPHandle & " (" & player.Name & ")" Then player.TourneyPoints += 1
                 End If
                 player = (From p In PlayerList Where Not game.Player2 Is Nothing AndAlso p.PPHandle = game.Player2.PPHandle).FirstOrDefault
                 If Not player Is Nothing Then
                     player.ArmyPointsDestroyed += game.Player2.ArmyPointsDestroyed
                     player.ControlPoints += game.Player2.ControlPoints
-                    If game.Winner = player.PPHandle Then player.TourneyPoints += 1
+                    If game.Winner = player.PPHandle & " (" & player.Name & ")" Then player.TourneyPoints += 1
                 End If
             Next
 

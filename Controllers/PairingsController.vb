@@ -63,17 +63,25 @@ Public Class PairingsController
                     row = row.Replace("[ColAPlayer1]", game.Player1.Name)
                     If game.Player1.PPHandle <> String.Empty AndAlso game.Player1.PPHandle <> game.Player1.Name Then row = row.Replace("[ColAPlayer1alt]", "(" & game.Player1.Name & ")")
                     row = row.Replace("[ColAPlayer2]", game.Player2.Name)
-                    If game.Player2.PPHandle <> String.Empty AndAlso game.Player2.PPHandle <> game.Player2.Name Then row = row.Replace("[ColAPlayer1alt]", "(" & game.Player2.Name & ")")
+                    If game.Player2.PPHandle <> String.Empty AndAlso game.Player2.PPHandle <> game.Player2.Name Then row = row.Replace("[ColAPlayer2alt]", "(" & game.Player2.Name & ")")
                 Else
                     row = row.Replace("[ColBTableNum]", game.TableNumber)
                     row = row.Replace("[ColBPlayer1]", game.Player1.Name)
                     If game.Player1.PPHandle <> String.Empty AndAlso game.Player1.PPHandle <> game.Player1.Name Then row = row.Replace("[ColBPlayer1alt]", "(" & game.Player1.Name & ")")
                     row = row.Replace("[ColBPlayer2]", game.Player2.Name)
-                    If game.Player2.PPHandle <> String.Empty AndAlso game.Player2.PPHandle <> game.Player2.Name Then row = row.Replace("[ColBPlayer1alt]", "(" & game.Player2.Name & ")")
+                    If game.Player2.PPHandle <> String.Empty AndAlso game.Player2.PPHandle <> game.Player2.Name Then row = row.Replace("[ColBPlayer2alt]", "(" & game.Player2.Name & ")")
                     rows &= row
                 End If
                 index += 1
             Next
+            If index Mod 2 = 0 Then
+                row = row.Replace("[ColBTableNum]", String.Empty)
+                row = row.Replace("[ColBPlayer1]", String.Empty)
+                row = row.Replace("[ColBPlayer2]", String.Empty)
+                row = row.Replace("[ColBPlayer1alt]", String.Empty)
+                row = row.Replace("[ColBPlayer2alt]", String.Empty)
+                rows &= row
+            End If
 
             sbOutput.Replace("[Rows]", rows)
             If Not IO.File.Exists(".\Ringdev.png") Then My.Resources.RingDev.Save(".\Ringdev.png")

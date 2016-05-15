@@ -32,7 +32,7 @@
         </Grid.RowDefinitions>
         <TextBlock FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding Path=Model.CurrentRound.RoundNumber, StringFormat=Round \{0\} - Pairings}" />
         <TextBlock FontWeight="Bold" Grid.Row="1"  Margin="4,4,4,0">Pairings</TextBlock>
-        <DataGrid Name="dgPairings" ItemsSource="{Binding Path=Model.CurrentRound.Games}" Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False" CanUserAddRows="False"   >
+        <DataGrid Name="dgPairings" ItemsSource="{Binding Path=Model.CurrentRound.Games}" Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False" CanUserAddRows="False" ToolTip="Red - Rematch! Regenerate or manual swap highly recommended. &#x0d;&#x0a;Orange - One of the players has been on this table before. &#x0d;&#x0a;Yellow - Players are from the same meta. &#x0d;&#x0a;Grey - Pair Down"   >
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Background" Value="{Binding PairingCondition, Converter={StaticResource IntToBrushConverter}}"/>

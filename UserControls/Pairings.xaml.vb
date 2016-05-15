@@ -4,11 +4,13 @@ Imports System.Drawing.Drawing2D
 Public Class Pairings
 
     Private Sub btnGeneratePairing_Click(sender As Object, e As RoutedEventArgs) Handles btnGeneratePairing.Click
-        Dim result = CType(BaseController.CurrentController, PairingsController).GeneratePairings()
-        If result = String.Empty Then
-            Me.dgPairings.Items.Refresh()
-        Else
-            MessageBox.Show(result)
+        If MessageBox.Show("Regenerating pairings will clear and repair all games, click OK to continue.", "Regenerate Pairings", MessageBoxButton.OKCancel) = MessageBoxResult.OK Then
+            Dim result = CType(BaseController.CurrentController, PairingsController).GeneratePairings()
+            If result = String.Empty Then
+                Me.dgPairings.Items.Refresh()
+            Else
+                MessageBox.Show(result)
+            End If
         End If
     End Sub
 

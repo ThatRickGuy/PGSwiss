@@ -283,15 +283,15 @@
 
         </Grid>
 
-        <Grid x:Name="grdProgress" Margin="70,0,70,15" VerticalAlignment="Bottom"  >
+        <Grid x:Name="grdProgress" Margin="83,0,83,15" VerticalAlignment="Bottom"  >
             <local:ProgressBar Height="22" Value="{Binding CurrentProgress}"></local:ProgressBar>
         </Grid>
 
-        <Button Name="btnPrev" Width="50" Height="50" Background="#FF00DCFF"   Margin="10" Style="{DynamicResource GlassButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
+        <Button Name="btnPrev" Width="50" Height="50" Background="#FF00DCFF"   Margin="25,5,5,3" Style="{DynamicResource GlassButton}" HorizontalAlignment="Left" VerticalAlignment="Bottom" >
             <Image Source="Resources/Left.PNG" IsEnabled="False" Margin="0,2,2,4" Visibility="{Binding PreviousButtonVisibility}" ></Image>
         </Button>
 
-        <Button Name="btnNext" Width="50" Height="50" Background="#FF00DCFF"  Margin="10" Style="{DynamicResource GlassButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        <Button Name="btnNext" Width="50" Height="50" Background="#FF00DCFF"  Margin="5,5,25,3" Style="{DynamicResource GlassButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Image Source="Resources/Right.PNG" IsEnabled="False" Margin="10,2,2,4" Visibility="{Binding NextButtonVisibility}"></Image>
         </Button>
 

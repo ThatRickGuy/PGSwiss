@@ -33,8 +33,8 @@ Public Class GamesController
             lReturn.Add("")
             lReturn.Add("Draw")
             If Model.CurrentGame IsNot Nothing Then
-                If Model.CurrentGame.Player1 IsNot Nothing Then lReturn.Add(Model.CurrentGame.Player1.PPHandle)
-                If Model.CurrentGame.Player2 IsNot Nothing Then lReturn.Add(Model.CurrentGame.Player2.PPHandle)
+                If Model.CurrentGame.Player1 IsNot Nothing Then lReturn.Add(Model.CurrentGame.Player1.PPHandle & " (" & Model.CurrentGame.Player1.Name & ")")
+                If Model.CurrentGame.Player2 IsNot Nothing Then lReturn.Add(Model.CurrentGame.Player2.PPHandle & " (" & Model.CurrentGame.Player2.Name & ")")
             End If
 
             Return lReturn
@@ -42,9 +42,9 @@ Public Class GamesController
     End Property
 
     Public Sub SetWinnerByScenario(WinnerPPHandle As String)
-        If Model.CurrentGame.Player1.PPHandle = WinnerPPHandle Then
+        If Model.CurrentGame.Player1.PPHandle & " (" & Model.CurrentGame.Player1.Name & ")" = WinnerPPHandle Then
             Model.CurrentGame.Player1.ControlPoints = 5
-        ElseIf Model.CurrentGame.Player2 IsNot Nothing AndAlso Model.CurrentGame.Player2.PPHandle = WinnerPPHandle Then
+        ElseIf Model.CurrentGame.Player2 IsNot Nothing AndAlso Model.CurrentGame.Player2.PPHandle & " (" & Model.CurrentGame.Player2.Name & ")" = WinnerPPHandle Then
             Model.CurrentGame.Player2.ControlPoints = 5
         Else
             MessageBox.Show("Something bad just happened. Scenario winner is not a member of this game!")
@@ -52,12 +52,12 @@ Public Class GamesController
     End Sub
 
     Public Sub SetWinnerByConcession(WinnerPPHandle As String)
-        If Model.CurrentGame.Player1.PPHandle = WinnerPPHandle Then
+        If Model.CurrentGame.Player1.PPHandle & " (" & Model.CurrentGame.Player1.Name & ")" = WinnerPPHandle Then
             Model.CurrentGame.Player1.ControlPoints = 3
-        ElseIf Model.CurrentGame.Player2 IsNot Nothing AndAlso Model.CurrentGame.Player2.PPHandle = WinnerPPHandle Then
+        ElseIf Model.CurrentGame.Player2 IsNot Nothing AndAlso Model.CurrentGame.Player2.PPHandle & " (" & Model.CurrentGame.Player2.Name & ")" = WinnerPPHandle Then
             Model.CurrentGame.Player2.ControlPoints = 3
         Else
-            MessageBox.Show("Something bad just happened. Scenario winner is not a member of this game!")
+            MessageBox.Show("Something bad just happened. Concession winner is not a member of this game!")
         End If
     End Sub
 
@@ -105,6 +105,9 @@ Public Class GamesController
 
     Public Sub SelectGame(Game As doGame)
         Model.CurrentGame = Game
+        If Game.Winner = Game.Player1.PPHandle Then Game.Winner = Game.Player1.PPHandle & " (" & Game.Player1.Name & ")"
+        If Game.Player2 IsNot Nothing AndAlso Game.Winner = Game.Player2.PPHandle Then Game.Winner = Game.Player2.PPHandle & " (" & Game.Player2.Name & ")"
+
         OnPropertyChanged("AcceptableWinners")
     End Sub
 
