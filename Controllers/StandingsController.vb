@@ -37,8 +37,8 @@ Public Class StandingsController
         sbOutput.Replace("[Version]", My.Application.Info.Version.ToString())
         sbOutput.Replace("[EventDate]", Model.WMEvent.EventDate.ToShortDateString)
         sbOutput.Replace("[EventTitle]", Model.WMEvent.Name)
+        sbOutput.Replace("[FileName]", Model.WMEvent.EventID.ToString & ".html")
 
-        
         Dim sbRows As New StringBuilder()
         
         For Each player In (From p In Model.CurrentRoundPlayers Order By p.Rank)

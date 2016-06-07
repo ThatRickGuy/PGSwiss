@@ -10,6 +10,11 @@
 		<meta name="EventDate" content="[EventDate]">
 		<meta name="EventTitle" content="[EventTitle]">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+      
+    <meta content="Current standings from [EventTitle]" property='og:description'>
+    <meta content="[EventTitle]" property='og:title'>
+    <meta content="http://ringdev.com/swiss/standings/pgswiss200.png" property='og:image'>
+  
 		<style>
 			body {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#28343b+0,828c95+50,28343b+100 */
 					background: rgb(40,52,59); /* Old browsers */
@@ -46,7 +51,16 @@
 		</style>
 	</head>
 	<body>
-		<div class="container-fluid" style="margin-top:3px;">
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <div class="container-fluid" style="margin-top:3px;">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<div class="row">
@@ -113,7 +127,15 @@
 				<div class="col-sm-12"><center><img src="RingDev.PNG"/></center></div>
 			</div>
 			<div class="row">
-				<div class="col-sm-12"><center>[Version]</center></div>
+        <div class="col-sm-2"></div>
+				<div class="col-sm-8"><center>[Version]</center></div>
+        <div class="col-sm-1">
+          <div class="fb-share-button" data-href="http://ringdev.com/PGSwissStandings/[FileName]" data-layout="button" data-mobile-iframe="true"></div>    
+        </div>
+        <div class="col-sm-1">
+          <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+          <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        </div>
 			</div>
 		</div>
 	</body>
