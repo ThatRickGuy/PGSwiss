@@ -42,8 +42,10 @@ Public Class StandingsController
         Dim sbRows As New StringBuilder()
         
         For Each player In (From p In Model.CurrentRoundPlayers Order By p.Rank)
-            sbRows.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>", _
-                                 {player.Rank.ToString, player.Name, player.PPHandle, player.Faction, player.Meta, player.TourneyPoints, player.StrengthOfSchedule, player.ControlPoints, player.ArmyPointsDestroyed})
+            Dim Drop = String.Empty
+            If player.Drop Then Drop = "Dropped"
+            sbRows.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td></tr>", _
+                                 {player.Rank.ToString, player.Name, player.PPHandle, player.Faction, player.Meta, player.TourneyPoints, player.StrengthOfSchedule, player.ControlPoints, player.ArmyPointsDestroyed, Drop})
         Next
         sbOutput.Replace("[Rows]", sbRows.ToString())
 
