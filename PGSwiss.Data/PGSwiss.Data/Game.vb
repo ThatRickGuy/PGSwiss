@@ -45,4 +45,6 @@ End Class
 
 Public Class doGameCollection
     Inherits List(Of doGame)
+
+    Public Property DropNextRound As New List(Of String)
 End Class

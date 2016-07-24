@@ -5,7 +5,6 @@ Imports System.ComponentModel
 Public Class doPlayer
     Implements INotifyPropertyChanged
 
-
     Private _Name As String
     Public Property Name As String
         Get
@@ -14,17 +13,6 @@ Public Class doPlayer
         Set(value As String)
             _Name = value
             OnPropertyChanged("Name")
-        End Set
-    End Property
-
-    Private _PPHandle As String
-    Public Property PPHandle As String
-        Get
-            Return _PPHandle
-        End Get
-        Set(value As String)
-            _PPHandle = value
-            OnPropertyChanged("PPHandle")
         End Set
     End Property
 
@@ -77,7 +65,6 @@ Public Class doPlayer
         dopReturn.Faction = Me.Faction
         dopReturn.Meta = Me.Meta
         dopReturn.Name = Me.Name
-        dopReturn.PPHandle = Me.PPHandle
         'dopReturn.Tables = Me.Tables
         'dopReturn.Opponents = Me.Opponents
         dopReturn.ByeVol = Me.ByeVol
@@ -107,7 +94,7 @@ Public Class doPlayerCollection
                 Dim x As New XmlSerializer(Me.GetType)
                 Dim lst As New List(Of doPlayer)
                 lst.AddRange(x.Deserialize(objStreamReader))
-                Me.AddRange(From p In lst Order By p.PPHandle)
+                Me.AddRange(From p In lst Order By p.Name)
             End Using
         End If
     End Sub

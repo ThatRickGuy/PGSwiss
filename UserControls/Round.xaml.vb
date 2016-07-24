@@ -12,19 +12,19 @@ Public Class Round
 
 
 
-    Private Sub cboPPHandle_LostFocus_1(sender As Object, e As RoutedEventArgs)
-        'PP Handle combobox lost focus
+    Private Sub cboName_LostFocus_1(sender As Object, e As RoutedEventArgs)
+        'Name combobox lost focus
         Dim AllPlayers = BaseController.Model.AllPlayers
         Dim EventPlayers = BaseController.Model.WMEvent.Players
         Dim cbo = CType(sender, ComboBox)
         Dim CurrentItem As doPlayer = Nothing
         If dgPlayers.CurrentItem IsNot Nothing AndAlso dgPlayers.CurrentItem.GetType Is GetType(doPlayer) Then CurrentItem = CType(dgPlayers.CurrentItem, doPlayer)
 
-        Dim Player = (From p In AllPlayers Where p.PPHandle = cbo.Text).FirstOrDefault
+        Dim Player = (From p In AllPlayers Where p.Name = cbo.Text).FirstOrDefault
         If Not CurrentItem Is Nothing Then
             If Not Player Is Nothing Then
                 If CurrentItem.Name = String.Empty Then
-                    'PPHandle found in Allplayers, Player already exists in EventPlayers
+                    'Name found in Allplayers, Player already exists in EventPlayers
                     dgPlayers.CurrentItem.Faction = Player.Faction
                     dgPlayers.CurrentItem.Meta = Player.Meta
                     dgPlayers.CurrentItem.Name = Player.Name
@@ -35,11 +35,11 @@ Public Class Round
                     End Try
                 End If
             ElseIf Not dgPlayers.CurrentItem Is Nothing Then
-                'PPHandle not found in Allplayers, Player already exists in EventPlayers
+                'Name not found in Allplayers, Player already exists in EventPlayers
                 'In this case we want it to be a shared reference so that updates to the new player's
                 'faction, meta, and name will carry across
                 AllPlayers.Add(CType(dgPlayers.CurrentItem, doPlayer))
-                AllPlayers.Last.PPHandle = cbo.Text
+                AllPlayers.Last.Name = cbo.Text
                 cbo.SelectedItem = AllPlayers.Last
             End If
         End If

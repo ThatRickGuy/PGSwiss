@@ -2,6 +2,7 @@
 Imports System.Text
 Imports System.Net
 Imports System.IO
+Imports System.ComponentModel
 
 Public Class StandingsController
     Inherits BaseController
@@ -22,7 +23,12 @@ Public Class StandingsController
         MyBase.Activated()
         Dim Standings As New doStandings
         Standings.Standings = Model.CurrentRound.GetPlayers(Model.WMEvent)
-        Me.View.DataContext = Standings
+
+        Dim es As New EventStandings
+        es.Standings = Standings
+        es.WMEvent = BaseController.Model.WMEvent
+
+        Me.View.DataContext = es
         Model.CurrentProgress = 90
     End Sub
 
@@ -30,7 +36,7 @@ Public Class StandingsController
         Dim sbOutput As New StringBuilder()
         sbOutput.Append(My.Resources.Standings)
         sbOutput.Replace("[Event Title]", Model.WMEvent.Name)
-        sbOutput.Replace("[Date]", Model.WMEvent.EventDate.ToShortDateString)
+        sbOutput.Replace("[Date]", Model.WMEvent.EventDate.Year & "-" & Model.WMEvent.EventDate.Month & "-" & Model.WMEvent.EventDate.Day)
         sbOutput.Replace("[Location]", "")
         sbOutput.Replace("[Format]", Model.WMEvent.EventFormat.Name)
         sbOutput.Replace("[PG]", "")
@@ -40,14 +46,21 @@ Public Class StandingsController
         sbOutput.Replace("[FileName]", Model.WMEvent.EventID.ToString & ".html")
 
         Dim sbRows As New StringBuilder()
-        
+
         For Each player In (From p In Model.CurrentRoundPlayers Order By p.Rank)
             Dim Drop = String.Empty
             If player.Drop Then Drop = "Dropped"
-            sbRows.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td></tr>", _
-                                 {player.Rank.ToString, player.Name, player.PPHandle, player.Faction, player.Meta, player.TourneyPoints, player.StrengthOfSchedule, player.ControlPoints, player.ArmyPointsDestroyed, Drop})
+            sbRows.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>", _
+                                 {player.Rank.ToString, player.Name, player.Faction, player.Meta, player.TourneyPoints, player.StrengthOfSchedule, player.ControlPoints, player.ArmyPointsDestroyed, Drop})
         Next
         sbOutput.Replace("[Rows]", sbRows.ToString())
+
+        If Model.WMEvent.BestPaintedWinner IsNot Nothing AndAlso Model.WMEvent.BestSportWinner IsNot Nothing Then
+            sbOutput.Replace("[AwardRow]", "<TR><TD>" & Model.WMEvent.BestPaintedWinner.Name & "</TD><TD></TD><TD>" & Model.WMEvent.BestSportWinner.Name & "</TD></TR>")
+        Else
+            sbOutput.Replace("[AwardRow]", "<TR><TD>-</TD><TD></TD><TD>-</TD></TR>")
+        End If
+
 
         sbRows = New StringBuilder()
 
@@ -59,6 +72,7 @@ Public Class StandingsController
             q.AddRange(From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player2.ControlPoints)
             Dim ACP = 0
             If q.Count > 0 Then ACP = q.Average
+
 
             'Get all the APD's for Player1 where they have an opponent (ie: no Byes!)
             q = (From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player1.ArmyPointsDestroyed).ToList
@@ -115,4 +129,35 @@ Public Class StandingsController
             End Try
         End Using
     End Sub
+End Class
+
+Public Class EventStandings
+    Implements INotifyPropertyChanged
+
+    Private _Standings As doStandings
+    Public Property Standings As doStandings
+        Get
+            Return _Standings
+        End Get
+        Set(value As doStandings)
+            _Standings = value
+            OnPropertyChanged("Standings")
+        End Set
+    End Property
+
+    Private _WMEvent As doWMEvent
+    Public Property WMEvent As doWMEvent
+        Get
+            Return _WMEvent
+        End Get
+        Set(value As doWMEvent)
+            _WMEvent = value
+            OnPropertyChanged("WMEvent")
+        End Set
+    End Property
+
+    Protected Sub OnPropertyChanged(ByVal name As String)
+        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
+    End Sub
+    Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
 End Class

@@ -3,24 +3,37 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+        <Grid.Resources>
+            <CollectionViewSource x:Key="SortedPlayers1" Source="{Binding Path=WMEvent.Players}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="Name"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+            <CollectionViewSource x:Key="SortedPlayers2" Source="{Binding Path=WMEvent.Players}">
+                <CollectionViewSource.SortDescriptions>
+                    <scm:SortDescription PropertyName="Name"/>
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+        </Grid.Resources>
         <Grid.RowDefinitions >
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>            
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
 
         <TextBlock FontWeight="Bold" FontSize="18" HorizontalAlignment="Center">Standings</TextBlock>
         <TextBlock Grid.Row="2" FontWeight="Bold" Margin="4,4,4,0">Standings</TextBlock>
-        <DataGrid Name="dgStandings" Grid.Row="3" Margin="4,0,4,4" AutoGenerateColumns="False"  ItemsSource="{Binding Path=Standings}" CanUserAddRows="False">
+        <DataGrid Name="dgStandings" Grid.Row="3" Margin="4,0,4,4" AutoGenerateColumns="False"  ItemsSource="{Binding Path=Standings.Standings}" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Rank" Width="auto" Binding="{Binding Rank}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="PP Handle" Width="*" Binding="{Binding PPHandle}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Faction" Width="*" Binding="{Binding Faction}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Meta" Width="*" Binding="{Binding Meta}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="TP" Width="auto" Binding="{Binding TourneyPoints}" IsReadOnly="True"></DataGridTextColumn>
@@ -29,8 +42,13 @@
                 <DataGridTextColumn Header="APD" Width="auto" Binding="{Binding ArmyPointsDestroyed}" IsReadOnly="True"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"   Grid.Row="4">
+            <TextBlock VerticalAlignment="Center">Best Painted:</TextBlock>
+            <ComboBox MinWidth="100" ItemsSource="{Binding Source={StaticResource SortedPlayers1}}" SelectedValue="{Binding Path=WMEvent.BestPaintedWinner.Name, Mode=TwoWay}" SelectedValuePath="Name" DisplayMemberPath="Name" Margin="4"></ComboBox>
+            <TextBlock VerticalAlignment="Center">Best Sport:</TextBlock>
+            <ComboBox MinWidth="100" ItemsSource="{Binding Source={StaticResource SortedPlayers2}}" SelectedValue="{Binding Path=WMEvent.BestSportWinner.Name, Mode=TwoWay}" SelectedValuePath="Name" DisplayMemberPath="Name" Margin="4"></ComboBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"   Grid.Row="5">
             <Button Margin="2,2,2,4" x:Name="btnPrintStandings">Print Standings</Button>
             <Button Margin="2,2,2,4" x:Name="btnUploadStandings">Upload Standings</Button>
         </StackPanel>

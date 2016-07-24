@@ -43,6 +43,16 @@ Public Class RoundController
 
         If (From p In Model.CurrentRound.Games Where p.Reported).Count > 0 Then CType(Me.View, Round).dgPlayers.CanUserAddRows = False
         CType(Me.View, Round).Refresh()
+
+
+        Dim PreviousRound = (From p In Model.WMEvent.Rounds Where p.RoundNumber = (Model.CurrentRound.RoundNumber - 1) Select p).FirstOrDefault
+        If PreviousRound IsNot Nothing Then
+            For Each player In PreviousRound.Games.DropNextRound
+                Dim dropPlayer = (From p In Model.CurrentRoundPlayers Where p.Name = player Select p).FirstOrDefault
+                If dropPlayer IsNot Nothing Then dropPlayer.Drop = True
+            Next
+        End If
+
     End Sub
 
 
@@ -53,8 +63,8 @@ Public Class RoundController
 
         Dim CurrentRoundPlayers = Model.CurrentRoundPlayers
         If CurrentRoundPlayers.Count = 0 Then sReturn = "No players" & ControlChars.CrLf
-        If (From p In CurrentRoundPlayers Where p.PPHandle = String.Empty Or p.Name = String.Empty).Count > 0 Then sReturn &= "Players without PPHandle, Name, Faction, and/or Meta" & ControlChars.CrLf
-        If (From p In CurrentRoundPlayers Select p.PPHandle Distinct).Count < CurrentRoundPlayers.Count Then sReturn &= "Players must have unique PP Handles."
+        If (From p In CurrentRoundPlayers Where p.Name = String.Empty).Count > 0 Then sReturn &= "Players without Name, Name, Faction, and/or Meta" & ControlChars.CrLf
+        If (From p In CurrentRoundPlayers Select p.Name Distinct).Count < CurrentRoundPlayers.Count Then sReturn &= "Players must have unique Names."
         Model.CurrentRound.ByeVolunteers.AddRange(From p In CurrentRoundPlayers Where p.ByeVol)
 
         Return sReturn.TrimEnd(ControlChars.CrLf)

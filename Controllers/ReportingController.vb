@@ -25,7 +25,7 @@ Public Class ReportingController
     Private Sub ReportingController_ActivationCompleted(sender As Object, e As EventArgs) Handles Me.ActivationCompleted
         Attendees = String.Empty
         For Each p In BaseController.Model.WMEvent.Players
-            Attendees &= p.Name & "(" & p.PPHandle & "), "
+            Attendees &= p.Name & ", "
         Next
         If Attendees <> String.Empty Then Attendees = Attendees.Substring(0, Attendees.Length - 2)
 
@@ -45,6 +45,8 @@ Public Class ReportingController
             Dim ACP = 0
             If q.Count > 0 Then ACP = q.Average
             sbNotes.Append(ControlChars.Tab & ACP.ToString("#.#") & " CP average" & ControlChars.CrLf)
+
+
             'Get all the APD's for Player1 where they have an opponent (ie: no Byes!)
             q = (From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player1.ArmyPointsDestroyed).ToList
             'Get all the APD's for Player2
@@ -58,13 +60,14 @@ Public Class ReportingController
         sbNotes.Append(ControlChars.CrLf & ControlChars.CrLf)
         sbNotes.AppendLine("Standings")
 
-        sbNotes.AppendLine("RANK".PadLeft(5) & "NAME".PadRight(30) & "HANDLE".PadRight(30) & "FACTION".PadRight(30) & "META".PadRight(30) & _
+        sbNotes.AppendLine("RANK".PadLeft(5) & "NAME".PadRight(30) & "FACTION".PadRight(30) & "META".PadRight(30) & _
                            "TP".PadLeft(4) & "SOS".PadLeft(4) & "CP".PadLeft(3) & "APD".PadLeft(5))
         For Each player In (From p In Model.CurrentRoundPlayers Order By p.Rank)
             Dim Drop = String.Empty
             If player.Drop Then Drop = " Drop"
-            sbNotes.AppendLine(player.Rank.ToString.PadLeft(5) & player.Name.PadRight(30) & player.PPHandle.PadRight(30) & player.Faction.PadRight(30) & player.Meta.PadRight(30) & _
-                               player.TourneyPoints.ToString.PadLeft(4) & player.StrengthOfSchedule.ToString.PadLeft(4) & player.ControlPoints.ToString.PadLeft(3) & player.ArmyPointsDestroyed.ToString.PadLeft(5) & _
+            sbNotes.AppendLine(player.Rank.ToString.PadLeft(5) & player.Name.PadRight(30) & player.Faction.PadRight(30) & player.Meta.PadRight(30) & _
+                               player.TourneyPoints.ToString.PadLeft(4) & player.StrengthOfSchedule.ToString.PadLeft(4) & player.ControlPoints.ToString.PadLeft(3) & _
+                               player.ArmyPointsDestroyed.ToString.PadLeft(5) & _
                                Drop)
         Next
 

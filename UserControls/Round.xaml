@@ -43,21 +43,21 @@
                 </DataTemplate.Triggers>
             </DataTemplate>
 
-            <!-- PP Handle template-->
-            <DataTemplate x:Key="PPHandleTemplate"  >
-                <TextBlock Text="{Binding Path=PPHandle}"  />
+            <!-- Name template-->
+            <DataTemplate x:Key="NameTemplate"  >
+                <TextBlock Text="{Binding Path=Name}"  />
             </DataTemplate>
-            <DataTemplate x:Key="EditingPPHandleTemplate" >
-                <ComboBox x:Name="cboPPHandle" LostFocus="cboPPHandle_LostFocus_1"  IsEditable="True" 
+            <DataTemplate x:Key="EditingNameTemplate" >
+                <ComboBox x:Name="cboName" LostFocus="cboName_LostFocus_1"  IsEditable="True" 
                           ItemsSource="{Binding Path=DataContext.Model.AllPlayers, 
                                         RelativeSource={RelativeSource FindAncestor, 
                                                         AncestorType={x:Type local:Round}}}" 
-                          DisplayMemberPath="PPHandle"
-                          SelectedValuePath="PPHandle"
-                          SelectedValue="{Binding Path=PPHandle}"></ComboBox>
+                          DisplayMemberPath="Name"
+                          SelectedValuePath="Name"
+                          SelectedValue="{Binding Path=Name}"></ComboBox>
                 <DataTemplate.Triggers>
-                    <Trigger SourceName="cboPPHandle" Property="IsVisible" Value="True">
-                        <Setter TargetName="cboPPHandle" Property="FocusManager.FocusedElement" Value="{Binding ElementName=cboPPHandle}"/>
+                    <Trigger SourceName="cboName" Property="IsVisible" Value="True">
+                        <Setter TargetName="cboName" Property="FocusManager.FocusedElement" Value="{Binding ElementName=cboName}"/>
                     </Trigger>
                 </DataTemplate.Triggers>
             </DataTemplate>
@@ -105,12 +105,12 @@
                   AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Rank" IsReadOnly="True" Width="auto" Binding="{Binding Rank}"></DataGridTextColumn>
-                <DataGridTemplateColumn Header="PP Handle" Width="*" 
-                                        x:Name="cboPPHandle"
-                                        CellTemplate="{StaticResource PPHandleTemplate}" 
-                                        CellEditingTemplate="{StaticResource EditingPPHandleTemplate}"                                        >
+                <DataGridTemplateColumn Header="Name" Width="*" 
+                                        x:Name="cboName"
+                                        CellTemplate="{StaticResource NameTemplate}" 
+                                        CellEditingTemplate="{StaticResource EditingNameTemplate}"                                        >
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
+                <!--<DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"></DataGridTextColumn>-->
                 <DataGridTemplateColumn Header="Faction" Width="*" 
                                         CellTemplate="{StaticResource FactionTemplate}" 
                                         CellEditingTemplate="{StaticResource EditingFactionTemplate}">

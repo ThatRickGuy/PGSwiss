@@ -4,6 +4,17 @@
         If Not dgGames.CurrentItem Is Nothing Then
             CType(BaseController.CurrentController, GamesController).SelectGame(dgGames.CurrentItem)
         End If
+
+        If BaseController.Model.CurrentGame.Player1 IsNot Nothing AndAlso BaseController.Model.CurrentRound.Games.DropNextRound.Contains(BaseController.Model.CurrentGame.Player1.Name) Then
+            Me.chkPlayer1Drop.IsChecked = True
+        Else
+            Me.chkPlayer1Drop.IsChecked = False
+        End If
+        If BaseController.Model.CurrentGame.Player2 IsNot Nothing AndAlso BaseController.Model.CurrentRound.Games.DropNextRound.Contains(BaseController.Model.CurrentGame.Player2.Name) Then
+            Me.chkPlayer2Drop.IsChecked = True
+        Else
+            Me.chkPlayer2Drop.IsChecked = False
+        End If
     End Sub
 
     Private Sub btnAcceptGame_Click(sender As Object, e As RoutedEventArgs) Handles btnAcceptGame.Click
@@ -16,7 +27,7 @@
         End If
     End Sub
 
-    Private Sub PointsBoxes_GotFocus(sender As Object, e As RoutedEventArgs) Handles txtPlayer1APD.GotFocus, txtPlayer1CP.GotFocus, txtPlayer2APD.GotFocus, txtPlayer2CP.GotFocus
+    Private Sub PointsBoxes_GotFocus(sender As Object, e As RoutedEventArgs) Handles txtPlayer1CP.GotFocus, txtPlayer1APD.GotFocus, txtPlayer2CP.GotFocus, txtPlayer2APD.GotFocus
         CType(sender, TextBox).SelectAll()
     End Sub
 
@@ -34,6 +45,23 @@
     Public Sub ForceUpdate()
         Me.dgGames.Items.Refresh()
     End Sub
+
+    Private Sub chkPlayer2Drop_Checked(sender As Object, e As RoutedEventArgs)
+        Dim PlayerName = BaseController.Model.CurrentGame.Player2.Name
+
+        If chkPlayer2Drop.IsChecked Then BaseController.Model.CurrentRound.Games.DropNextRound.Add(PlayerName)
+        If Not chkPlayer2Drop.IsChecked Then BaseController.Model.CurrentRound.Games.DropNextRound.Remove(PlayerName)
+    End Sub
+
+    Private Sub chkPlayer1Drop_Checked(sender As Object, e As RoutedEventArgs)
+        Dim PlayerName = BaseController.Model.CurrentGame.Player1.Name
+
+        If chkPlayer1Drop.IsChecked Then BaseController.Model.CurrentRound.Games.DropNextRound.Add(PlayerName)
+        If Not chkPlayer1Drop.IsChecked Then BaseController.Model.CurrentRound.Games.DropNextRound.Remove(PlayerName)
+    End Sub
+
+    Public Property DropNextRoundCollection As New List(Of String)
+
 End Class
 
 Public Class BoolToColorConverter
@@ -60,4 +88,9 @@ Public Class BoolToColorConverter
         'don't care
         Return Nothing
     End Function
+
+
 End Class
+
+
+

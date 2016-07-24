@@ -33,28 +33,28 @@ Public Class GamesController
             lReturn.Add("")
             lReturn.Add("Draw")
             If Model.CurrentGame IsNot Nothing Then
-                If Model.CurrentGame.Player1 IsNot Nothing Then lReturn.Add(Model.CurrentGame.Player1.PPHandle & " (" & Model.CurrentGame.Player1.Name & ")")
-                If Model.CurrentGame.Player2 IsNot Nothing Then lReturn.Add(Model.CurrentGame.Player2.PPHandle & " (" & Model.CurrentGame.Player2.Name & ")")
+                If Model.CurrentGame.Player1 IsNot Nothing Then lReturn.Add(Model.CurrentGame.Player1.Name)
+                If Model.CurrentGame.Player2 IsNot Nothing Then lReturn.Add(Model.CurrentGame.Player2.Name)
             End If
 
             Return lReturn
         End Get
     End Property
 
-    Public Sub SetWinnerByScenario(WinnerPPHandle As String)
-        If Model.CurrentGame.Player1.PPHandle & " (" & Model.CurrentGame.Player1.Name & ")" = WinnerPPHandle Then
+    Public Sub SetWinnerByScenario(WinnerName As String)
+        If Model.CurrentGame.Player1.Name = WinnerName Then
             Model.CurrentGame.Player1.ControlPoints = 5
-        ElseIf Model.CurrentGame.Player2 IsNot Nothing AndAlso Model.CurrentGame.Player2.PPHandle & " (" & Model.CurrentGame.Player2.Name & ")" = WinnerPPHandle Then
+        ElseIf Model.CurrentGame.Player2 IsNot Nothing AndAlso Model.CurrentGame.Player2.Name = WinnerName Then
             Model.CurrentGame.Player2.ControlPoints = 5
         Else
             MessageBox.Show("Something bad just happened. Scenario winner is not a member of this game!")
         End If
     End Sub
 
-    Public Sub SetWinnerByConcession(WinnerPPHandle As String)
-        If Model.CurrentGame.Player1.PPHandle & " (" & Model.CurrentGame.Player1.Name & ")" = WinnerPPHandle Then
+    Public Sub SetWinnerByConcession(WinnerName As String)
+        If Model.CurrentGame.Player1.Name = WinnerName Then
             Model.CurrentGame.Player1.ControlPoints = 3
-        ElseIf Model.CurrentGame.Player2 IsNot Nothing AndAlso Model.CurrentGame.Player2.PPHandle & " (" & Model.CurrentGame.Player2.Name & ")" = WinnerPPHandle Then
+        ElseIf Model.CurrentGame.Player2 IsNot Nothing AndAlso Model.CurrentGame.Player2.Name = WinnerName Then
             Model.CurrentGame.Player2.ControlPoints = 3
         Else
             MessageBox.Show("Something bad just happened. Concession winner is not a member of this game!")
@@ -69,7 +69,7 @@ Public Class GamesController
             Dim q = (From p In Model.CurrentRound.Games Where p.Player2 Is Nothing).FirstOrDefault
             If Not q Is Nothing Then
                 SelectGame(q)
-                Model.CurrentGame.Winner = q.Player1.PPHandle
+                Model.CurrentGame.Winner = q.Player1.Name
                 Model.CurrentGame.Condition = "Bye"
                 Model.CurrentGame.Player1.ControlPoints = 3
                 Model.CurrentGame.Player1.ArmyPointsDestroyed = Math.Ceiling(Model.CurrentRound.Size / 2)
@@ -105,8 +105,8 @@ Public Class GamesController
 
     Public Sub SelectGame(Game As doGame)
         Model.CurrentGame = Game
-        If Game.Winner = Game.Player1.PPHandle Then Game.Winner = Game.Player1.PPHandle & " (" & Game.Player1.Name & ")"
-        If Game.Player2 IsNot Nothing AndAlso Game.Winner = Game.Player2.PPHandle Then Game.Winner = Game.Player2.PPHandle & " (" & Game.Player2.Name & ")"
+        If Game.Winner = Game.Player1.Name Then Game.Winner = Game.Player1.Name
+        If Game.Player2 IsNot Nothing AndAlso Game.Winner = Game.Player2.Name Then Game.Winner = Game.Player2.Name
 
         OnPropertyChanged("AcceptableWinners")
     End Sub
@@ -118,13 +118,13 @@ Public Class GamesController
         If Model.CurrentGame.Condition = String.Empty Then sReturn &= "Condition not set"
         If sReturn = String.Empty Then
             If BaseController.Model.CurrentGame IsNot Nothing Then
-                Dim q = (From p In Model.WMEvent.Players Where p.PPHandle = Model.CurrentGame.Player1.PPHandle Select p).FirstOrDefault
+                Dim q = (From p In Model.WMEvent.Players Where p.Name = Model.CurrentGame.Player1.Name Select p).FirstOrDefault
                 If Not q Is Nothing Then q.Tables.Add(Model.CurrentGame.TableNumber)
 
                 If Not Model.CurrentGame.Player2 Is Nothing Then
-                    Model.CurrentGame.Player1.Opponents.Add(Model.CurrentGame.Player2.PPHandle)
-                    Model.CurrentGame.Player2.Opponents.Add(Model.CurrentGame.Player1.PPHandle)
-                    q = (From p In Model.WMEvent.Players Where p.PPHandle = Model.CurrentGame.Player2.PPHandle Select p).FirstOrDefault
+                    Model.CurrentGame.Player1.Opponents.Add(Model.CurrentGame.Player2.Name)
+                    Model.CurrentGame.Player2.Opponents.Add(Model.CurrentGame.Player1.Name)
+                    q = (From p In Model.WMEvent.Players Where p.Name = Model.CurrentGame.Player2.Name Select p).FirstOrDefault
                     If Not q Is Nothing Then q.Tables.Add(Model.CurrentGame.TableNumber)
                 End If
 

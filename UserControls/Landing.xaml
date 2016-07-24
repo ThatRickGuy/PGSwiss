@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PGSwiss" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="350" d:DesignWidth="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -19,26 +19,19 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <TextBlock FontWeight="Bold" FontSize="18" Grid.ColumnSpan="2" HorizontalAlignment="Center">Welcome!</TextBlock>
-        <Button x:Name="btnCreate" Grid.Column="0" Grid.Row="1" Margin="4" >Create _New Event</Button>
-        <Button x:Name="btnLoad" Grid.Column="0" Grid.Row="2" Margin="4">_Load Existing Event</Button>
-        <Button x:Name="btnManage" Grid.Column="0" Grid.Row="3" Margin="4">_Manage Collections</Button>
 
-        <Button Grid.Row="4" x:Name="btnDoit" Visibility="Collapsed"  >DOIT!</Button>
-        
-        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="999" Margin="4" >
-            <Grid.RowDefinitions >
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Rectangle Grid.RowSpan="2" RadiusX="6" RadiusY="6" Stroke="#FF90CCFF" Fill="#FFE6E5E5"/>
-            <Image Source="../Resources/PGSwiss.PNG" Height="62" Width="55"/>
-            
-            
-            
-            
-            <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,1,3" BorderBrush="Black" >
-                <TextBlock TextWrapping="Wrap"  Margin="4">
+
+        <TextBlock FontWeight="Bold" FontSize="18" Grid.ColumnSpan="2" HorizontalAlignment="Center">Welcome!</TextBlock>
+        <StackPanel Grid.Column="0" Grid.Row="2" >
+            <Grid Margin="4" >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Rectangle Grid.RowSpan="2" RadiusX="6" RadiusY="6" Stroke="#FF90CCFF" Fill="#FFE6E5E5"/>
+                <Image Source="../Resources/PGSwiss.PNG" Height="62" Width="55"/>
+                <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,1,3" BorderBrush="Black" >
+                    <TextBlock TextWrapping="Wrap"  Margin="4">
                 <Span FontWeight="Bold">PG Swiss</Span>
                 <Span FontWeight="Normal" >is an event tracking solution designed to support Warmachine/Hordes events. </Span>
                 <LineBreak />    <LineBreak />    
@@ -47,14 +40,48 @@
                 <Span>Report Issues here: <Hyperlink NavigateUri="https://github.com/ThatRickGuy/PGSwiss/issues?state=open" RequestNavigate="Hyperlink_RequestNavigate">PG Swiss on GitHub</Hyperlink></Span>
                 <LineBreak/><LineBreak/>
                 <Span>Questions? Comments? Requests? Follow the link above and submit them as issues!</Span>
-                <LineBreak/><LineBreak/>
-                <Span>PP Handle is MANDATORY, if a player does not have a PP Handle, an email address or other unique identifier should work fine. Players are stored independently from the event to make registration easier for subsequent events, common names can lead to poor identification in the player storage and will cause issues with the execution of the pairing logic.</Span>
-                <LineBreak/>
-                <Span>Similar to PP Handles, Metas are stored seperately. Metas are typically defined as a geographical area within which players commonly play eachother. This is usually a city, state, but in some areas may be identified as a specific store or part of the city.</Span>
-            </TextBlock>
+                    </TextBlock>
 
-            </ScrollViewer>
-            <Rectangle Grid.Row="1" Height="1" Margin="0,-1,0,0" VerticalAlignment="Top" Fill="#FF90CCFF" ></Rectangle>
-        </Grid>
+                </ScrollViewer>
+                <Rectangle Grid.Row="1" Height="1" Margin="0,-1,0,0" VerticalAlignment="Top" Fill="#FF90CCFF" ></Rectangle>
+            </Grid>
+
+            <Button x:Name="btnCreate" Margin="4" >Create _New Event</Button>
+            <Button x:Name="btnLoad" Margin="4">_Load Existing Event</Button>
+            <Button x:Name="btnManage" Margin="4">_Manage Collections</Button>
+        </StackPanel>
+
+
+        <TextBlock FontWeight="Bold" FontSize="18" Grid.ColumnSpan="2" HorizontalAlignment="Center">Welcome!</TextBlock>
+        <StackPanel Grid.Column="1" Grid.Row="2" >
+            <Grid Margin="4" >
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Rectangle Grid.RowSpan="2" RadiusX="6" RadiusY="6" Stroke="#FF90CCFF" Fill="#FFE6E5E5"/>
+                <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,0,1,3" BorderBrush="Black" >
+                    <TextBlock TextWrapping="Wrap"  Margin="4">
+                        <Span FontWeight="Bold">Creating an Event:</Span>
+                        <LineBreak/>
+                        <Span FontWeight="Normal" >PG Swiss saves changes as soon as you move from one screen to the next. In order to create a new event, you must first create an event file. To do so, click the Create New Event button. A Save File dialog will open, select a location for the file and give it a name then click OK. This file is helpful to keep track of, if you encounter any errors it can be included in the error report allowing for easier debugging. </Span>
+                        <LineBreak/>
+                        <Span FontWeight="Bold">Names:</Span>
+                        <LineBreak/>
+                        <Span FontWeight="Normal" >The Name field is mandatory. PG Swiss stores the player information (Name, Faction, Meta) based on Name. It does this so that the next time you run an event, you can enter (or select from a drop down) the player's Name and the rest of the data will automatically populate. For this reason, it is recommended to use the player's PP 
+                            , or a specific name that you know will be associated with them. You can use numbers, but if you use the same numbers at your next event, they will auto populate with the same values from your current event. </Span>
+                    </TextBlock>
+
+                </ScrollViewer>
+                <Rectangle Grid.Row="1" Height="1" Margin="0,-1,0,0" VerticalAlignment="Top" Fill="#FF90CCFF" ></Rectangle>
+            </Grid>
+
+        </StackPanel>
+
+        <Button Grid.Row="4" x:Name="btnDoit" Visibility="Collapsed"  >DOIT!</Button>
+
+
+
+
     </Grid>
 </UserControl>

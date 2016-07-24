@@ -2,18 +2,18 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>	
-		<link rel="icon" type="image/png" href="pgswiss_icon.png">
-		<meta charset="utf-8"> 
-		<meta name="EventDate" content="[EventDate]">
-		<meta name="EventTitle" content="[EventTitle]">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" type="image/png" href="pgswiss_icon.png"/>
+		<meta charset="utf-8"/> 
+		<meta name="EventDate" content="[EventDate]"/>
+		<meta name="EventTitle" content="[EventTitle]"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
       
-    <meta content="Current standings from [EventTitle]" property='og:description'>
-    <meta content="[EventTitle]" property='og:title'>
-    <meta content="http://ringdev.com/swiss/standings/pgswiss200.png" property='og:image'>
+    <meta content="Current standings from [EventTitle]" property='og:description'/>
+    <meta content="[EventTitle]" property='og:title'/>
+    <meta content="http://ringdev.com/swiss/standings/pgswiss200.png" property='og:image'/>
   
 		<style>
 			body {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#28343b+0,828c95+50,28343b+100 */
@@ -85,13 +85,13 @@
 							<tr>
 								<th>Rank</th>
 								<th>Name</th>
-								<th>PP Handle</th>
 								<th>Faction</th>
 								<th>Meta</th>
 								<th>TP</th>
 								<th>SOS</th>
 								<th>CP</th>
-								<th>APD</th>
+                <th>APD</th>
+                <th>Drop</th>
 							</tr>
 						</thead>	
 						<tbody>
@@ -100,6 +100,22 @@
 					</table>
 				</div>
 			</div>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-hover table-condensed table-responsive">
+            <thead>
+              <tr>
+                <th>Best Paint</th>
+                <th></th>
+                <th>Best Sport</th>
+              </tr>
+            </thead>
+            <tbody>
+              [AwardRow]
+            </tbody>
+          </table>
+        </div>
+      </div>>
 			<div class="panel-body">
 				<div class="table-responsive">
 					<table class="table table-striped table-bordered table-hover table-condensed table-responsive">
@@ -113,7 +129,7 @@
 								<th>Scenario</th>
 								<th>Clock</th>
 								<th>Average CP</th>
-								<th>Average APD</th>
+                <th>Average APD</th>
 							</tr>
 						</thead>	
 						<tbody>

@@ -44,6 +44,29 @@ Public Class doWMEvent
     End Property
     Public Property EventDate As Date = Today
 
+    Private _BestPaintedWinner As doPlayer
+    Public Property BestPaintedWinner As doPlayer
+        Get
+            Return _BestPaintedWinner
+        End Get
+        Set(value As doPlayer)
+            _BestPaintedWinner = value
+            OnPropertyChanged("BestPaintedWinner")
+        End Set
+    End Property
+
+    Private _BestSportWinner As doPlayer
+    Public Property BestSportWinner As doPlayer
+        Get
+            Return _BestSportWinner
+        End Get
+        Set(value As doPlayer)
+            _BestSportWinner = value
+            OnPropertyChanged("BestSportWinner")
+        End Set
+    End Property
+
+
     Private WithEvents _Players As New ObservableCollection(Of doPlayer)
     Public Property Players As ObservableCollection(Of doPlayer)
         Get
@@ -72,6 +95,25 @@ Public Class doWMEvent
                 Me.EventDate = temp.EventDate
                 Me.Players = temp.Players
                 Me.Rounds = temp.Rounds
+                If (Me.Rounds.FirstOrDefault IsNot Nothing) Then
+                    If (Me.Rounds.FirstOrDefault().Games IsNot Nothing) Then
+                        Dim firstGame = Me.Rounds.FirstOrDefault().Games.FirstOrDefault()
+                        If firstGame.Winner <> firstGame.Player1.Name AndAlso firstGame.Winner <> firstGame.Player2.Name AndAlso firstGame.Winner <> String.Empty Then
+                            'this is likely a pre 1.10 file being loaded by 1.10 or later
+                            For Each round In Me.Rounds
+                                For Each game In round.Games
+                                    If game.Winner.Contains(game.Player1.Name) Then
+                                        game.Winner = game.Player1.Name
+                                    ElseIf game.Winner.Contains(game.Player2.Name) Then
+                                        game.Winner = game.Player2.Name
+                                    End If
+                                Next
+                            Next
+                        End If
+                    End If
+                End If
+        Me.BestPaintedWinner = temp.BestPaintedWinner
+        Me.BestSportWinner = temp.BestSportWinner
             End Using
         End If
     End Sub

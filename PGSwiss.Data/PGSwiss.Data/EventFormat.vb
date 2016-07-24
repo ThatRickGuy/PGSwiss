@@ -29,7 +29,15 @@ Public Class doEventFormatCollection
                 Dim x As New XmlSerializer(Me.GetType)
                 Dim lst As New List(Of doEventFormat)
                 lst.AddRange(x.Deserialize(objStreamReader))
-                Me.AddRange(From p In lst Order By p.Name)
+
+                If (From p In lst Where p.Name = "2016 Steamroller").Count = 0 Then
+                    Me.AddRange(From p In Generate() Order By p.Name)
+                    Save()
+                Else
+                    Me.AddRange(From p In lst Order By p.Name)
+                End If
+
+
             End Using
         End If
     End Sub
@@ -55,6 +63,26 @@ Public Class doEventFormatCollection
     Private Function Generate() As IEnumerable(Of doEventFormat)
         Dim lst As New List(Of doEventFormat)
         Dim ef As New doEventFormat
+        ef.Name = "2016 Steamroller"
+        ef.Scenarios.Add("1. Entrenched")
+        ef.Scenarios.Add("2. Line Breaker")
+        ef.Scenarios.Add("3. Take and Hold")
+        ef.Scenarios.Add("4. The Pit")
+        ef.Scenarios.Add("5. Extraction")
+        ef.Scenarios.Add("6. Incursion")
+        ef.Scenarios.Add("7. Outlast")
+        ef.Scenarios.Add("8. Recon")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "2016 Steamroller Rumble"
+        ef.Scenarios.Add("1. Patrol")
+        ef.Scenarios.Add("2. Killing Field")
+        ef.Scenarios.Add("3. Target of Opportunity")
+        lst.Add(ef)
+
+
+        ef = New doEventFormat
         ef.Name = "2015 Steamroller"
         ef.Scenarios.Add("1. Destruction")
         ef.Scenarios.Add("2. Two Fronts")

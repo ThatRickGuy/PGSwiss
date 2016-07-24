@@ -84,9 +84,9 @@ Public Class WMEventViewModel
     Public Function PlayerOpponents(Player As doPlayer) As List(Of doPlayer)
         Dim oReturn As New List(Of doPlayer)
         For Each Round In WMEvent.Rounds
-            Dim game = (From p In Round.Games Where p.Player1.PPHandle = Player.PPHandle Or p.Player2.PPHandle = Player.PPHandle).FirstOrDefault
+            Dim game = (From p In Round.Games Where p.Player1.Name = Player.Name Or p.Player2.Name = Player.Name).FirstOrDefault
             If Not game Is Nothing Then
-                If game.Player1.PPHandle = Player.PPHandle Then
+                If game.Player1.Name = Player.Name Then
                     If Not game.Player2 Is Nothing Then oReturn.Add(game.Player2)
                 Else
                     If Not game.Player1 Is Nothing Then oReturn.Add(game.Player1)
@@ -99,7 +99,7 @@ Public Class WMEventViewModel
     Public Function PlayerTables(Player As doPlayer) As List(Of Integer)
         Dim ilReturn As New List(Of Integer)
         For Each Round In WMEvent.Rounds
-            Dim game = (From p In Round.Games Where p.Player1.PPHandle = Player.PPHandle Or p.Player2.PPHandle = Player.PPHandle).FirstOrDefault
+            Dim game = (From p In Round.Games Where p.Player1.Name = Player.Name Or p.Player2.Name = Player.Name).FirstOrDefault
             If Not game Is Nothing Then
                 ilReturn.Add(game.TableNumber)
             End If
@@ -132,7 +132,7 @@ Public Class WMEventViewModel
             Me.WMEvent.Save()
 
             For Each p As doPlayer In WMEvent.Players
-                Dim q = From i In AllPlayers Where i.PPHandle = p.PPHandle
+                Dim q = From i In AllPlayers Where i.Name = p.Name
                 If q.Count = 0 Then AllPlayers.Add(p)
             Next
         End If

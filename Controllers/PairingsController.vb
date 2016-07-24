@@ -44,12 +44,13 @@ Public Class PairingsController
             Dim sbOutput As New StringBuilder()
             sbOutput.Append(My.Resources.TablesNumber)
             sbOutput.Replace("[Event Title]", Model.WMEvent.Name)
-            sbOutput.Replace("[Date]", Model.WMEvent.EventDate.ToShortDateString)
+            sbOutput.Replace("[Date]", Model.WMEvent.EventDate.Year & "-" & Model.WMEvent.EventDate.Month & "-" & Model.WMEvent.EventDate.Day)
             sbOutput.Replace("[Location]", "")
             sbOutput.Replace("[Format]", Model.WMEvent.EventFormat.Name)
             sbOutput.Replace("[PG]", "")
             sbOutput.Replace("[Version]", My.Application.Info.Version.ToString())
             sbOutput.Replace("[RoundNum]", Model.CurrentRound.RoundNumber)
+            sbOutput.Replace("[Scenario]", Model.CurrentRound.Scenario)
             sbOutput.Replace("[EventDate]", Model.WMEvent.EventDate.ToShortDateString)
             sbOutput.Replace("[EventTitle]", Model.WMEvent.Name)
 
@@ -61,15 +62,11 @@ Public Class PairingsController
                     row = RowString
                     row = row.Replace("[ColATableNum]", game.TableNumber)
                     row = row.Replace("[ColAPlayer1]", game.Player1.Name)
-                    If game.Player1.PPHandle <> String.Empty AndAlso game.Player1.PPHandle <> game.Player1.Name Then row = row.Replace("[ColAPlayer1alt]", "(" & game.Player1.Name & ")")
                     row = row.Replace("[ColAPlayer2]", game.Player2.Name)
-                    If game.Player2.PPHandle <> String.Empty AndAlso game.Player2.PPHandle <> game.Player2.Name Then row = row.Replace("[ColAPlayer2alt]", "(" & game.Player2.Name & ")")
                 Else
                     row = row.Replace("[ColBTableNum]", game.TableNumber)
                     row = row.Replace("[ColBPlayer1]", game.Player1.Name)
-                    If game.Player1.PPHandle <> String.Empty AndAlso game.Player1.PPHandle <> game.Player1.Name Then row = row.Replace("[ColBPlayer1alt]", "(" & game.Player1.Name & ")")
                     row = row.Replace("[ColBPlayer2]", game.Player2.Name)
-                    If game.Player2.PPHandle <> String.Empty AndAlso game.Player2.PPHandle <> game.Player2.Name Then row = row.Replace("[ColBPlayer2alt]", "(" & game.Player2.Name & ")")
                     rows &= row
                 End If
                 index += 1
@@ -98,38 +95,34 @@ Public Class PairingsController
             Dim sbOutput As New StringBuilder()
             sbOutput.Append(My.Resources.TablesAlpha)
             sbOutput.Replace("[Event Title]", Model.WMEvent.Name)
-            sbOutput.Replace("[Date]", Model.WMEvent.EventDate.ToShortDateString)
+            sbOutput.Replace("[Date]", Model.WMEvent.EventDate.Year & "-" & Model.WMEvent.EventDate.Month & "-" & Model.WMEvent.EventDate.Day)
             sbOutput.Replace("[Location]", "")
             sbOutput.Replace("[Format]", Model.WMEvent.EventFormat.Name)
             sbOutput.Replace("[PG]", "")
             sbOutput.Replace("[Version]", My.Application.Info.Version.ToString())
             sbOutput.Replace("[RoundNum]", Model.CurrentRound.RoundNumber)
+            sbOutput.Replace("[Scenario]", Model.CurrentRound.Scenario)
             sbOutput.Replace("[EventDate]", Model.WMEvent.EventDate.ToShortDateString)
             sbOutput.Replace("[EventTitle]", Model.WMEvent.Name)
 
             Dim PlayerGames As New List(Of PlayerGame)
             For Each player In (From p In Model.CurrentRoundPlayers Order By p.Name)
-                Dim game = (From p In Model.CurrentRound.Games Where p.Player1.PPHandle = player.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = player.PPHandle)).FirstOrDefault
+                Dim game = (From p In Model.CurrentRound.Games Where p.Player1.Name = player.Name Or (p.Player2 IsNot Nothing AndAlso p.Player2.Name = player.Name)).FirstOrDefault
                 If Not game Is Nothing Then
                     Dim pg As PlayerGame = Nothing
                     If game.Player2 Is Nothing Then
                         'bye
                         pg.Player = game.Player1.Name
-                        pg.PlayerHandle = game.Player1.PPHandle
                         pg.Table = 0
                         pg.Opponent = "Bye"
-                    ElseIf game.Player1.PPHandle = player.PPHandle Then
+                    ElseIf game.Player1.Name = player.Name Then
                         pg.Player = game.Player1.Name
-                        pg.PlayerHandle = game.Player1.PPHandle
                         pg.Table = game.TableNumber
                         pg.Opponent = game.Player2.Name
-                        pg.OpponentHandle = game.Player2.PPHandle
-                    ElseIf game.Player2.PPHandle = player.PPHandle Then
+                    ElseIf game.Player2.Name = player.Name Then
                         pg.Player = game.Player2.Name
-                        pg.PlayerHandle = game.Player2.PPHandle
                         pg.Table = game.TableNumber
                         pg.Opponent = game.Player1.Name
-                        pg.OpponentHandle = game.Player1.PPHandle
                     End If
                     PlayerGames.Add(pg)
                 End If
@@ -141,23 +134,19 @@ Public Class PairingsController
             Dim LastNameInFirstColumn As String = String.Empty
             For i As Integer = 0 To PlayerGames.Count - 1
                 If i < Math.Ceiling(PlayerGames.Count / 2) Then
-                    sbLeftBlock.Append("<div class=""row""><h3>[PlayerName] </h3><h4>Table [TableNumber]<small> vs [Opponent]</small></h4></div>")
+                    sbLeftBlock.Append("<div class=""row""><h3>[Name] </h3><h4>Table [TableNumber]<small> vs [Opponent]</small></h4></div>")
                     Dim name = PlayerGames(i).Player
-                    If PlayerGames(i).Player.ToLower <> PlayerGames(i).PlayerHandle.ToLower AndAlso PlayerGames(i).PlayerHandle IsNot Nothing Then name &= " <small>(" & PlayerGames(i).PlayerHandle & ")</small>"
-                    sbLeftBlock.Replace("[PlayerName]", name)
+                    sbLeftBlock.Replace("[Name]", name)
                     sbLeftBlock.Replace("[TableNumber]", PlayerGames(i).Table)
                     name = PlayerGames(i).Opponent
-                    If PlayerGames(i).Opponent.ToLower <> PlayerGames(i).OpponentHandle.ToLower AndAlso PlayerGames(i).OpponentHandle IsNot Nothing Then name &= " <small>(" & PlayerGames(i).OpponentHandle & ")</small>"
                     sbLeftBlock.Replace("[Opponent]", name)
                     LastNameInFirstColumn = PlayerGames(i).Player
                 Else
-                    sbRightBlock.Append("<div class=""row""><h3>[PlayerName] </h3><h4>Table [TableNumber]<small> vs [Opponent]</small></h4></div>")
+                    sbRightBlock.Append("<div class=""row""><h3>[Name] </h3><h4>Table [TableNumber]<small> vs [Opponent]</small></h4></div>")
                     Dim name = PlayerGames(i).Player
-                    If PlayerGames(i).Player.ToLower <> PlayerGames(i).PlayerHandle.ToLower AndAlso PlayerGames(i).PlayerHandle IsNot Nothing Then name &= " <small>(" & PlayerGames(i).PlayerHandle & ")</small>"
-                    sbRightBlock.Replace("[PlayerName]", name)
+                    sbRightBlock.Replace("[Name]", name)
                     sbRightBlock.Replace("[TableNumber]", PlayerGames(i).Table)
                     name = PlayerGames(i).Opponent
-                    If PlayerGames(i).Opponent.ToLower <> PlayerGames(i).OpponentHandle.ToLower AndAlso PlayerGames(i).OpponentHandle IsNot Nothing Then name &= " <small>(" & PlayerGames(i).OpponentHandle & ")</small>"
                     sbRightBlock.Replace("[Opponent]", name)
                 End If
             Next
@@ -219,7 +208,7 @@ Public Class PairingsController
 
                     End If
                 End If
-                EligablePlayers.Remove((From p In EligablePlayers Where p.PPHandle = Model.CurrentRound.Bye.PPHandle).FirstOrDefault)
+                EligablePlayers.Remove((From p In EligablePlayers Where p.Name = Model.CurrentRound.Bye.Name).FirstOrDefault)
             End If
             If Model.CurrentRound.Bye IsNot Nothing Then
                 Model.CurrentRound.Games.Add(New doGame)
@@ -244,18 +233,18 @@ Public Class PairingsController
                             Player1 = (From p In EligablePlayersInBucket Where p.HasBeenPairedDown = False Select p Order By Guid.NewGuid()).FirstOrDefault()
                             If Player1 Is Nothing Then Player1 = (From p In EligablePlayersInBucket Select p Order By Guid.NewGuid()).First()
                             Player1.HasBeenPairedDown = True
-                            Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 2 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 3 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 4 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
+                            Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 2 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 3 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 4 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
                         ElseIf EligablePlayersInBucket.Count > 0 Then
                             'Standard pairing
                             Player1 = EligablePlayersInBucket.First
-                            Player2 = (From p In EligablePlayersInBucket Where Player1.PPHandle <> p.PPHandle AndAlso Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 2 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 3 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 4 And Not Player1.Opponents.Contains(p.PPHandle) Order By Guid.NewGuid()).FirstOrDefault
+                            Player2 = (From p In EligablePlayersInBucket Where Player1.Name <> p.Name AndAlso Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 2 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 3 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
+                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 4 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
                         End If
 
                         EligablePlayers.Remove(Player1)
@@ -279,7 +268,7 @@ Public Class PairingsController
                         'Exclude player self-match
                         Dim EligableOpponents = From p In EligablePlayers Where Not p Is Player1
                         'Exclude previous matchups
-                        EligableOpponents = From p In EligableOpponents Where Not Player1.Opponents.Contains(p.PPHandle)
+                        EligableOpponents = From p In EligableOpponents Where Not Player1.Opponents.Contains(p.Name)
                         'check for most distant pairing first:
                         Dim MatchedOpponents = From p In EligableOpponents Where p.Meta <> Player1.Meta AndAlso p.Faction <> Player1.Faction
                         'No one from a different meta with a different faction
@@ -323,8 +312,8 @@ Public Class PairingsController
             Next
             For Each game In (From p In NonByeGames Order By p.Player1.Rank + p.Player2.Rank Ascending)
                 Dim InvalidTables As New List(Of Integer)
-                Dim EventPlayer1 = (From p In Model.WMEvent.Players Where p.PPHandle = game.Player1.PPHandle Select p).FirstOrDefault
-                Dim EventPlayer2 = (From p In Model.WMEvent.Players Where p.PPHandle = game.Player2.PPHandle Select p).FirstOrDefault
+                Dim EventPlayer1 = (From p In Model.WMEvent.Players Where p.Name = game.Player1.Name Select p).FirstOrDefault
+                Dim EventPlayer2 = (From p In Model.WMEvent.Players Where p.Name = game.Player2.Name Select p).FirstOrDefault
                 If Not EventPlayer1 Is Nothing AndAlso Not EventPlayer2 Is Nothing Then
                     InvalidTables.AddRange(EventPlayer1.Tables)
                     InvalidTables.AddRange(EventPlayer2.Tables)
@@ -355,15 +344,15 @@ Public Class PairingsController
         If game.Player1.Meta = game.Player2.Meta Then
             game.PairingCondition += 1
         End If
-        Dim EventPlayer1 = (From p In Model.WMEvent.Players Where p.PPHandle = game.Player1.PPHandle Select p).FirstOrDefault
-        Dim EventPlayer2 = (From p In Model.WMEvent.Players Where p.PPHandle = game.Player2.PPHandle Select p).FirstOrDefault
+        Dim EventPlayer1 = (From p In Model.WMEvent.Players Where p.Name = game.Player1.Name Select p).FirstOrDefault
+        Dim EventPlayer2 = (From p In Model.WMEvent.Players Where p.Name = game.Player2.Name Select p).FirstOrDefault
         If EventPlayer1 IsNot Nothing AndAlso EventPlayer2 IsNot Nothing Then
             If EventPlayer1.Tables.Contains(game.TableNumber) OrElse EventPlayer2.Tables.Contains(game.TableNumber) Then
                 game.PairingCondition += 2
             End If
         End If
 
-        If game.Player1.Opponents.Contains(game.Player2.PPHandle) OrElse game.Player2.Opponents.Contains(game.Player1.PPHandle) Then
+        If game.Player1.Opponents.Contains(game.Player2.Name) OrElse game.Player2.Opponents.Contains(game.Player1.Name) Then
             game.PairingCondition += 4
         End If
         If game.IsPairdown Then
@@ -372,11 +361,11 @@ Public Class PairingsController
     End Sub
 
     Public Sub SwapPlayers(PlayerA As doPlayer, PlayerB As doPlayer)
-        Dim SourceGame = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = PlayerA.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = PlayerA.PPHandle)).FirstOrDefault
-        Dim TargetGame = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = PlayerB.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = PlayerB.PPHandle)).FirstOrDefault
+        Dim SourceGame = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.Name = PlayerA.Name Or (p.Player2 IsNot Nothing AndAlso p.Player2.Name = PlayerA.Name)).FirstOrDefault
+        Dim TargetGame = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.Name = PlayerB.Name Or (p.Player2 IsNot Nothing AndAlso p.Player2.Name = PlayerB.Name)).FirstOrDefault
 
-        If SourceGame.Player1.PPHandle = PlayerA.PPHandle Then
-            If TargetGame.Player1.PPHandle = PlayerB.PPHandle Then
+        If SourceGame.Player1.Name = PlayerA.Name Then
+            If TargetGame.Player1.Name = PlayerB.Name Then
                 'Source.1 => Target.1
                 'Target.1 => Source.1
                 Dim temp = TargetGame.Player1
@@ -390,7 +379,7 @@ Public Class PairingsController
                 SourceGame.Player1 = temp
             End If
         Else
-            If TargetGame.Player1.PPHandle = PlayerB.PPHandle Then
+            If TargetGame.Player1.Name = PlayerB.Name Then
                 'Source.1 => Target.1
                 'Target.1 => Source.1
                 Dim temp = TargetGame.Player1
@@ -404,30 +393,6 @@ Public Class PairingsController
                 SourceGame.Player2 = temp
             End If
         End If
-
-
-
-        'Dim game1 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = PlayerA.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = PlayerA.PPHandle)).FirstOrDefault
-        'Dim Game1Player1 As Boolean = False
-        'If game1.Player1.PPHandle = PlayerA.PPHandle Then Game1Player1 = True
-        'Dim game2 = (From p In BaseController.Model.CurrentRound.Games Where p.Player1.PPHandle = PlayerB.PPHandle Or (p.Player2 IsNot Nothing AndAlso p.Player2.PPHandle = PlayerB.PPHandle)).FirstOrDefault
-        'Dim Game2Player1 As Boolean = False
-        'If game2.Player1.PPHandle = PlayerB.PPHandle Then Game2Player1 = True
-
-
-        ''todo:This needs to be fixed to not use currentRound.player!!!
-        'If Game1Player1 Then
-
-        '    game1.Player1 = game1.Player1 ' (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = Player2.PPHandle).FirstOrDefault
-        'Else
-        '    game1.Player2 = game1.Player2 '(From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = Player2.PPHandle).FirstOrDefault
-        'End If
-
-        'If Game2Player1 Then
-        '    game2.Player1 = (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = PlayerA.PPHandle).FirstOrDefault
-        'Else
-        '    game2.Player2 = (From p In BaseController.Model.CurrentRound.Players Where p.PPHandle = PlayerA.PPHandle).FirstOrDefault
-        'End If
     End Sub
 
     Public Overrides Function Validate() As String
@@ -463,8 +428,6 @@ End Class
 
 Public Structure PlayerGame
     Public Player As String
-    Public PlayerHandle As String
     Public Table As Integer
     Public Opponent As String
-    Public OpponentHandle As String
 End Structure

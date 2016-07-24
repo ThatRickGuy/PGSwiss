@@ -45,17 +45,17 @@ Public Class doRound
 
         For Each round In (From p In WMEvent.Rounds Where p.RoundNumber <= Me.RoundNumber)
             For Each game In round.Games
-                Dim player = (From p In PlayerList Where p.PPHandle = game.Player1.PPHandle).FirstOrDefault
+                Dim player = (From p In PlayerList Where p.Name = game.Player1.Name).FirstOrDefault
                 If Not player Is Nothing Then
                     player.ArmyPointsDestroyed += game.Player1.ArmyPointsDestroyed
                     player.ControlPoints += game.Player1.ControlPoints
-                    If game.Winner = player.PPHandle & " (" & player.Name & ")" Then player.TourneyPoints += 1
+                    If game.Winner = player.Name Then player.TourneyPoints += 1
                 End If
-                player = (From p In PlayerList Where Not game.Player2 Is Nothing AndAlso p.PPHandle = game.Player2.PPHandle).FirstOrDefault
+                player = (From p In PlayerList Where Not game.Player2 Is Nothing AndAlso p.Name = game.Player2.Name).FirstOrDefault
                 If Not player Is Nothing Then
                     player.ArmyPointsDestroyed += game.Player2.ArmyPointsDestroyed
                     player.ControlPoints += game.Player2.ControlPoints
-                    If game.Winner = player.PPHandle & " (" & player.Name & ")" Then player.TourneyPoints += 1
+                    If game.Winner = player.Name Then player.TourneyPoints += 1
                 End If
             Next
 
@@ -63,17 +63,17 @@ Public Class doRound
             For Each game In round.Games
                 If Not game.Player2 Is Nothing Then
 
-                    Dim player = (From p In PlayerList Where p.PPHandle = game.Player1.PPHandle).FirstOrDefault
+                    Dim player = (From p In PlayerList Where p.Name = game.Player1.Name).FirstOrDefault
                     If Not player Is Nothing Then
-                        player.Opponents.Add(game.Player2.PPHandle)
+                        player.Opponents.Add(game.Player2.Name)
                         player.Tables.Add(game.TableNumber)
                         If game.Player1.TourneyPoints > game.Player2.TourneyPoints Then player.HasBeenPairedDown = True
                     End If
 
-                    player = (From p In PlayerList Where p.PPHandle = game.Player2.PPHandle).FirstOrDefault
+                    player = (From p In PlayerList Where p.Name = game.Player2.Name).FirstOrDefault
                     If Not player Is Nothing Then
                         player.HasBeenPairedDown = True
-                        player.Opponents.Add(game.Player1.PPHandle)
+                        player.Opponents.Add(game.Player1.Name)
                         player.Tables.Add(game.TableNumber)
                         If game.Player1.TourneyPoints < game.Player2.TourneyPoints Then player.HasBeenPairedDown = True
                     End If
@@ -83,7 +83,7 @@ Public Class doRound
 
         'SOS
         For Each player In PlayerList
-            Dim Opponents = (From p In PlayerList Where player.Opponents IsNot Nothing AndAlso player.Opponents.Contains(p.PPHandle))
+            Dim Opponents = (From p In PlayerList Where player.Opponents IsNot Nothing AndAlso player.Opponents.Contains(p.Name))
             For Each Opponent In Opponents
                 player.StrengthOfSchedule += Opponent.TourneyPoints
             Next
@@ -100,11 +100,11 @@ Public Class doRound
                 player.Drop = True
             Next
             For Each game In LastReportedRound.Games
-                Dim player = (From p In PlayerList Where p.PPHandle = game.Player1.PPHandle).FirstOrDefault
+                Dim player = (From p In PlayerList Where p.Name = game.Player1.Name).FirstOrDefault
                 If Not player Is Nothing Then
                     player.Drop = False
                 End If
-                player = (From p In PlayerList Where Not game.Player2 Is Nothing AndAlso p.PPHandle = game.Player2.PPHandle).FirstOrDefault
+                player = (From p In PlayerList Where Not game.Player2 Is Nothing AndAlso p.Name = game.Player2.Name).FirstOrDefault
                 If Not player Is Nothing Then
                     player.Drop = False
                 End If
@@ -119,7 +119,7 @@ Public Class doRound
 
         'bye volunteers
         For Each byeVolunteer In Me.ByeVolunteers
-            Dim player = (From p In PlayerList Where p.PPHandle = byeVolunteer.PPHandle).FirstOrDefault
+            Dim player = (From p In PlayerList Where p.Name = byeVolunteer.Name).FirstOrDefault
             If Not player Is Nothing Then player.ByeVol = True
         Next
 

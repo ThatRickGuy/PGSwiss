@@ -12,12 +12,12 @@
             <local:IntToBrushConverter x:Key="IntToBrushConverter"/>
             <CollectionViewSource x:Key="SortedPlayers1" Source="{Binding Path=Model.CurrentRoundPlayers}">
                 <CollectionViewSource.SortDescriptions>
-                    <scm:SortDescription PropertyName="PPHandle"/>
+                    <scm:SortDescription PropertyName="Name"/>
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
             <CollectionViewSource x:Key="SortedPlayers2" Source="{Binding Path=Model.CurrentRoundPlayers}">
                 <CollectionViewSource.SortDescriptions>
-                    <scm:SortDescription PropertyName="PPHandle"/>
+                    <scm:SortDescription PropertyName="Name"/>
                 </CollectionViewSource.SortDescriptions>
             </CollectionViewSource>
         </Grid.Resources>
@@ -32,7 +32,7 @@
         </Grid.RowDefinitions>
         <TextBlock FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding Path=Model.CurrentRound.RoundNumber, StringFormat=Round \{0\} - Pairings}" />
         <TextBlock FontWeight="Bold" Grid.Row="1"  Margin="4,4,4,0">Pairings</TextBlock>
-        <DataGrid Name="dgPairings" ItemsSource="{Binding Path=Model.CurrentRound.Games}" Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False" CanUserAddRows="False" ToolTip="Red - Rematch! Regenerate or manual swap highly recommended. &#x0d;&#x0a;Orange - One of the players has been on this table before. &#x0d;&#x0a;Yellow - Players are from the same meta. &#x0d;&#x0a;Grey - Pair Down"   >
+        <DataGrid Name="dgPairings" ItemsSource="{Binding Path=Model.CurrentRound.Games}" Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False" CanUserAddRows="False" ToolTip="Red - Rematch! Regenerate or manual swap highly recommended. &#x0d;&#x0a;Orange - One of the players has been on this table before. &#x0d;&#x0a;Yellow - Players are from the same meta. &#x0d;&#x0a;Grey - Pair Down" ToolTipService.ShowDuration="7000"  >
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Background" Value="{Binding PairingCondition, Converter={StaticResource IntToBrushConverter}}"/>
@@ -40,14 +40,12 @@
             </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Table" Width="39" Binding="{Binding Path=TableNumber}" IsReadOnly="True" ></DataGridTextColumn>
-                <DataGridTextColumn Header="Player 1" Width="*" Binding="{Binding Path=Player1.PPHandle}" IsReadOnly="True" ></DataGridTextColumn>
-                <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Path=Player1.Name}" IsReadOnly="True" ></DataGridTextColumn>
+                <DataGridTextColumn Header="Player 1" Width="*" Binding="{Binding Path=Player1.Name}" IsReadOnly="True" ></DataGridTextColumn>
                 <DataGridTextColumn Header="Meta" Width="*" Binding="{Binding Path=Player1.Meta}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Faction" Width="*" Binding="{Binding Path=Player1.Faction}" IsReadOnly="True"></DataGridTextColumn>
                 <!--<DataGridTextColumn Header="Wins" Width="*" Binding="{Binding Path=Player1.TourneyPoints}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="SOS" Width="*" Binding="{Binding Path=Player1.StrengthOfSchedule}" IsReadOnly="True"></DataGridTextColumn>-->
-                <DataGridTextColumn Header="Player 2" Width="*" Binding="{Binding Path=Player2.PPHandle}" IsReadOnly="True"></DataGridTextColumn>
-                <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Path=Player2.Name}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Player 2" Width="*" Binding="{Binding Path=Player2.Name}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Meta" Width="*" Binding="{Binding Path=Player2.Meta}" IsReadOnly="True"></DataGridTextColumn>
                 <DataGridTextColumn Header="Faction" Width="*" Binding="{Binding Path=Player2.Faction}" IsReadOnly="True"></DataGridTextColumn>
                 <!--<DataGridTextColumn Header="Wins" Width="*" Binding="{Binding Path=Player2.TourneyPoints}" IsReadOnly="True"></DataGridTextColumn>
@@ -74,9 +72,9 @@
             </Grid.ColumnDefinitions>
             <TextBlock Margin="4,2,0,0">Player</TextBlock>
             <TextBlock Grid.Column="2" Margin="4,2,0,0">Player</TextBlock>
-            <ComboBox Name="cboSwapPlayerq1" ItemsSource="{Binding Source={StaticResource SortedPlayers1}}" DisplayMemberPath="PPHandle" Grid.Row="1" Margin="4"></ComboBox>
+            <ComboBox Name="cboSwapPlayerq1" ItemsSource="{Binding Source={StaticResource SortedPlayers1}}" DisplayMemberPath="Name" Grid.Row="1" Margin="4"></ComboBox>
             <TextBlock Grid.Row="1" Grid.Column="1"  Margin="4" VerticalAlignment="Center" >with</TextBlock>
-            <ComboBox Name="cboSwapPlayerq2" ItemsSource="{Binding Source={StaticResource SortedPlayers2}}" DisplayMemberPath="PPHandle" Grid.Row="1" Grid.Column="2" Margin="4"></ComboBox>
+            <ComboBox Name="cboSwapPlayerq2" ItemsSource="{Binding Source={StaticResource SortedPlayers2}}" DisplayMemberPath="Name" Grid.Row="1" Grid.Column="2" Margin="4"></ComboBox>
             <Button Name="btnSwap" Grid.Row="1" Grid.Column="3" Margin="4">Swap</Button>
         </Grid>
         <StackPanel Grid.Row="6" HorizontalAlignment="Center" Orientation="Horizontal" >

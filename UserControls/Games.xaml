@@ -18,7 +18,7 @@
                             <Binding Path="PairingCondition"></Binding>
                         </MultiBinding>
                     </Setter.Value>
-                </Setter>            
+                </Setter>
             </Style.Setters>
         </Style>
     </UserControl.Resources>
@@ -28,8 +28,9 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding Path=Model.CurrentRound.RoundNumber, StringFormat=Round \{0\} - Games}">
-        </TextBlock>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Grid.ColumnSpan="2"  >
+            <TextBlock FontWeight="Bold" FontSize="18" Text="{Binding Path=Model.CurrentRound.RoundNumber, StringFormat=Round \{0\} - Games}"></TextBlock>           
+        </StackPanel>
         <Grid x:Name="Contents"  Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -47,10 +48,8 @@
             <DataGrid x:Name="dgGames" SelectionMode="Single" SelectionUnit="FullRow" CanUserAddRows="False" CanUserDeleteRows="False"  ItemsSource="{Binding Path=Model.CurrentRound.Games}"   Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Table" Binding="{Binding Path=TableNumber}" IsReadOnly="True" Width="auto" ></DataGridTextColumn>
-                    <DataGridTextColumn Header="Player 1" Binding="{Binding Path=Player1.PPHandle}" IsReadOnly="True" Width="auto" ></DataGridTextColumn>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Player1.Name}" IsReadOnly="True" Width="*" ></DataGridTextColumn>
-                    <DataGridTextColumn Header="Player 2" Binding="{Binding Path=Player2.PPHandle}" IsReadOnly="True" Width="auto" ></DataGridTextColumn>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Player2.Name}" IsReadOnly="True" Width="*" ></DataGridTextColumn>
+                    <DataGridTextColumn Header="Player 1" Binding="{Binding Path=Player1.Name}" IsReadOnly="True" Width="*" ></DataGridTextColumn>
+                    <DataGridTextColumn Header="Player 2" Binding="{Binding Path=Player2.Name}" IsReadOnly="True" Width="*" ></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -71,15 +70,17 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.ColumnSpan ="2" FontWeight="Bold" Margin="2,2,2,0"><Run Text="Winner"/></TextBlock>
-                <ComboBox x:Name="cboWinner" SelectedItem ="{Binding Path=Model.CurrentGame.Winner}" ItemsSource="{Binding AcceptableWinners}" DisplayMemberPath="" Grid.Row="1" Grid.ColumnSpan ="2" Margin="2,0,2,0">
+                <TextBlock Grid.ColumnSpan ="4" FontWeight="Bold" Margin="2,2,2,0"><Run Text="Winner"/></TextBlock>
+                <ComboBox x:Name="cboWinner" SelectedItem ="{Binding Path=Model.CurrentGame.Winner}" ItemsSource="{Binding AcceptableWinners}" DisplayMemberPath="" Grid.Row="1" Grid.ColumnSpan ="4" Margin="2,0,2,0">
 
                 </ComboBox>
-                <TextBlock Grid.Row="2" Grid.ColumnSpan="2" FontWeight="Bold" Margin="2,2,2,0"><Run Text="Condition"/></TextBlock>
-                <ComboBox x:Name="cboCondition" SelectedValue="{Binding Path=Model.CurrentGame.Condition}" SelectedValuePath="Content" Grid.Row="3" Grid.ColumnSpan="2" Margin="2,0,2,0">
+                <TextBlock Grid.Row="2" Grid.ColumnSpan="4" FontWeight="Bold" Margin="2,2,2,0"><Run Text="Condition"/></TextBlock>
+                <ComboBox x:Name="cboCondition" SelectedValue="{Binding Path=Model.CurrentGame.Condition}" SelectedValuePath="Content" Grid.Row="3" Grid.ColumnSpan="4" Margin="2,0,2,0">
                     <ComboBoxItem></ComboBoxItem>
                     <ComboBoxItem>Assassination</ComboBoxItem>
                     <ComboBoxItem>Scenario</ComboBoxItem>
@@ -89,25 +90,25 @@
                     <ComboBoxItem>Bye</ComboBoxItem>
                 </ComboBox>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="2" >
-                    <TextBlock x:Name="lblPlayer1" FontWeight="Bold" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player1.PPHandle}"/></TextBlock>
-                    <TextBlock x:Name="lblPlayer1name" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player1.Name}"/></TextBlock>
+                <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="4" >
+                    <TextBlock x:Name="lblPlayer1" FontWeight="Bold" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player1.Name}"/></TextBlock>
                 </StackPanel>
-                
-                <TextBlock Grid.Row="5" Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="CP"/></TextBlock>
-                <TextBlock Grid.Row="5" Grid.Column="1" Margin="2,0,2,0" HorizontalAlignment="Center"><Run Text="APD"/></TextBlock>
-                <TextBox x:Name="txtPlayer1CP"  Grid.Row="6" Grid.Column="0" Margin="2,0,2,0"  Text="{Binding Path=Model.CurrentGame.Player1.ControlPoints}"/>
-                <TextBox x:Name="txtPlayer1APD" Grid.Row="6" Grid.Column="1" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player1.ArmyPointsDestroyed}"/>
 
-                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="2" >
-                    <TextBlock x:Name="lblPlayer2" FontWeight="Bold" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player2.PPHandle}"/></TextBlock>
-                    <TextBlock x:Name="lblPlayer2name" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player2.Name}"/></TextBlock>
+                <TextBlock Grid.Row="5" Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="CP"/></TextBlock>
+                <TextBlock Grid.Row="5" Grid.Column="2" Margin="2,0,2,0" HorizontalAlignment="Center"><Run Text="APD"/></TextBlock>
+                <TextBox x:Name="txtPlayer1CP"  Grid.Row="6" Grid.Column="0" Margin="2,0,2,0"  Text="{Binding Path=Model.CurrentGame.Player1.ControlPoints}"/>
+                <TextBox x:Name="txtPlayer1APD" Grid.Row="6" Grid.Column="2" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player1.ArmyPointsDestroyed}"/>
+                <CheckBox x:Name="chkPlayer1Drop" Grid.Row="6" Grid.Column="3" Margin ="2,2,2,0" Checked="chkPlayer1Drop_Checked">Drop</CheckBox>
+                
+                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="4" >
+                    <TextBlock x:Name="lblPlayer2" FontWeight="Bold" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player2.Name}"/></TextBlock>
                 </StackPanel>
                 <TextBlock Grid.Row="8" Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="CP"/></TextBlock>
-                <TextBlock Grid.Row="8" Grid.Column="1" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="APD"/></TextBlock>
+                <TextBlock Grid.Row="8" Grid.Column="2" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="APD"/></TextBlock>
                 <TextBox x:Name="txtPlayer2CP" Grid.Row="9" Grid.Column="0" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ControlPoints}"/>
-                <TextBox x:Name="txtPlayer2APD" Grid.Row="9" Grid.Column="1" Margin ="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ArmyPointsDestroyed}"/>
-                <Button x:Name="btnAcceptGame" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Margin="2,4,2,2" Content="Accept"></Button>
+                <TextBox x:Name="txtPlayer2APD" Grid.Row="9" Grid.Column="2" Margin ="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ArmyPointsDestroyed}"/>
+                <CheckBox x:Name="chkPlayer2Drop" Grid.Row="9" Grid.Column="3" Margin ="2,2,2,0" Checked="chkPlayer2Drop_Checked">Drop</CheckBox>
+                <Button x:Name="btnAcceptGame" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3" Margin="2,4,2,2" Content="Accept"></Button>
             </Grid>
 
             <CheckBox x:Name="chkIsLastGame" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="4" IsChecked="{Binding Path=Model.CurrentRound.IsLastRound, Mode=TwoWay}" Content="Final Round"></CheckBox>
