@@ -172,12 +172,29 @@ Public Class PairingsController
         Dim sReturn As String = String.Empty
 
         Try
+            Dim Player1 As doPlayer = Nothing
+            Dim Player2 As doPlayer = Nothing
+            Dim EligablePlayers As New List(Of doPlayer)
+            EligablePlayers.AddRange(From p In Model.CurrentRoundPlayers Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
+
+            'clear the opponents for the current games
+            For Each game In Model.CurrentRound.Games
+                If game.Player1 IsNot Nothing AndAlso game.Player2 IsNot Nothing Then
+                    Player1 = (From p In EligablePlayers Where p.Name = game.Player1.Name Select p).FirstOrDefault
+                    Player2 = (From p In EligablePlayers Where p.Name = game.Player2.Name Select p).FirstOrDefault
+
+                    Player1.Opponents.Remove(Player2.Name)
+                    Player2.Opponents.Remove(Player1.Name)
+
+                    If Player1.TourneyPoints > Player2.TourneyPoints Then Player1.HasBeenPairedDown = False
+                    If Player2.TourneyPoints > Player1.TourneyPoints Then Player2.HasBeenPairedDown = False
+                End If
+            Next
+
             'Clear the current pairings in case this is a re-generate
             Model.CurrentRound.Games.Clear()
             Model.CurrentRound.Bye = Nothing
 
-            Dim EligablePlayers As New List(Of doPlayer)
-            EligablePlayers.AddRange(From p In Model.CurrentRoundPlayers Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
 
             '***************************************************************
             '*** Bye                                                
@@ -217,8 +234,7 @@ Public Class PairingsController
             End If
             '***************************************************************
 
-            Dim Player1 As doPlayer = Nothing
-            Dim Player2 As doPlayer = Nothing
+
             If Model.CurrentRound.RoundNumber > 1 Then
                 'not the first round, use wins model
                 Dim TopTP = Model.CurrentRound.RoundNumber '  (From p In EligablePlayers Select p.TourneyPoints).Max

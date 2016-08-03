@@ -68,6 +68,7 @@ Public Class doPlayer
         'dopReturn.Tables = Me.Tables
         'dopReturn.Opponents = Me.Opponents
         dopReturn.ByeVol = Me.ByeVol
+        dopReturn.HasBeenPairedDown = Me.HasBeenPairedDown
         Return dopReturn
     End Function
 

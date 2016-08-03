@@ -41,7 +41,7 @@ Public Class StandingsController
         sbOutput.Replace("[Format]", Model.WMEvent.EventFormat.Name)
         sbOutput.Replace("[PG]", "")
         sbOutput.Replace("[Version]", My.Application.Info.Version.ToString())
-        sbOutput.Replace("[EventDate]", Model.WMEvent.EventDate.ToShortDateString)
+        sbOutput.Replace("[EventDate]", Model.WMEvent.EventDate.Year & "-" & Model.WMEvent.EventDate.Month & "-" & Model.WMEvent.EventDate.Day)
         sbOutput.Replace("[EventTitle]", Model.WMEvent.Name)
         sbOutput.Replace("[FileName]", Model.WMEvent.EventID.ToString & ".html")
 
