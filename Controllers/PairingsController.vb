@@ -195,7 +195,6 @@ Public Class PairingsController
             Model.CurrentRound.Games.Clear()
             Model.CurrentRound.Bye = Nothing
 
-
             '***************************************************************
             '*** Bye                                                
             '***************************************************************
@@ -319,6 +318,11 @@ Public Class PairingsController
 
                 End While
             End If
+            For Each game In Model.CurrentRound.Games
+                game.Player1.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player1.Name)
+                game.Player2.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player2.Name)
+            Next
+
 
             'Tables
             Dim NonByeGames = (From p In Model.CurrentRound.Games Where p.Player2 IsNot Nothing).ToArray
@@ -434,6 +438,19 @@ Public Class PairingsController
 
         OnPropertyChanged("RegenerateAvailable")
     End Sub
+
+    Private Function GetPlayerTotalTourneyPoints(PlayerName As String) As Integer
+        Dim iReturn As Integer = 0
+        For Each Round In Model.WMEvent.Rounds
+            For Each game In Round.Games
+                If game.Winner = PlayerName Then
+                    iReturn += 1
+                    Exit For
+                End If
+            Next
+        Next
+        Return iReturn
+    End Function
 
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
     Protected Sub OnPropertyChanged(ByVal name As String)

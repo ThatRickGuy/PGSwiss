@@ -38,26 +38,14 @@ Public Class Clock
     End Sub
 
     Private Sub recButton_MouseUp(sender As Object, e As MouseButtonEventArgs) Handles recButton.MouseUp
-        If Me.Duration.TotalSeconds = 0 Then
-            tmrUpate.Stop()
-            TimerIsRunning = False
-            IsResetting = True
-            Me.Duration = Me.SetDuration
-            OnPropertyChanged("Duration")
-            IsResetting = False
-            txtTimerHours.IsReadOnly = False
-            txtTimerMinutes.IsReadOnly = False
-            txtTimerSeconds.IsReadOnly = False
-            txtTimerHours.IsTabStop = True
-            txtTimerMinutes.IsTabStop = True
-            txtTimerSeconds.IsTabStop = True
-            Me.grdPause.Visibility = Windows.Visibility.Collapsed
-            Me.grdReset.Visibility = Windows.Visibility.Collapsed
-            Me.grdPlay.Visibility = Windows.Visibility.Visible
-        Else
-            If TimerIsRunning Then
-                'stop
+        Try
+            If Me.Duration.TotalSeconds = 0 Then
                 tmrUpate.Stop()
+                TimerIsRunning = False
+                IsResetting = True
+                Me.Duration = Me.SetDuration
+                OnPropertyChanged("Duration")
+                IsResetting = False
                 txtTimerHours.IsReadOnly = False
                 txtTimerMinutes.IsReadOnly = False
                 txtTimerSeconds.IsReadOnly = False
@@ -68,20 +56,35 @@ Public Class Clock
                 Me.grdReset.Visibility = Windows.Visibility.Collapsed
                 Me.grdPlay.Visibility = Windows.Visibility.Visible
             Else
-                'resume
-                tmrUpate.Start()
-                txtTimerHours.IsReadOnly = True
-                txtTimerMinutes.IsReadOnly = True
-                txtTimerSeconds.IsReadOnly = True
-                txtTimerHours.IsTabStop = False
-                txtTimerMinutes.IsTabStop = False
-                txtTimerSeconds.IsTabStop = False
-                Me.grdPause.Visibility = Windows.Visibility.Visible
-                Me.grdReset.Visibility = Windows.Visibility.Collapsed
-                Me.grdPlay.Visibility = Windows.Visibility.Collapsed
+                If TimerIsRunning Then
+                    'stop
+                    tmrUpate.Stop()
+                    txtTimerHours.IsReadOnly = False
+                    txtTimerMinutes.IsReadOnly = False
+                    txtTimerSeconds.IsReadOnly = False
+                    txtTimerHours.IsTabStop = True
+                    txtTimerMinutes.IsTabStop = True
+                    txtTimerSeconds.IsTabStop = True
+                    Me.grdPause.Visibility = Windows.Visibility.Collapsed
+                    Me.grdReset.Visibility = Windows.Visibility.Collapsed
+                    Me.grdPlay.Visibility = Windows.Visibility.Visible
+                Else
+                    'resume
+                    tmrUpate.Start()
+                    txtTimerHours.IsReadOnly = True
+                    txtTimerMinutes.IsReadOnly = True
+                    txtTimerSeconds.IsReadOnly = True
+                    txtTimerHours.IsTabStop = False
+                    txtTimerMinutes.IsTabStop = False
+                    txtTimerSeconds.IsTabStop = False
+                    Me.grdPause.Visibility = Windows.Visibility.Visible
+                    Me.grdReset.Visibility = Windows.Visibility.Collapsed
+                    Me.grdPlay.Visibility = Windows.Visibility.Collapsed
+                End If
+                TimerIsRunning = Not TimerIsRunning
             End If
-            TimerIsRunning = Not TimerIsRunning
-        End If
+        Catch
+        End Try
     End Sub
 
     Private Sub txtTimer_GotFocus(sender As Object, e As RoutedEventArgs) Handles txtTimerHours.GotFocus, txtTimerMinutes.GotFocus, txtTimerSeconds.GotFocus
@@ -93,55 +96,64 @@ Public Class Clock
     End Sub
 
     Private Sub txtTimerHours_PreviewTextInput(sender As Object, e As TextCompositionEventArgs) Handles txtTimerHours.PreviewTextInput
-        If IsNumeric(e.Text) OrElse e.Text = String.Empty Then
-            e.Handled = True
-        Else
-            e.Handled = False
-        End If
+        Try
+            If IsNumeric(e.Text) OrElse e.Text = String.Empty Then
+                e.Handled = True
+            Else
+                e.Handled = False
+            End If
+        Catch
+        End Try
     End Sub
 
     Private Sub txtTimer_TextChanged(sender As Object, e As TextChangedEventArgs) Handles txtTimerHours.TextChanged, txtTimerMinutes.TextChanged, txtTimerSeconds.TextChanged
-        If Not TimerIsRunning AndAlso Not IsResetting Then
+        Try
+            If Not TimerIsRunning AndAlso Not IsResetting Then
 
-            Dim Seconds As Integer = 0
-            Dim Minutes As Integer = 0
-            Dim Hours As Integer = 0
+                Dim Seconds As Integer = 0
+                Dim Minutes As Integer = 0
+                Dim Hours As Integer = 0
 
-            Integer.TryParse(txtTimerHours.Text, Hours)
-            Integer.TryParse(txtTimerMinutes.Text, Minutes)
-            Integer.TryParse(txtTimerSeconds.Text, Seconds)
+                Integer.TryParse(txtTimerHours.Text, Hours)
+                Integer.TryParse(txtTimerMinutes.Text, Minutes)
+                Integer.TryParse(txtTimerSeconds.Text, Seconds)
 
-            Me.SetDuration = New TimeSpan(Hours, Minutes, Seconds)
-            Me.Duration = Me.SetDuration
-        End If
+                Me.SetDuration = New TimeSpan(Hours, Minutes, Seconds)
+                Me.Duration = Me.SetDuration
+            End If
+        Catch
+        End Try
     End Sub
 
     Private Sub tmrUpate_Tick(sender As Object, e As EventArgs) Handles tmrUpate.Tick
-        Me.Duration -= TimeSpan.FromSeconds(1)
-        If Me.Duration = TimeSpan.FromSeconds(0) Then
-            tmrUpate.Stop()
-            'Me.Duration = Me.SetDuration
-            txtTimerHours.IsReadOnly = False
-            txtTimerMinutes.IsReadOnly = False
-            txtTimerSeconds.IsReadOnly = False
-            txtTimerHours.IsTabStop = True
-            txtTimerMinutes.IsTabStop = True
-            txtTimerSeconds.IsTabStop = True
+        Try
+            Me.Duration -= TimeSpan.FromSeconds(1)
+            If Me.Duration = TimeSpan.FromSeconds(0) Then
+                tmrUpate.Stop()
+                'Me.Duration = Me.SetDuration
+                txtTimerHours.IsReadOnly = False
+                txtTimerMinutes.IsReadOnly = False
+                txtTimerSeconds.IsReadOnly = False
+                txtTimerHours.IsTabStop = True
+                txtTimerMinutes.IsTabStop = True
+                txtTimerSeconds.IsTabStop = True
 
-            Me.grdPause.Visibility = Windows.Visibility.Collapsed
-            Me.grdReset.Visibility = Windows.Visibility.Visible
-            Me.grdPlay.Visibility = Windows.Visibility.Collapsed
-            TimerIsRunning = False
-            IsResetting = True
-            Beep()
-            System.Threading.Thread.Sleep(300)
-            Beep()
-            System.Threading.Thread.Sleep(300)
-            Beep()
+                Me.grdPause.Visibility = Windows.Visibility.Collapsed
+                Me.grdReset.Visibility = Windows.Visibility.Visible
+                Me.grdPlay.Visibility = Windows.Visibility.Collapsed
+                TimerIsRunning = False
+                IsResetting = True
+                Beep()
+                System.Threading.Thread.Sleep(300)
+                Beep()
+                System.Threading.Thread.Sleep(300)
+                Beep()
 
-        End If
-        OnPropertyChanged("Duration")
-        IsResetting = False
+            End If
+            OnPropertyChanged("Duration")
+            IsResetting = False
+        Catch
+        End Try
     End Sub
 
     Protected Sub OnPropertyChanged(ByVal name As String)
@@ -151,27 +163,45 @@ Public Class Clock
 
 
     Private Sub btnAddHours_Click(sender As Object, e As Windows.RoutedEventArgs) Handles btnAddHours.Click
-        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerHours.Text = CInt(txtTimerHours.Text) + 1
+        Try
+            If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerHours.Text = CInt(txtTimerHours.Text) + 1
+        Catch
+        End Try
     End Sub
 
     Private Sub btnAddMinutes_Click(sender As Object, e As RoutedEventArgs) Handles btnAddMinutes.Click
-        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerMinutes.Text = CInt(txtTimerMinutes.Text) + 1
+        Try
+            If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerMinutes.Text = CInt(txtTimerMinutes.Text) + 1
+        Catch
+        End Try
     End Sub
 
     Private Sub btnAddSeconds_Click(sender As Object, e As RoutedEventArgs) Handles btnAddSeconds.Click
-        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerSeconds.Text = CInt(txtTimerSeconds.Text) + 1
+        Try
+            If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerSeconds.Text = CInt(txtTimerSeconds.Text) + 1
+        Catch
+        End Try
     End Sub
 
     Private Sub btnSubtractHours_Click(sender As Object, e As Windows.RoutedEventArgs) Handles btnSubtractHours.Click
-        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerHours.Text = CInt(txtTimerHours.Text) - 1
+        Try
+            If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerHours.Text = CInt(txtTimerHours.Text) - 1
+        Catch
+        End Try
     End Sub
 
     Private Sub btnSubtractMinutes_Click(sender As Object, e As Windows.RoutedEventArgs) Handles btnSubtractMinutes.Click
-        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerMinutes.Text = CInt(txtTimerMinutes.Text) - 1
+        Try
+            If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerMinutes.Text = CInt(txtTimerMinutes.Text) - 1
+        Catch
+        End Try
     End Sub
 
     Private Sub btnSubtractSeconds_Click(sender As Object, e As Windows.RoutedEventArgs) Handles btnSubtractSeconds.Click
-        If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerSeconds.Text = CInt(txtTimerSeconds.Text) - 1
+        Try
+            If Not TimerIsRunning AndAlso Not IsResetting Then txtTimerSeconds.Text = CInt(txtTimerSeconds.Text) - 1
+        Catch
+        End Try
     End Sub
 End Class
 
@@ -181,14 +211,17 @@ Public Class TimeSpanToIntervalConverter
 
     Public Function Convert(value As Object, targetType As Type, parameter As Object, culture As Globalization.CultureInfo) As Object Implements Windows.Data.IValueConverter.Convert
         Dim iReturn As Nullable(Of Integer)
-        Select Case parameter
-            Case Is = "Hours"
-                iReturn = CType(value, TimeSpan).Hours
-            Case Is = "Minutes"
-                iReturn = CType(value, TimeSpan).Minutes
-            Case Is = "Seconds"
-                iReturn = CType(value, TimeSpan).Seconds
-        End Select
+        Try
+            Select Case parameter
+                Case Is = "Hours"
+                    iReturn = CType(value, TimeSpan).Hours
+                Case Is = "Minutes"
+                    iReturn = CType(value, TimeSpan).Minutes
+                Case Is = "Seconds"
+                    iReturn = CType(value, TimeSpan).Seconds
+            End Select
+        Catch
+        End Try
         Return iReturn
     End Function
 

@@ -48,6 +48,30 @@
 							background: linear-gradient(to bottom,  rgba(181,189,200,1) 0%,rgba(130,140,149,1) 36%,rgba(40,52,59,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 							filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b5bdc8', endColorstr='#28343b',GradientType=0 ); /* IE6-9 */
 							}
+      #rcorners {
+					border-radius: 4px;
+					background: #73AD21;
+					padding: 2px; 
+					width: 110px;
+					background: rgba(242,246,248,1);
+					background: -moz-linear-gradient(top, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 50%, rgba(181,198,208,1) 51%, rgba(224,239,249,1) 100%);
+					background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(242,246,248,1)), color-stop(50%, rgba(216,225,231,1)), color-stop(51%, rgba(181,198,208,1)), color-stop(100%, rgba(224,239,249,1)));
+					background: -webkit-linear-gradient(top, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 50%, rgba(181,198,208,1) 51%, rgba(224,239,249,1) 100%);
+					background: -o-linear-gradient(top, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 50%, rgba(181,198,208,1) 51%, rgba(224,239,249,1) 100%);
+					background: -ms-linear-gradient(top, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 50%, rgba(181,198,208,1) 51%, rgba(224,239,249,1) 100%);
+					background: linear-gradient(to bottom, rgba(242,246,248,1) 0%, rgba(216,225,231,1) 50%, rgba(181,198,208,1) 51%, rgba(224,239,249,1) 100%);
+					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f6f8', endColorstr='#e0eff9', GradientType=0 );
+				}
+		
+		  #rcornersInner {
+					  border-radius: 3px;
+					  background: #636363;
+				  }
+		  #rcornersTextBackground {
+					  margin-left: 18px;
+					  border-radius: 0px 3px 3px 0px;
+					  background: #FCF6D4;
+				  }
 		</style>
 	</head>
 	<body>
@@ -64,7 +88,7 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<div class="row">
-						<div class="col-xs-2"><img src="pgswiss_small.png"/></div>
+						<div class="col-xs-2"><a href="http://ringdev.com/PGSwissStandings/Index.aspx"><img src="pgswiss_small.png"/></a></div>
 						<div class="col-xs-10"><h1>[Event Title]</h1></div>
 					</div>
 				</div>	
@@ -145,6 +169,18 @@
 			<div class="row">
         <div class="col-sm-2"></div>
 				<div class="col-sm-8"><center>[Version]</center></div>
+        <div class="col-sm-1">
+          <a href="http://ringdev.com/PGSwissStandings/Index.aspx">
+			      <div id="rcorners" >
+				      <div id="rcornersInner">
+					      <img style="float:left; margin-top:2px; margin-left:1px;" src="http://ringdev.com/pgswissstandings/pgswiss_16x16.png" />
+					      <div id="rcornersTextBackground">
+						      <span style="font-size:9pt; margin-left:2px;white-space: nowrap;">Events Listing</span>
+					      </div>
+				      </div>
+			      </div>
+		      </a>
+        </div>
         <div class="col-sm-1">
           <div class="fb-share-button" data-href="http://ringdev.com/PGSwissStandings/[FileName]" data-layout="button" data-mobile-iframe="true"></div>    
         </div>

@@ -42,6 +42,18 @@ Public Class doPlayer
     Public Property ByeVol As Boolean
     Public Property Drop As Boolean
     Public Property TourneyPoints As Integer
+
+    Private _TotalTourneyPoints As Integer
+    Public Property TotalTourneyPoints As Integer
+        Get
+            Return _TotalTourneyPoints
+        End Get
+        Set(value As Integer)
+            _TotalTourneyPoints = value
+            OnPropertyChanged("TotalTourneyPoints")
+        End Set
+    End Property
+
     Public Property StrengthOfSchedule As Integer
     Public Property HasBeenPairedDown As Boolean = False
 
