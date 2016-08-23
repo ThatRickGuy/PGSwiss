@@ -39,6 +39,7 @@ Public Class doGame
 
     ' Create the OnPropertyChanged method to raise the event 
     Protected Sub OnPropertyChanged(ByVal name As String)
+        DirtyMonitor.IsDirty = True
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub
 End Class

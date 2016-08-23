@@ -158,6 +158,7 @@ Public Class GamesController
 
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
     Protected Sub OnPropertyChanged(ByVal name As String)
+        PGSwiss.Data.DirtyMonitor.IsDirty = True
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub
 

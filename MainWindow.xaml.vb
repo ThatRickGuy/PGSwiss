@@ -30,6 +30,15 @@ Class MainWindow
         End If
     End Sub
 
+    Private Sub btnParanoidSave_Click(sender As Object, e As RoutedEventArgs) Handles btnParanoidSave.Click
+        BaseController.CurrentController.ParanoidSave()
+        PGSwiss.Data.DirtyMonitor.IsDirty = False
+        BaseController.Model.NotifyButtonVisibilityChange()
+
+    End Sub
+
+
+
     Private _IsMovingPrev As Boolean = False
     Private _ActivePanel As Grid = grdPanel1
     Private _LastControl As UIElement
@@ -94,6 +103,7 @@ Class MainWindow
 
         Me.btnNext.IsEnabled = BaseController.CurrentController.NextEnabled
         Me.btnPrev.IsEnabled = BaseController.CurrentController.PreviousEnabled
+        Me.btnParanoidSave.IsEnabled = PGSwiss.Data.DirtyMonitor.IsDirty
 
         'Dim binding = New Binding()
         'binding.Path = New PropertyPath("Title")

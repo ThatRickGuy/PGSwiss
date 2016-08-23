@@ -97,10 +97,12 @@ Public Class WMEvent
             dgPlayers.Items.Refresh()
         Catch
         End Try
+        PGSwiss.Data.DirtyMonitor.IsDirty = True
     End Sub
 
     Private Sub WMEvent_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         Me.txtEventName.Focus()
+        PGSwiss.Data.DirtyMonitor.IsDirty = False
     End Sub
 
     Private Sub cboFaction_PreviewKeyDown_1(sender As Object, e As KeyEventArgs)
@@ -138,5 +140,20 @@ Public Class WMEvent
 
 
 
+    Private Sub cboFormat_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles cboFormat.SelectionChanged
+        PGSwiss.Data.DirtyMonitor.IsDirty = True
+    End Sub
+
+    Private Sub dtpEventDate_SelectedDateChanged(sender As Object, e As SelectionChangedEventArgs) Handles dtpEventDate.SelectedDateChanged
+        PGSwiss.Data.DirtyMonitor.IsDirty = True
+    End Sub
+
+    Private Sub txtEventName_TextChanged(sender As Object, e As TextChangedEventArgs) Handles txtEventName.TextChanged
+        PGSwiss.Data.DirtyMonitor.IsDirty = True
+    End Sub
+
+    Private Sub dgPlayers_CellEditEnding(sender As Object, e As DataGridCellEditEndingEventArgs) Handles dgPlayers.CellEditEnding
+        PGSwiss.Data.DirtyMonitor.IsDirty = True
+    End Sub
 End Class
 

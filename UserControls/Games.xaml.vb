@@ -22,6 +22,7 @@
         If sAccepted = String.Empty Then
             Me.dgGames.SelectedItem = Nothing
             Me.dgGames.Items.Refresh()
+            PGSwiss.Data.DirtyMonitor.IsDirty = True
         Else
             MessageBox.Show("Please resolve the issue(s) listed below prior to accepting a game:" & ControlChars.CrLf & ControlChars.CrLf & sAccepted)
         End If

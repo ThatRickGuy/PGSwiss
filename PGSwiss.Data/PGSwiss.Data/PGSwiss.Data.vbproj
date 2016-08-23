@@ -69,6 +69,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirtyMonitor.vb" />
     <Compile Include="EventFormat.vb" />
     <Compile Include="Faction.vb" />
     <Compile Include="Game.vb" />

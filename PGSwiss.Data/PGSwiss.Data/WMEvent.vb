@@ -97,23 +97,27 @@ Public Class doWMEvent
                 Me.Rounds = temp.Rounds
                 If (Me.Rounds.FirstOrDefault IsNot Nothing) Then
                     If (Me.Rounds.FirstOrDefault().Games IsNot Nothing) Then
-                        Dim firstGame = Me.Rounds.FirstOrDefault().Games.FirstOrDefault()
-                        If firstGame.Winner <> firstGame.Player1.Name AndAlso firstGame.Winner <> firstGame.Player2.Name AndAlso firstGame.Winner <> String.Empty Then
-                            'this is likely a pre 1.10 file being loaded by 1.10 or later
-                            For Each round In Me.Rounds
-                                For Each game In round.Games
-                                    If game.Winner.Contains(game.Player1.Name) Then
-                                        game.Winner = game.Player1.Name
-                                    ElseIf game.Winner.Contains(game.Player2.Name) Then
-                                        game.Winner = game.Player2.Name
-                                    End If
+                        If (Me.Rounds.FirstOrDefault().Games.FirstOrDefault() IsNot Nothing) Then
+                            Dim firstGame = Me.Rounds.FirstOrDefault().Games.FirstOrDefault()
+                            If firstGame.Winner <> firstGame.Player1.Name AndAlso firstGame.Winner <> firstGame.Player2.Name AndAlso firstGame.Winner <> String.Empty Then
+                                'this is likely a pre 1.10 file being loaded by 1.10 or later
+                                For Each round In Me.Rounds
+                                    For Each game In round.Games
+                                        If game.Winner IsNot Nothing Then
+                                            If game.Winner.Contains(game.Player1.Name) Then
+                                                game.Winner = game.Player1.Name
+                                            ElseIf game.Winner.Contains(game.Player2.Name) Then
+                                                game.Winner = game.Player2.Name
+                                            End If
+                                        End If
+                                    Next
                                 Next
-                            Next
+                            End If
                         End If
                     End If
                 End If
-        Me.BestPaintedWinner = temp.BestPaintedWinner
-        Me.BestSportWinner = temp.BestSportWinner
+                Me.BestPaintedWinner = temp.BestPaintedWinner
+                Me.BestSportWinner = temp.BestSportWinner
             End Using
         End If
     End Sub
@@ -135,6 +139,7 @@ Public Class doWMEvent
     End Sub
 
     Protected Sub OnPropertyChanged(ByVal name As String)
+        DirtyMonitor.IsDirty = True
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub
 

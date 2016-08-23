@@ -157,6 +157,7 @@ Public Class Clock
     End Sub
 
     Protected Sub OnPropertyChanged(ByVal name As String)
+        PGSwiss.Data.DirtyMonitor.IsDirty = True
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged

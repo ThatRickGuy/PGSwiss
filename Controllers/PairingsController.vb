@@ -320,7 +320,7 @@ Public Class PairingsController
             End If
             For Each game In Model.CurrentRound.Games
                 game.Player1.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player1.Name)
-                game.Player2.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player2.Name)
+                If game.Player2 IsNot Nothing Then game.Player2.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player2.Name)
             Next
 
 
@@ -454,6 +454,7 @@ Public Class PairingsController
 
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
     Protected Sub OnPropertyChanged(ByVal name As String)
+        PGSwiss.Data.DirtyMonitor.IsDirty = True
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
     End Sub
 End Class

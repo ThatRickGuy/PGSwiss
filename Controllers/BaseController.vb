@@ -60,6 +60,14 @@
         End Get
     End Property
 
+    Public Sub ParanoidSave()
+        Try
+            Model.Save()
+        Catch exc As Exception
+            MessageBox.Show("Error while saving: " & exc.Message)
+        End Try
+    End Sub
+
     Public Overridable Function MoveNext() As BaseController
         If Me._NextEnabled Then
             Dim sValidated = Validate()

@@ -29,6 +29,7 @@ Public Class Pairings
             Me.cboSwapPlayerq1.SelectedItem = Nothing
             Me.cboSwapPlayerq2.SelectedItem = Nothing
             Me.dgPairings.Items.Refresh()
+            PGSwiss.Data.DirtyMonitor.IsDirty = True
         End If
     End Sub
 End Class

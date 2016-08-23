@@ -65,6 +65,10 @@ Public Class Round
         dgPlayers.GetBindingExpression(DataGrid.ItemsSourceProperty).UpdateTarget()
     End Sub
 
+    Private Sub dgPlayers_CellEditEnding(sender As Object, e As DataGridCellEditEndingEventArgs) Handles dgPlayers.CellEditEnding
+        PGSwiss.Data.DirtyMonitor.IsDirty = True
+    End Sub
+
     Private Sub dgPlayers_PreviewKeyDown(sender As Object, e As KeyEventArgs) Handles dgPlayers.PreviewKeyDown
         Dim values = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890D1D2D3D4D5D6D7D8D9D0!@#$%^&*(),./;'[]<>?:""{}\|-=_+"
 
@@ -84,6 +88,7 @@ Public Class Round
                 End If
             End If
         End If
+
     End Sub
 
     Private Sub btnRandomScenario_Click(sender As Object, e As RoutedEventArgs)

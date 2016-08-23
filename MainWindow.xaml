@@ -191,6 +191,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="Background" Value="#FFFF3A00"/>
         </Style>
     </Window.Resources>
 
@@ -283,7 +284,7 @@
 
         </Grid>
 
-        <Grid x:Name="grdProgress" Margin="83,0,83,15" VerticalAlignment="Bottom"  >
+        <Grid x:Name="grdProgress" Margin="83,0,136,15" VerticalAlignment="Bottom"  >
             <local:ProgressBar Height="22" Value="{Binding CurrentProgress}"></local:ProgressBar>
         </Grid>
 
@@ -293,6 +294,10 @@
 
         <Button Name="btnNext" Width="50" Height="50" Background="#FF00DCFF"  Margin="5,5,25,3" Style="{DynamicResource GlassButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Image Source="Resources/Right.PNG" IsEnabled="False" Margin="10,2,2,4" Visibility="{Binding NextButtonVisibility}"></Image>
+        </Button>
+
+        <Button Name="btnParanoidSave" Width="50" Height="50" Background="{Binding IsDirty}"  Margin="5,5,78,3" Style="{DynamicResource GlassButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom" ToolTip="Paranoid Save - if you want to save RIGHT NOW! without advancing to the next screen.">
+            <Image Source="Resources/Swirl.PNG" IsEnabled="False"  ></Image>
         </Button>
 
         <Grid x:Name="grdFeedback" VerticalAlignment="Top" HorizontalAlignment="Center" >
@@ -319,8 +324,8 @@
                 </TextBlock>
                 <TextBlock Text="{Binding ElementName=Window1, Path=Version}" VerticalAlignment="Center" Margin="0,4,4,4"></TextBlock>
             </StackPanel>
-            
-            
+
+
         </Grid>
     </Grid>
 

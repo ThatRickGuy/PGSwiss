@@ -107,7 +107,6 @@ Public Class WMEventViewModel
         Return ilReturn
     End Function
 
-
     Private _CurrentGame As doGame
     Public Property CurrentGame As doGame
         Get
@@ -148,7 +147,11 @@ Public Class WMEventViewModel
 
     ' Create the OnPropertyChanged method to raise the event 
     Protected Sub OnPropertyChanged(ByVal name As String)
+        If name <> "IsDirty" AndAlso name <> "PreviousButtonVisibility" AndAlso name <> "NextButtonVisibility" Then
+            PGSwiss.Data.DirtyMonitor.IsDirty = True
+        End If
         RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(name))
+
     End Sub
 
     Private Sub _WMEvent_PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Handles _WMEvent.PropertyChanged
@@ -157,9 +160,15 @@ Public Class WMEventViewModel
         End If
     End Sub
 
+    Private WithEvents _DirtyMonitor As PGSwiss.Data.DirtyMonitor = PGSwiss.Data.DirtyMonitor.GetSingleton
+    Public Sub IsDirtyChange() Handles _DirtyMonitor.PropertyChanged
+        NotifyButtonVisibilityChange()
+    End Sub
+
     Public Sub NotifyButtonVisibilityChange()
         OnPropertyChanged("PreviousButtonVisibility")
         OnPropertyChanged("NextButtonVisibility")
+        OnPropertyChanged("IsDirty")
     End Sub
 
     Public ReadOnly Property PreviousButtonVisibility As Visibility
@@ -175,6 +184,14 @@ Public Class WMEventViewModel
             Dim vReturn As Visibility = Visibility.Collapsed
             If BaseController.CurrentController.NextEnabled Then vReturn = Visibility.Visible
             Return vReturn
+        End Get
+    End Property
+
+    Public ReadOnly Property IsDirty As System.Windows.Media.Brush
+        Get
+            Dim bReturn As New SolidColorBrush(System.Windows.Media.Color.FromArgb(0, 0, 0, 0))
+            If PGSwiss.Data.DirtyMonitor.IsDirty Then bReturn = New SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 220, 255))
+            Return bReturn
         End Get
     End Property
 End Class
