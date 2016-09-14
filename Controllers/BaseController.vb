@@ -69,6 +69,7 @@
     End Sub
 
     Public Overridable Function MoveNext() As BaseController
+        Dim bcReturn As BaseController = Nothing
         If Me._NextEnabled Then
             Dim sValidated = Validate()
             If sValidated = String.Empty Then
@@ -98,13 +99,12 @@
                 Else
                     _CurrentController = Me
                 End If
-                Return _CurrentController
+                bcReturn = _CurrentController
             Else
                 MessageBox.Show("Please correct the following issue(s) before continuing:" & ControlChars.CrLf & ControlChars.CrLf & sValidated)
             End If
-        Else
-            Return Nothing
         End If
+        Return bcReturn
     End Function
 
     Public Overridable Function MovePrev() As BaseController

@@ -15,4 +15,7 @@
     'End Property
 
 
+    Private Sub cboBestPaintWinner_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles cboBestPaintWinner.SelectionChanged, cboBestSportWinner.SelectionChanged
+        PGSwiss.Data.DirtyMonitor.IsDirty = True
+    End Sub
 End Class

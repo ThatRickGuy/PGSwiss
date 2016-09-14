@@ -128,6 +128,7 @@ Public Class WMEventViewModel
 
     Public Overrides Sub Save()
         If Me.WMEvent IsNot Nothing Then
+            Me.WMEvent.PGSwissVersion = My.Application.Info.Version.ToString
             Me.WMEvent.Save()
 
             For Each p As doPlayer In WMEvent.Players

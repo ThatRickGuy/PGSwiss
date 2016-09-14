@@ -55,7 +55,7 @@ Public Class doPlayer
     End Property
 
     Public Property StrengthOfSchedule As Integer
-    Public Property HasBeenPairedDown As Boolean = False
+    Public Property PairedDownRound As Integer
 
     Private _ControlPoints As Integer
     Public Property ControlPoints As Integer
@@ -80,7 +80,7 @@ Public Class doPlayer
         'dopReturn.Tables = Me.Tables
         'dopReturn.Opponents = Me.Opponents
         dopReturn.ByeVol = Me.ByeVol
-        dopReturn.HasBeenPairedDown = Me.HasBeenPairedDown
+        dopReturn.PairedDownRound = Me.PairedDownRound
         Return dopReturn
     End Function
 

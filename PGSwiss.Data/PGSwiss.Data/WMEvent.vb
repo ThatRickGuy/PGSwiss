@@ -21,6 +21,8 @@ Public Class doWMEvent
 
     Public Property EventID As Guid = Guid.NewGuid
 
+    Public Property PGSwissVersion As String
+
     Private _EventFormat As doEventFormat
     Public Property EventFormat As doEventFormat
         Get

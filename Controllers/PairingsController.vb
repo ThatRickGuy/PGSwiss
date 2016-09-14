@@ -186,8 +186,8 @@ Public Class PairingsController
                     Player1.Opponents.Remove(Player2.Name)
                     Player2.Opponents.Remove(Player1.Name)
 
-                    If Player1.TourneyPoints > Player2.TourneyPoints Then Player1.HasBeenPairedDown = False
-                    If Player2.TourneyPoints > Player1.TourneyPoints Then Player2.HasBeenPairedDown = False
+                    If Player1.PairedDownRound = Model.CurrentRound.RoundNumber Then Player1.PairedDownRound = 0
+                    If Player2.PairedDownRound = Model.CurrentRound.RoundNumber Then Player2.PairedDownRound = 0
                 End If
             Next
 
@@ -245,9 +245,9 @@ Public Class PairingsController
 
                         If EligablePlayersInBucket.Count Mod 2 = 1 Then
                             'Pairdown!
-                            Player1 = (From p In EligablePlayersInBucket Where p.HasBeenPairedDown = False Select p Order By Guid.NewGuid()).FirstOrDefault()
+                            Player1 = (From p In EligablePlayersInBucket Where p.PairedDownRound <= 0 Select p Order By Guid.NewGuid()).FirstOrDefault()
                             If Player1 Is Nothing Then Player1 = (From p In EligablePlayersInBucket Select p Order By Guid.NewGuid()).First()
-                            Player1.HasBeenPairedDown = True
+                            Player1.PairedDownRound = Model.CurrentRound.RoundNumber
                             Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
                             If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 2 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
                             If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 3 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
@@ -319,8 +319,8 @@ Public Class PairingsController
                 End While
             End If
             For Each game In Model.CurrentRound.Games
-                game.Player1.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player1.Name)
-                If game.Player2 IsNot Nothing Then game.Player2.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player2.Name)
+                game.Player1.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player1.Name, Model.CurrentRound.RoundNumber)
+                If game.Player2 IsNot Nothing Then game.Player2.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player2.Name, Model.CurrentRound.RoundNumber)
             Next
 
 
@@ -418,6 +418,25 @@ Public Class PairingsController
     Public Overrides Function Validate() As String
         Dim sReturn = String.Empty
         If BaseController.Model.CurrentRound.Games.Count = 0 Then sReturn = "No pairings"
+
+        'cleanup for reopening old files and if someone manually pairs a pairdown
+        For Each game In Model.CurrentRound.Games
+            If GetPlayerTotalTourneyPoints(game.Player1.Name, Model.CurrentRound.RoundNumber - 1) > GetPlayerTotalTourneyPoints(game.Player2.Name, Model.CurrentRound.RoundNumber - 1) Then
+                game.Player1.PairedDownRound = Model.CurrentRound.RoundNumber
+                Dim q = (From p In Model.WMEvent.Players Where p.Name = game.Player1.Name Select p).First()
+                q.PairedDownRound = Model.CurrentRound.RoundNumber()
+            ElseIf GetPlayerTotalTourneyPoints(game.Player2.Name, Model.CurrentRound.RoundNumber - 1) > GetPlayerTotalTourneyPoints(game.Player1.Name, Model.CurrentRound.RoundNumber - 1) Then
+                game.Player2.PairedDownRound = Model.CurrentRound.RoundNumber
+                Dim q = (From p In Model.WMEvent.Players Where p.Name = game.Player2.Name Select p).First()
+                q.PairedDownRound = Model.CurrentRound.RoundNumber
+            Else
+                If game.Player1.PairedDownRound < 0 Or game.Player1.PairedDownRound = Model.CurrentRound.RoundNumber Then game.Player1.PairedDownRound = 0
+                If game.Player2.PairedDownRound < 0 Or game.Player1.PairedDownRound = Model.CurrentRound.RoundNumber Then game.Player2.PairedDownRound = 0
+            End If
+        Next
+
+
+
         Return sReturn
     End Function
 
@@ -439,15 +458,17 @@ Public Class PairingsController
         OnPropertyChanged("RegenerateAvailable")
     End Sub
 
-    Private Function GetPlayerTotalTourneyPoints(PlayerName As String) As Integer
+    Private Overloads Function GetPlayerTotalTourneyPoints(PlayerName As String, RoundNumber As Integer) As Integer
         Dim iReturn As Integer = 0
         For Each Round In Model.WMEvent.Rounds
-            For Each game In Round.Games
-                If game.Winner = PlayerName Then
-                    iReturn += 1
-                    Exit For
-                End If
-            Next
+            If Round.RoundNumber <= RoundNumber Then
+                For Each game In Round.Games
+                    If game.Winner = PlayerName Then
+                        iReturn += 1
+                        Exit For
+                    End If
+                Next
+            End If
         Next
         Return iReturn
     End Function
