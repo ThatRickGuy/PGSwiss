@@ -30,7 +30,7 @@ Public Class doEventFormatCollection
                 Dim lst As New List(Of doEventFormat)
                 lst.AddRange(x.Deserialize(objStreamReader))
 
-                If (From p In lst Where p.Name = "2016 Masters").Count = 0 Then
+                If (From p In lst Where p.Name = "2017 Masters").Count = 0 Then
                     Dim AllFormats = Generate()
                     For Each EventFormat In AllFormats
                         Dim q = (From p In Me Where p.Name = EventFormat.Name Select p).FirstOrDefault()
@@ -67,61 +67,44 @@ Public Class doEventFormatCollection
 
     Private Function Generate() As IEnumerable(Of doEventFormat)
         Dim lst As New List(Of doEventFormat)
-        Dim ef As New doEventFormat
-        ef.Name = "2016 Steamroller"
-        ef.Scenarios.Add("1. Entrenched")
-        ef.Scenarios.Add("2. Line Breaker")
-        ef.Scenarios.Add("3. Take and Hold")
-        ef.Scenarios.Add("4. The Pit")
-        ef.Scenarios.Add("5. Extraction")
-        ef.Scenarios.Add("6. Incursion")
-        ef.Scenarios.Add("7. Outlast")
-        ef.Scenarios.Add("8. Recon")
+        Dim ef As doEventFormat
+
+        ef = New doEventFormat
+        ef.Name = "2017 Masters"
+        ef.Scenarios.Add("1. The Pit")
+        ef.Scenarios.Add("2. Standoff")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Breakdown")
+        ef.Scenarios.Add("5. Outlast")
+        ef.Scenarios.Add("6. Recon")
         lst.Add(ef)
 
         ef = New doEventFormat
-        ef.Name = "2016 Steamroller Rumble"
+        ef.Name = "2017 Champions"
+        ef.Scenarios.Add("1. The Pit")
+        ef.Scenarios.Add("2. Standoff")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Breakdown")
+        ef.Scenarios.Add("5. Outlast")
+        ef.Scenarios.Add("6. Recon")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "2017 SteamR Roller"
+        ef.Scenarios.Add("1. The Pit")
+        ef.Scenarios.Add("2. Standoff")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Breakdown")
+        ef.Scenarios.Add("5. Outlast")
+        ef.Scenarios.Add("6. Recon")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "2017 SteamR Roller Rumble"
         ef.Scenarios.Add("1. Patrol")
         ef.Scenarios.Add("2. Killing Field")
         ef.Scenarios.Add("3. Target of Opportunity")
         lst.Add(ef)
-
-        ef = New doEventFormat
-        ef.Name = "2016 Masters"
-        ef.Scenarios.Add("1. Entrenched")
-        ef.Scenarios.Add("2. Line Breaker")
-        ef.Scenarios.Add("3. Take and Hold")
-        ef.Scenarios.Add("4. The Pit")
-        ef.Scenarios.Add("5. Extraction")
-        ef.Scenarios.Add("6. Incursion")
-        ef.Scenarios.Add("7. Outlast")
-        ef.Scenarios.Add("8. Recon")
-        lst.Add(ef)
-
-        ef = New doEventFormat
-        ef.Name = "2016 Champion"
-        ef.Scenarios.Add("1. Entrenched")
-        ef.Scenarios.Add("2. Line Breaker")
-        ef.Scenarios.Add("3. Take and Hold")
-        ef.Scenarios.Add("4. The Pit")
-        ef.Scenarios.Add("5. Extraction")
-        ef.Scenarios.Add("6. Incursion")
-        ef.Scenarios.Add("7. Outlast")
-        ef.Scenarios.Add("8. Recon")
-        lst.Add(ef)
-
-        ef = New doEventFormat
-        ef.Name = "2016-2017 Iron Gauntlet"
-        ef.Scenarios.Add("1. Entrenched")
-        ef.Scenarios.Add("2. Line Breaker")
-        ef.Scenarios.Add("3. Take and Hold")
-        ef.Scenarios.Add("4. The Pit")
-        ef.Scenarios.Add("5. Extraction")
-        ef.Scenarios.Add("6. Incursion")
-        ef.Scenarios.Add("7. Outlast")
-        ef.Scenarios.Add("8. Recon")
-        lst.Add(ef)
-        
 
         ef = New doEventFormat
         ef.Name = "Who's the Boss"

@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("PGSwiss.Data")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("WTS Paradigm")> 
-<Assembly: AssemblyProduct("PGSwiss.Data")> 
-<Assembly: AssemblyCopyright("Copyright © WTS Paradigm 2014")> 
+<Assembly: AssemblyDescription("")>
+<Assembly: AssemblyCompany("Ring Dev")>
+<Assembly: AssemblyProduct("PGSwiss.Data")>
+<Assembly: AssemblyCopyright("Copyright © Ring Dev 2014")>
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>

@@ -21,6 +21,10 @@ Public Class doFactionCollection
                 lst.AddRange(x.Deserialize(objStreamReader))
                 Me.AddRange(From p In lst Order By p)
             End Using
+            If Not Me.Contains("Grymkin") Then
+                File.Delete("FactionCollection.xml")
+                sReturn = load()
+            End If
         End If
         Return sReturn
     End Function
@@ -57,6 +61,7 @@ Public Class doFactionCollection
         lst.Add("Legion of Everblight")
         lst.Add("Skorne")
         lst.Add("Minions")
+        lst.Add("Grymkin")
         Return lst
     End Function
 

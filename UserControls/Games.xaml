@@ -84,7 +84,8 @@
                     <ComboBoxItem></ComboBoxItem>
                     <ComboBoxItem>Assassination</ComboBoxItem>
                     <ComboBoxItem>Scenario</ComboBoxItem>
-                    <ComboBoxItem>Time</ComboBoxItem>
+                    <ComboBoxItem>Tie Breakers</ComboBoxItem>
+                    <ComboBoxItem>Death Clock</ComboBoxItem>
                     <ComboBoxItem>Concession</ComboBoxItem>
                     <ComboBoxItem>Disqualification</ComboBoxItem>
                     <ComboBoxItem>Bye</ComboBoxItem>

@@ -29,8 +29,8 @@
     <MinimumRequiredVersion>1.5.0.0</MinimumRequiredVersion>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>13</ApplicationRevision>
-    <ApplicationVersion>1.13.0.%2a</ApplicationVersion>
+    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationVersion>1.14.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -81,10 +81,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>BDA24C49950B87B58455B9EEA62E40C09BD9F7EE</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>E7990A5A063A9970BB2896FD5F7092F916CB8D7F</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>PGSwiss_1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>PGSwiss_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -96,7 +96,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>PGSwiss_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>PG_Swiss_Temporary_Key.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -312,6 +312,7 @@
     </None>
     <AppDesigner Include="My Project\" />
     <None Include="PGSwiss_1_TemporaryKey.pfx" />
+    <None Include="PGSwiss_2_TemporaryKey.pfx" />
     <None Include="PGSwiss_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -401,6 +402,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="PG_Swiss_Temporary_Key.pfx" />
     <None Include="Resources\pgswiss_small.png" />
   </ItemGroup>
   <ItemGroup>
