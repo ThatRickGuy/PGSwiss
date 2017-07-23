@@ -64,7 +64,8 @@ Public Class StandingsController
 
         sbRows = New StringBuilder()
 
-        For Each r In BaseController.Model.WMEvent.Rounds
+        Dim rounds = (From p In BaseController.Model.WMEvent.Rounds Where p.Scenario <> "" Order By p.RoundNumber Select p).ToList()
+        For Each r In rounds
             Dim NonByeGames = From p In r.Games Where p.Player2 IsNot Nothing
             'Get all the CP's for Player1 where they have an opponent (ie: no Byes!)
             Dim q = (From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player1.ControlPoints).ToList
@@ -81,11 +82,12 @@ Public Class StandingsController
             Dim AAPD = 0
             If q.Count > 0 Then AAPD = q.Average
 
-            sbRows.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>",
+            sbRows.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td></tr>",
                       {r.RoundNumber, r.Size, r.Scenario, NonByeGames.Count,
                        (From p In NonByeGames Where p.Condition = "Assassination").Count,
                        (From p In NonByeGames Where p.Condition = "Scenario").Count,
-                       (From p In NonByeGames Where p.Condition = "Time").Count,
+                       (From p In NonByeGames Where p.Condition = "Tie Breakers").Count,
+                       (From p In NonByeGames Where p.Condition = "Death Clock").Count,
                        ACP.ToString("#.#"), AAPD.ToString("#.#")})
         Next
         sbOutput.Replace("[StatRows]", sbRows.ToString())

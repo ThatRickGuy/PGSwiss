@@ -37,7 +37,8 @@ Public Class ReportingController
             sbNotes.Append(r.Scenario & " " & r.Size & "pts " & (NonByeGames).Count & " games" & ControlChars.CrLf)
             sbNotes.Append(ControlChars.Tab & (From p In NonByeGames Where p.Condition = "Assassination").Count & " Assassination" & ControlChars.CrLf)
             sbNotes.Append(ControlChars.Tab & (From p In NonByeGames Where p.Condition = "Scenario").Count & " Scenario" & ControlChars.CrLf)
-            sbNotes.Append(ControlChars.Tab & (From p In NonByeGames Where p.Condition = "Time").Count & " Time" & ControlChars.CrLf)
+            sbNotes.Append(ControlChars.Tab & (From p In NonByeGames Where p.Condition = "Tie Breakers").Count & " Tie Breakers" & ControlChars.CrLf)
+            sbNotes.Append(ControlChars.Tab & (From p In NonByeGames Where p.Condition = "Death Clock").Count & " Death Clock" & ControlChars.CrLf)
             'Get all the CP's for Player1 where they have an opponent (ie: no Byes!)
             Dim q = (From p In NonByeGames Where p.Player2 IsNot Nothing Select p.Player1.ControlPoints).ToList
             'Get all the CP's for Player2
