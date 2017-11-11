@@ -50,7 +50,7 @@ Public Class StandingsController
         For Each player In (From p In Model.CurrentRoundPlayers Order By p.Rank)
             Dim Drop = String.Empty
             If player.Drop Then Drop = "Dropped"
-            sbRows.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>", _
+            sbRows.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>",
                                  {player.Rank.ToString, player.Name, player.Faction, player.Meta, player.TourneyPoints, player.StrengthOfSchedule, player.ControlPoints, player.ArmyPointsDestroyed, Drop})
         Next
         sbOutput.Replace("[Rows]", sbRows.ToString())
@@ -98,7 +98,11 @@ Public Class StandingsController
         IO.File.WriteAllText(".\" & Model.WMEvent.EventID.ToString & ".html", sbOutput.ToString)
 
         If Upload Then
-            UploadFile(".\" & Model.WMEvent.EventID.ToString & ".html")
+            WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & ".html")
+            IO.File.Copy(Model.WMEvent.FileName, ".\" & Model.WMEvent.EventID.ToString & ".xml")
+
+            WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & ".xml")
+
             Process.Start("http://ringdev.com/swiss/standings/" & Model.WMEvent.EventID.ToString & ".html")
         Else
             Process.Start(".\" & Model.WMEvent.EventID.ToString & ".html")
@@ -106,31 +110,6 @@ Public Class StandingsController
 
     End Sub
 
-    Private Sub UploadFile(FileName As String)
-        Dim FileInfo As New System.IO.FileInfo(FileName)
-        Dim FtpWebRequest As System.Net.FtpWebRequest = CType(System.Net.FtpWebRequest.Create(New Uri("ftp://ringdev.com/" & FileInfo.Name)), System.Net.FtpWebRequest)
-        FtpWebRequest.Credentials = New System.Net.NetworkCredential("ringdevc_pgswissupl", "SendIt1")
-        FtpWebRequest.KeepAlive = False
-        FtpWebRequest.Timeout = 20000
-        FtpWebRequest.Method = System.Net.WebRequestMethods.Ftp.UploadFile
-        FtpWebRequest.UseBinary = True
-        FtpWebRequest.ContentLength = FileInfo.Length
-        Dim buffLength As Integer = 2048
-        Dim buff(buffLength - 1) As Byte
-        Using FileStream As System.IO.FileStream = FileInfo.OpenRead()
-            Try
-                Using Stream As System.IO.Stream = FtpWebRequest.GetRequestStream()
-                    Dim contentLen As Integer = FileStream.Read(buff, 0, buffLength)
-                    Do While contentLen <> 0
-                        Stream.Write(buff, 0, contentLen)
-                        contentLen = FileStream.Read(buff, 0, buffLength)
-                    Loop
-                End Using
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, "Upload Error")
-            End Try
-        End Using
-    End Sub
 End Class
 
 Public Class EventStandings

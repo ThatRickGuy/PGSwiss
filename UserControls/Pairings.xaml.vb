@@ -1,5 +1,6 @@
 ﻿Imports System.Text
 Imports System.Drawing.Drawing2D
+Imports System.Net
 
 Public Class Pairings
 
@@ -15,11 +16,11 @@ Public Class Pairings
     End Sub
 
     Private Sub btnPrintPairing_Click(sender As Object, e As RoutedEventArgs) Handles btnPrintPairing.Click
-        CType(BaseController.CurrentController, PairingsController).PrintPairingsAlphaBetical()
+        CType(BaseController.CurrentController, PairingsController).PrintPairingsAlphaBetical(chkUpload.IsChecked)
     End Sub
 
     Private Sub btnPrintTables_Click(sender As Object, e As RoutedEventArgs) Handles btnPrintTables.Click
-        CType(BaseController.CurrentController, PairingsController).PrintPairingsByTableNumber()
+        CType(BaseController.CurrentController, PairingsController).PrintPairingsByTableNumber(chkUpload.IsChecked)
     End Sub
 
     Private Sub btnSwap_Click(sender As Object, e As RoutedEventArgs) Handles btnSwap.Click
@@ -32,6 +33,8 @@ Public Class Pairings
             PGSwiss.Data.DirtyMonitor.IsDirty = True
         End If
     End Sub
+
+
 End Class
 
 <Flags> _

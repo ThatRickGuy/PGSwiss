@@ -36,14 +36,21 @@ Public Class doEventFormatCollection
                         Dim q = (From p In Me Where p.Name = EventFormat.Name Select p).FirstOrDefault()
                         If q Is Nothing Then Me.Add(EventFormat)
                     Next
-                    'Me.AddRange(From p In lst Order By p.Name)
-                    Save()
                 Else
                     Me.AddRange(From p In lst Order By p.Name)
+                    Dim q = (From p In Me Where p.Name = "2017 SteamR Roller").FirstOrDefault
+                    If q IsNot Nothing Then
+                        q.Name = "2017 Steam Roller"
+                    End If
+                    q = (From p In Me Where p.Name = "2017 SteamR Roller Rumble").FirstOrDefault
+                    If q IsNot Nothing Then
+                        q.Name = "2017 Steam Roller Rumble"
+                    End If
                 End If
 
 
             End Using
+            Save()
         End If
     End Sub
 
@@ -90,7 +97,7 @@ Public Class doEventFormatCollection
         lst.Add(ef)
 
         ef = New doEventFormat
-        ef.Name = "2017 SteamR Roller"
+        ef.Name = "2017 Steam Roller"
         ef.Scenarios.Add("1. The Pit")
         ef.Scenarios.Add("2. Standoff")
         ef.Scenarios.Add("3. Spread the Net")
@@ -100,7 +107,7 @@ Public Class doEventFormatCollection
         lst.Add(ef)
 
         ef = New doEventFormat
-        ef.Name = "2017 SteamR Roller Rumble"
+        ef.Name = "2017 Steam Roller Rumble"
         ef.Scenarios.Add("1. Patrol")
         ef.Scenarios.Add("2. Killing Field")
         ef.Scenarios.Add("3. Target of Opportunity")

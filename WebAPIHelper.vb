@@ -95,4 +95,33 @@ Public Class WebAPIHelper
 
         Return sReturn
     End Function
+
+
+
+    Friend Shared Sub UploadFile(FileName As String)
+        Dim FileInfo As New System.IO.FileInfo(FileName)
+        Dim FtpWebRequest As System.Net.FtpWebRequest = CType(System.Net.FtpWebRequest.Create(New Uri("ftp://ringdev.com/" & FileInfo.Name)), System.Net.FtpWebRequest)
+        FtpWebRequest.Credentials = New System.Net.NetworkCredential("ringdevc_pgswissupl", "SendIt1")
+        FtpWebRequest.KeepAlive = False
+        FtpWebRequest.Timeout = 20000
+        FtpWebRequest.Method = System.Net.WebRequestMethods.Ftp.UploadFile
+        FtpWebRequest.UseBinary = True
+        FtpWebRequest.ContentLength = FileInfo.Length
+        Dim buffLength As Integer = 2048
+        Dim buff(buffLength - 1) As Byte
+        Using FileStream As System.IO.FileStream = FileInfo.OpenRead()
+            Try
+                Using Stream As System.IO.Stream = FtpWebRequest.GetRequestStream()
+                    Dim contentLen As Integer = FileStream.Read(buff, 0, buffLength)
+                    Do While contentLen <> 0
+                        Stream.Write(buff, 0, contentLen)
+                        contentLen = FileStream.Read(buff, 0, buffLength)
+                    Loop
+                End Using
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "Upload Error")
+            End Try
+        End Using
+    End Sub
+
 End Class

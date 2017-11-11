@@ -2,6 +2,7 @@
 Imports PGSwiss.Data
 Imports System.ComponentModel
 Imports System.IO
+Imports System.Net
 
 Public Class PairingsController
     Inherits BaseController
@@ -27,7 +28,7 @@ Public Class PairingsController
         Get
             Dim bReturn As Boolean = False
             If (From p In BaseController.Model.CurrentRound.Games
-                     Where p.Winner <> String.Empty AndAlso p.Player2 IsNot Nothing).Count = 0 Then
+                Where p.Winner <> String.Empty AndAlso p.Player2 IsNot Nothing).Count = 0 Then
                 bReturn = True
             End If
 
@@ -35,9 +36,24 @@ Public Class PairingsController
         End Get
     End Property
 
+    Public Property UploadAvailable As Boolean
+        Get
+            Dim bReturn As Boolean = False
+            Try
+                bReturn = CheckForInternetConnection()
+            Catch ex As Exception
+                bReturn = False
+            End Try
+            Return bReturn
+        End Get
+        Set(value As Boolean)
+            'do nothing
+        End Set
+    End Property
 
 
-    Public Sub PrintPairingsByTableNumber()
+
+    Public Sub PrintPairingsByTableNumber(UploadPairing As Boolean)
         Dim RowString = "<tr><td rowspan=2 class=""tableNumber""><center>Table <br>[ColATableNum]</center></td><td><h4>[ColAPlayer1]</h4><h4><small>[ColAPlayer1alt]</small></h4></td><td class=""blankCell""></td><td><h4>[ColBPlayer1]</h4><h4><small>[ColBPlayer1alt]</small></h4></td><td rowspan=""2"" class=""tableNumber""><center>Table <br>[ColBTableNum]</center></td></tr>" &
                                                                                                           "<tr><td><h4>[ColAPlayer2]</h4><h4><small>[ColAPlayer2alt]</small></h4></td><td class=""blankCell""></td><td><h4>[ColBPlayer2]</h4><h4><small>[ColBPlayer2alt]</small></h4></td></tr><tr><td colspan=""9""></td></tr>"
         If Model.CurrentRound.Games.Count > 0 Then
@@ -57,20 +73,34 @@ Public Class PairingsController
             Dim index = 1
             Dim row = String.Empty
             Dim rows = String.Empty
-            For Each game In (From p In Model.CurrentRound.Games Order By p.TableNumber)
+            Dim q = (From p In Model.CurrentRound.Games Order By p.TableNumber).ToList()
+            For Each game In q
                 If index Mod 2 <> 0 Then
                     row = RowString
                     row = row.Replace("[ColATableNum]", game.TableNumber)
                     row = row.Replace("[ColAPlayer1]", game.Player1.Name)
-                    row = row.Replace("[ColAPlayer2]", game.Player2.Name)
+                    row = row.Replace("[ColAPlayer1alt]", game.Player1.Faction)
+                    If Not game.Player2 Is Nothing Then
+                        row = row.Replace("[ColAPlayer2]", game.Player2.Name)
+                        row = row.Replace("[ColAPlayer2alt]", game.Player2.Faction)
+                    Else
+                        row = row.Replace("[ColAPlayer2]", "Bye")
+                    End If
                 Else
                     row = row.Replace("[ColBTableNum]", game.TableNumber)
                     row = row.Replace("[ColBPlayer1]", game.Player1.Name)
-                    row = row.Replace("[ColBPlayer2]", game.Player2.Name)
+                    row = row.Replace("[ColBPlayer1alt]", game.Player1.Faction)
+                    If Not game.Player2 Is Nothing Then
+                        row = row.Replace("[ColBPlayer2]", game.Player2.Name)
+                        row = row.Replace("[ColBPlayer2alt]", game.Player2.Faction)
+                    Else
+                        row = row.Replace("[ColBPlayer2]", "Bye")
+                    End If
                     rows &= row
                 End If
                 index += 1
             Next
+
             If index Mod 2 = 0 Then
                 row = row.Replace("[ColBTableNum]", String.Empty)
                 row = row.Replace("[ColBPlayer1]", String.Empty)
@@ -84,13 +114,19 @@ Public Class PairingsController
             If Not IO.File.Exists(".\Ringdev.png") Then My.Resources.RingDev.Save(".\Ringdev.png")
             If Not IO.File.Exists(".\pgswiss_small.png") Then My.Resources.pgswiss_small.Save(".\pgswiss_small.png")
             If Not IO.File.Exists(".\pgswiss_icon.png") Then My.Resources.pgswiss_icon.Save(".\pgswiss_icon.png")
-            IO.File.WriteAllText(".\PairingsList.html", sbOutput.ToString)
-            Process.Start(".\PairingsList.html")
+            IO.File.WriteAllText(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html", sbOutput.ToString)
+
+            If UploadPairing Then
+                WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+                Process.Start("http://ringdev.com/swiss/standings/" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+            Else
+                Process.Start(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+            End If
         End If
 
     End Sub
 
-    Public Sub PrintPairingsAlphaBetical()
+    Public Sub PrintPairingsAlphaBetical(UploadPairing As Boolean)
         If Model.CurrentRound.Games.Count > 0 Then
             Dim sbOutput As New StringBuilder()
             sbOutput.Append(My.Resources.TablesAlpha)
@@ -162,8 +198,14 @@ Public Class PairingsController
             If Not IO.File.Exists(".\Ringdev.png") Then My.Resources.RingDev.Save(".\Ringdev.png")
             If Not IO.File.Exists(".\pgswiss_small.png") Then My.Resources.pgswiss_small.Save(".\pgswiss_small.png")
             If Not IO.File.Exists(".\pgswiss_icon.png") Then My.Resources.pgswiss_icon.Save(".\pgswiss_icon.png")
-            IO.File.WriteAllText(".\PairingsList.html", sbOutput.ToString)
-            Process.Start(".\PairingsList.html")
+            IO.File.WriteAllText(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html", sbOutput.ToString)
+
+            If UploadPairing Then
+                WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+                Process.Start("http://ringdev.com/swiss/standings/" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+            Else
+                Process.Start(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+            End If
         End If
     End Sub
 
@@ -421,17 +463,21 @@ Public Class PairingsController
 
         'cleanup for reopening old files and if someone manually pairs a pairdown
         For Each game In Model.CurrentRound.Games
-            If GetPlayerTotalTourneyPoints(game.Player1.Name, Model.CurrentRound.RoundNumber - 1) > GetPlayerTotalTourneyPoints(game.Player2.Name, Model.CurrentRound.RoundNumber - 1) Then
-                game.Player1.PairedDownRound = Model.CurrentRound.RoundNumber
-                Dim q = (From p In Model.WMEvent.Players Where p.Name = game.Player1.Name Select p).First()
-                q.PairedDownRound = Model.CurrentRound.RoundNumber()
-            ElseIf GetPlayerTotalTourneyPoints(game.Player2.Name, Model.CurrentRound.RoundNumber - 1) > GetPlayerTotalTourneyPoints(game.Player1.Name, Model.CurrentRound.RoundNumber - 1) Then
-                game.Player2.PairedDownRound = Model.CurrentRound.RoundNumber
-                Dim q = (From p In Model.WMEvent.Players Where p.Name = game.Player2.Name Select p).First()
-                q.PairedDownRound = Model.CurrentRound.RoundNumber
+            If game.Player2 IsNot Nothing Then
+                If GetPlayerTotalTourneyPoints(game.Player1.Name, Model.CurrentRound.RoundNumber - 1) > GetPlayerTotalTourneyPoints(game.Player2.Name, Model.CurrentRound.RoundNumber - 1) Then
+                    game.Player1.PairedDownRound = Model.CurrentRound.RoundNumber
+                    Dim q = (From p In Model.WMEvent.Players Where p.Name = game.Player1.Name Select p).First()
+                    q.PairedDownRound = Model.CurrentRound.RoundNumber()
+                ElseIf GetPlayerTotalTourneyPoints(game.Player2.Name, Model.CurrentRound.RoundNumber - 1) > GetPlayerTotalTourneyPoints(game.Player1.Name, Model.CurrentRound.RoundNumber - 1) Then
+                    game.Player2.PairedDownRound = Model.CurrentRound.RoundNumber
+                    Dim q = (From p In Model.WMEvent.Players Where p.Name = game.Player2.Name Select p).First()
+                    q.PairedDownRound = Model.CurrentRound.RoundNumber
+                Else
+                    If game.Player1.PairedDownRound < 0 Or game.Player1.PairedDownRound = Model.CurrentRound.RoundNumber Then game.Player1.PairedDownRound = 0
+                    If game.Player2.PairedDownRound < 0 Or game.Player1.PairedDownRound = Model.CurrentRound.RoundNumber Then game.Player2.PairedDownRound = 0
+                End If
             Else
-                If game.Player1.PairedDownRound < 0 Or game.Player1.PairedDownRound = Model.CurrentRound.RoundNumber Then game.Player1.PairedDownRound = 0
-                If game.Player2.PairedDownRound < 0 Or game.Player1.PairedDownRound = Model.CurrentRound.RoundNumber Then game.Player2.PairedDownRound = 0
+                Model.CurrentRound.Bye = game.Player1
             End If
         Next
 
@@ -454,9 +500,23 @@ Public Class PairingsController
         End While
         Dim ValuePerRoundScreen = 80 / Rounds / 3 '85% to work with, diveded across all rounds, each round has 3 screens
         Model.CurrentProgress = ValuePerRoundScreen * (Model.CurrentRound.RoundNumber * 3 + 1) 'current round + the screen of the round
-
         OnPropertyChanged("RegenerateAvailable")
+        OnPropertyChanged("UploadAvailable")
     End Sub
+
+
+    Public Shared Function CheckForInternetConnection() As Boolean
+        Try
+            Using client = New WebClient()
+                Using stream = client.OpenRead("http://www.google.com")
+                    Return True
+                End Using
+            End Using
+        Catch
+            Return False
+        End Try
+    End Function
+
 
     Private Overloads Function GetPlayerTotalTourneyPoints(PlayerName As String, RoundNumber As Integer) As Integer
         Dim iReturn As Integer = 0

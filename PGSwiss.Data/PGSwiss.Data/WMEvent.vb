@@ -17,7 +17,10 @@ Public Class doWMEvent
         load()
     End Sub
 
-    Private _FileName As String
+    Public ReadOnly Property FileName As String
+
+
+
 
     Public Property EventID As Guid = Guid.NewGuid
 
