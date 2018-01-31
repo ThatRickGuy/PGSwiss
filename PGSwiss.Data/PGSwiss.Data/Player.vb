@@ -88,6 +88,13 @@ Public Class doPlayer
     Public Property Opponents As New List(Of String)
     Public Property Tables As New List(Of Integer)
 
+    Public Property Caster1 As String
+    Public Property Theme1 As String
+    Public Property Caster2 As String
+    Public Property Theme2 As String
+    Public Property CCCode As String
+
+
 
     ' Create the OnPropertyChanged method to raise the event 
     Protected Sub OnPropertyChanged(ByVal name As String)

@@ -95,17 +95,35 @@ Namespace My.Resources
         '''&lt;!DOCTYPE html&gt;
         '''&lt;html lang=&quot;en&quot;&gt;
         '''	&lt;head&gt;
-        '''		&lt;link rel=&quot;stylesheet&quot; href=&quot;http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css&quot;&gt;
+        '''		&lt;link rel=&quot;stylesheet&quot; href=&quot;http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css&quot;/&gt;
         '''		&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js&quot;&gt;&lt;/script&gt;
         '''		&lt;script src=&quot;http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;	
-        '''		&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;pgswiss_icon.png&quot;&gt;
-        '''		&lt;meta charset=&quot;utf-8&quot;&gt; 
-        '''		&lt;meta name=&quot;EventDate&quot; content=&quot;[EventDate]&quot;&gt;
-        '''		&lt;meta name=&quot;EventTitle&quot; content=&quot;[E [rest of string was truncated]&quot;;.
+        '''		&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;pgswiss_icon.png&quot;/&gt;
+        '''		&lt;meta charset=&quot;utf-8&quot;/&gt; 
+        '''		&lt;meta name=&quot;EventDate&quot; content=&quot;[EventDate]&quot;/&gt;
+        '''		&lt;meta name=&quot;EventTitle&quot; content [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property Standings() As String
             Get
                 Return ResourceManager.GetString("Standings", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to pgswissupl.
+        '''</summary>
+        Friend ReadOnly Property String1() As String
+            Get
+                Return ResourceManager.GetString("String1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to SendIt1.
+        '''</summary>
+        Friend ReadOnly Property String2() As String
+            Get
+                Return ResourceManager.GetString("String2", resourceCulture)
             End Get
         End Property
         
@@ -133,13 +151,13 @@ Namespace My.Resources
         '''&lt;!DOCTYPE html&gt;
         '''&lt;html lang=&quot;en&quot;&gt;
         '''	&lt;head&gt;
-        '''		&lt;link rel=&quot;stylesheet&quot; href=&quot;http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css&quot;&gt;
+        '''		&lt;link rel=&quot;stylesheet&quot; href=&quot;http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css&quot; /&gt;
         '''		&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js&quot;&gt;&lt;/script&gt;
         '''		&lt;script src=&quot;http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;	
-        '''		&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;pgswiss_icon.png&quot;&gt;
-        '''		&lt;meta charset=&quot;utf-8&quot;&gt; 
-        '''		&lt;meta name=&quot;EventDate&quot; content=&quot;[EventDate]&quot;&gt;
-        '''		&lt;meta name=&quot;EventTitle&quot; content=&quot;[E [rest of string was truncated]&quot;;.
+        '''		&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; href=&quot;pgswiss_icon.png&quot;/&gt;
+        '''		&lt;meta charset=&quot;utf-8&quot;/&gt; 
+        '''		&lt;meta name=&quot;EventDate&quot; content=&quot;[EventDate]&quot;/&gt;
+        '''		&lt;meta name=&quot;EventTitle&quot; conten [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property TablesNumber() As String
             Get

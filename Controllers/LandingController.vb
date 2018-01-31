@@ -1,4 +1,7 @@
-﻿Public Class LandingController
+﻿Imports System.IO
+Imports System.Text
+
+Public Class LandingController
     Inherits BaseController
 
 
@@ -28,5 +31,21 @@
             Return My.Application.Info.Version.ToString
         End Get
     End Property
+
+    Public Function DeserializeJSON(input As String) As List(Of ConflictChamberJSON)
+        Dim cc As New List(Of ConflictChamberJSON)()
+        Try
+            Dim ms As New MemoryStream(Encoding.Unicode.GetBytes(input))
+            Dim serializer As New System.Runtime.Serialization.Json.DataContractJsonSerializer(cc.[GetType]())
+            cc = DirectCast(serializer.ReadObject(ms), List(Of ConflictChamberJSON))
+            ms.Close()
+            ms.Dispose()
+        Catch
+
+        End Try
+
+        Return cc
+    End Function
+
 
 End Class

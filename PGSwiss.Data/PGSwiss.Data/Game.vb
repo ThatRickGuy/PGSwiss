@@ -11,6 +11,8 @@ Public Class doGame
     Public Property Player2 As doPlayer
     Public Property Winner As String
     Public Property Condition As String
+    Public Property GameLength As Nullable(Of Integer)
+
     Public Property TableNumber As Integer
     Public Property IsPairdown As Boolean = False
     Private _Reported As Boolean = False

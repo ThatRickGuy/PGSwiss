@@ -24,13 +24,19 @@ Public Class StandingsController
         Dim Standings As New doStandings
         Standings.Standings = Model.CurrentRound.GetPlayers(Model.WMEvent)
 
+        SetEventStandings(Standings)
+
+        Model.CurrentProgress = 90
+    End Sub
+
+    Public Sub SetEventStandings(Standings As doStandings)
         Dim es As New EventStandings
         es.Standings = Standings
         es.WMEvent = BaseController.Model.WMEvent
 
         Me.View.DataContext = es
-        Model.CurrentProgress = 90
     End Sub
+
 
     Public Sub PrintStandings(Upload As Boolean)
         Dim sbOutput As New StringBuilder()

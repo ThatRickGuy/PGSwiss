@@ -37,4 +37,20 @@ Public Class WMEventController
         Model.CurrentProgress = 10
     End Sub
 
+
+    Public Function LoadCCToEvent(ConflictChamber As List(Of ConflictChamberJSON))
+        Dim bReturn = False
+        Try
+            For Each x In ConflictChamber
+                BaseController.Model.WMEvent.Players.Add(New Data.doPlayer With {.Faction = x.faction, .Name = x.name})
+            Next
+
+            bReturn = True
+        Catch ex As Exception
+
+        End Try
+
+        Return bReturn
+
+    End Function
 End Class

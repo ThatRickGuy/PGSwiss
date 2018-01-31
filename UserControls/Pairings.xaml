@@ -81,7 +81,7 @@
             <Button Name="btnGeneratePairing" Margin="0,4,2,4" IsEnabled="{Binding Path=RegenerateAvailable}" >Regenerate Pairing</Button>
             <Button Name="btnPrintPairing" Margin="2,4,0,4">Print Pairing</Button>
             <Button Name="btnPrintTables" Margin="2,4,0,4">Print Tables</Button>
-            <CheckBox Name="chkUpload" Margin="2,4,0,4" VerticalAlignment="Center" IsChecked="{Binding Path=UploadAvailable}">Upload Pairing</CheckBox>
+            <CheckBox Name="chkUpload" Margin="2,4,0,4" VerticalAlignment="Center" IsChecked="{Binding Path=UploadAvailable}">Upload Pairing and Standings</CheckBox>
         </StackPanel>
         
     </Grid>

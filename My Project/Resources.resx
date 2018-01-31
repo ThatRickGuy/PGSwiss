@@ -136,4 +136,10 @@
   <data name="TablesNumber" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TablesNumber.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="String1" xml:space="preserve">
+    <value>pgswissupl</value>
+  </data>
+  <data name="String2" xml:space="preserve">
+    <value>SendIt1</value>
+  </data>
 </root>

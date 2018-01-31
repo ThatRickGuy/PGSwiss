@@ -207,6 +207,16 @@ Public Class PairingsController
                 Process.Start(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
             End If
         End If
+
+        If UploadPairing Then
+            Dim Standings As New doStandings
+            Standings.Standings = Model.CurrentRound.GetPlayers(Model.WMEvent)
+            Model.CurrentRound.GetPlayers(Model.WMEvent)
+
+            Dim ctrlStandings As New StandingsController
+            ctrlStandings.SetEventStandings(Standings)
+            ctrlStandings.PrintStandings(True)
+        End If
     End Sub
 
     Public Function GeneratePairings() As String

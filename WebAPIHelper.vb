@@ -101,7 +101,7 @@ Public Class WebAPIHelper
     Friend Shared Sub UploadFile(FileName As String)
         Dim FileInfo As New System.IO.FileInfo(FileName)
         Dim FtpWebRequest As System.Net.FtpWebRequest = CType(System.Net.FtpWebRequest.Create(New Uri("ftp://ringdev.com/" & FileInfo.Name)), System.Net.FtpWebRequest)
-        FtpWebRequest.Credentials = New System.Net.NetworkCredential("ringdevc_pgswissupl", "SendIt1")
+        FtpWebRequest.Credentials = New System.Net.NetworkCredential("ringdevc_" & Application.Current.Resources.Item("string1").ToString(), Application.Current.Resources.Item("string2").ToString())
         FtpWebRequest.KeepAlive = False
         FtpWebRequest.Timeout = 20000
         FtpWebRequest.Method = System.Net.WebRequestMethods.Ftp.UploadFile

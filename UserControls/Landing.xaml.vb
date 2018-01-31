@@ -28,12 +28,31 @@ Public Class Landing
         BaseController.CurrentController.OpenCollectionManager()
     End Sub
 
-    Private Sub Hyperlink_RequestNavigate(sender As Object, e As RequestNavigateEventArgs)
-        Process.Start(New ProcessStartInfo(e.Uri.AbsoluteUri))
-        e.Handled = True
-    End Sub
+    Private Sub btnImport_Click(sender As Object, e As RoutedEventArgs) Handles btnImport.Click
+        Dim ofd As New OpenFileDialog
+        ofd.AddExtension = True
+        ofd.DefaultExt = "JSON"
+        ofd.Filter = "JSON|*.JSON"
+        If ofd.ShowDialog Then
+            'deserialize
+            Dim cc = CType(BaseController.CurrentController, LandingController).DeserializeJSON(IO.File.ReadAllText(ofd.FileName))
 
-    Private Async Sub btnDoit_Click(sender As Object, e As RoutedEventArgs) Handles btnDoit.Click
-        MessageBox.Show(Await WebAPIHelper.APIGET("/api/values"))
+            MessageBox.Show("JSON successfully parsed. Please select a file to save the event to.")
+
+            Dim sfd As New SaveFileDialog
+            sfd.AddExtension = True
+            sfd.DefaultExt = "XML"
+            If sfd.ShowDialog Then
+
+                'go for it
+                BaseController.CurrentController.StartEvent(sfd.FileName)
+                'save the deserialized file
+                CType(BaseController.CurrentController, WMEventController).LoadCCToEvent(cc)
+            End If
+
+
+        End If
+
+
     End Sub
 End Class

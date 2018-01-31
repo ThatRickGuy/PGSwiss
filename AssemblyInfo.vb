@@ -15,5 +15,5 @@ Option Explicit On
  Assembly: System.Reflection.AssemblyFileVersion("1.15.0.1"),  _
  Assembly: System.Reflection.AssemblyCompany("RingDev"),  _
  Assembly: System.Reflection.AssemblyProduct("PGSwiss"),  _
- Assembly: System.Reflection.AssemblyCopyright("© 2017 RingDev")> 
+ Assembly: System.Reflection.AssemblyCopyright("© 2018 RingDev")> 
 
