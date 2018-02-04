@@ -105,7 +105,7 @@ Public Class StandingsController
 
         If Upload Then
             WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & ".html")
-            IO.File.Copy(Model.WMEvent.FileName, ".\" & Model.WMEvent.EventID.ToString & ".xml")
+            IO.File.Copy(Model.WMEvent.FileName, ".\" & Model.WMEvent.EventID.ToString & ".xml", True)
 
             WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & ".xml")
 
