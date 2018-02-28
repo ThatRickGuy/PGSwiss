@@ -40,15 +40,17 @@ Public Class doEventFormatCollection
                     Me.AddRange(From p In lst Order By p.Name)
                     Dim q = (From p In Me Where p.Name = "2017 SteamR Roller").FirstOrDefault
                     If q IsNot Nothing Then
-                        q.Name = "2017 Steam Roller"
+                        q.Name = "2017 Steamroller"
                     End If
                     q = (From p In Me Where p.Name = "2017 SteamR Roller Rumble").FirstOrDefault
                     If q IsNot Nothing Then
-                        q.Name = "2017 Steam Roller Rumble"
+                        q.Name = "2017 Steamroller Rumble"
                     End If
                 End If
 
+                If (From p In lst Where p.Name.Contains("2018")).Count = 0 Then
 
+                End If
             End Using
             Save()
         End If
@@ -77,6 +79,43 @@ Public Class doEventFormatCollection
         Dim ef As doEventFormat
 
         ef = New doEventFormat
+        ef.Name = "2018 Masters"
+        ef.Scenarios.Add("1. The Pit II")
+        ef.Scenarios.Add("2. Standoff")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Invasion")
+        ef.Scenarios.Add("5. Mirage")
+        ef.Scenarios.Add("6. Recon II")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "2018 Champions"
+        ef.Scenarios.Add("1. The Pit II")
+        ef.Scenarios.Add("2. Standoff")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Invasion")
+        ef.Scenarios.Add("5. Mirage")
+        ef.Scenarios.Add("6. Recon II")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "2018 Steamroller"
+        ef.Scenarios.Add("1. The Pit II")
+        ef.Scenarios.Add("2. Standoff")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Invasion")
+        ef.Scenarios.Add("5. Mirage")
+        ef.Scenarios.Add("6. Recon II")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "2018 Steamroller Rumble"
+        ef.Scenarios.Add("1. Patrol")
+        ef.Scenarios.Add("2. Killing Field")
+        ef.Scenarios.Add("3. Target of Opportunity")
+        lst.Add(ef)
+
+        ef = New doEventFormat
         ef.Name = "2017 Masters"
         ef.Scenarios.Add("1. The Pit")
         ef.Scenarios.Add("2. Standoff")
@@ -97,7 +136,7 @@ Public Class doEventFormatCollection
         lst.Add(ef)
 
         ef = New doEventFormat
-        ef.Name = "2017 Steam Roller"
+        ef.Name = "2017 Steamroller"
         ef.Scenarios.Add("1. The Pit")
         ef.Scenarios.Add("2. Standoff")
         ef.Scenarios.Add("3. Spread the Net")
@@ -107,7 +146,7 @@ Public Class doEventFormatCollection
         lst.Add(ef)
 
         ef = New doEventFormat
-        ef.Name = "2017 Steam Roller Rumble"
+        ef.Name = "2017 Steamroller Rumble"
         ef.Scenarios.Add("1. Patrol")
         ef.Scenarios.Add("2. Killing Field")
         ef.Scenarios.Add("3. Target of Opportunity")

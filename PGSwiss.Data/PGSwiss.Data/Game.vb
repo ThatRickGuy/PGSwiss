@@ -12,9 +12,21 @@ Public Class doGame
     Public Property Winner As String
     Public Property Condition As String
     Public Property GameLength As Nullable(Of Integer)
-
     Public Property TableNumber As Integer
     Public Property IsPairdown As Boolean = False
+
+
+    Private _Scenario As String
+    Public Property Scenario As String
+        Get
+            Return _Scenario
+        End Get
+        Set(value As String)
+            _Scenario = value
+            OnPropertyChanged("Scenario")
+        End Set
+    End Property
+
     Private _Reported As Boolean = False
     Public Property Reported As Boolean
         Get

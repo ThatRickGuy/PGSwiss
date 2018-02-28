@@ -70,6 +70,8 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
@@ -94,7 +96,9 @@
                 </ComboBox>
 
                 <TextBlock Grid.Row="4" Grid.ColumnSpan="4" FontWeight="Bold" Margin="2,2,2,0"><Run Text="Game Length"/></TextBlock>
-                <ComboBox x:Name="cboGameLength" SelectedValue="{Binding Path=Model.CurrentGame.GameLength}" SelectedValuePath="Content" Grid.Row="5" Grid.ColumnSpan="4" Margin="2,0,2,0">
+                <ComboBox x:Name="cboGameLength" 
+                          SelectedValue="{Binding Path=Model.CurrentGame.GameLength}" 
+                          SelectedValuePath="Content" Grid.Row="5" Grid.ColumnSpan="4" Margin="2,0,2,0">
                     <ComboBoxItem></ComboBoxItem>
                     <ComboBoxItem>1</ComboBoxItem>
                     <ComboBoxItem>2</ComboBoxItem>
@@ -104,26 +108,32 @@
                     <ComboBoxItem>6</ComboBoxItem>
                     <ComboBoxItem>7</ComboBoxItem>
                 </ComboBox>
+
+                <TextBlock Grid.Row="6" Grid.ColumnSpan="4" FontWeight="Bold" Margin="2,2,2,0" ><Run Text="Scenario"/></TextBlock>
+                <ComboBox Grid.Row="7" Grid.ColumnSpan="4" x:Name="cboScenario"  
+                          ItemsSource="{Binding Path=Model.WMEvent.EventFormat.Scenarios}"
+                          SelectedValue="{Binding Path=Model.CurrentGame.Scenario}" 
+                          Margin="2,0,2,0"></ComboBox>
                 
-                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="4" >
+                <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="4" >
                     <TextBlock x:Name="lblPlayer1" FontWeight="Bold" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player1.Name}"/></TextBlock>
                 </StackPanel>
 
-                <TextBlock Grid.Row="7" Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="CP"/></TextBlock>
-                <TextBlock Grid.Row="7" Grid.Column="2" Margin="2,0,2,0" HorizontalAlignment="Center"><Run Text="APD"/></TextBlock>
-                <TextBox x:Name="txtPlayer1CP"  Grid.Row="8" Grid.Column="0" Margin="2,0,2,0"  Text="{Binding Path=Model.CurrentGame.Player1.ControlPoints}"/>
-                <TextBox x:Name="txtPlayer1APD" Grid.Row="8" Grid.Column="2" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player1.ArmyPointsDestroyed}"/>
-                <CheckBox x:Name="chkPlayer1Drop" Grid.Row="8" Grid.Column="3" Margin ="2,2,2,0" Checked="chkPlayer1Drop_Checked">Drop</CheckBox>
+                <TextBlock Grid.Row="9" Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="CP"/></TextBlock>
+                <TextBlock Grid.Row="9" Grid.Column="2" Margin="2,0,2,0" HorizontalAlignment="Center"><Run Text="APD"/></TextBlock>
+                <TextBox x:Name="txtPlayer1CP"  Grid.Row="10" Grid.Column="0" Margin="2,0,2,0"  Text="{Binding Path=Model.CurrentGame.Player1.ControlPoints}"/>
+                <TextBox x:Name="txtPlayer1APD" Grid.Row="10" Grid.Column="2" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player1.ArmyPointsDestroyed}"/>
+                <CheckBox x:Name="chkPlayer1Drop" Grid.Row="10" Grid.Column="3" Margin ="2,2,2,0" Checked="chkPlayer1Drop_Checked">Drop</CheckBox>
                 
-                <StackPanel Orientation="Horizontal" Grid.Row="9" Grid.ColumnSpan="4" >
+                <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.ColumnSpan="4" >
                     <TextBlock x:Name="lblPlayer2" FontWeight="Bold" Margin="2,2,2,0"><Run Text="{Binding Path=Model.CurrentGame.Player2.Name}"/></TextBlock>
                 </StackPanel>
-                <TextBlock Grid.Row="10" Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="CP"/></TextBlock>
-                <TextBlock Grid.Row="10" Grid.Column="2" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="APD"/></TextBlock>
-                <TextBox x:Name="txtPlayer2CP" Grid.Row="11" Grid.Column="0" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ControlPoints}"/>
-                <TextBox x:Name="txtPlayer2APD" Grid.Row="11" Grid.Column="2" Margin ="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ArmyPointsDestroyed}"/>
-                <CheckBox x:Name="chkPlayer2Drop" Grid.Row="11" Grid.Column="3" Margin ="2,2,2,0" Checked="chkPlayer2Drop_Checked">Drop</CheckBox>
-                <Button x:Name="btnAcceptGame" Grid.Row="12" Grid.Column="0" Grid.ColumnSpan="3" Margin="2,4,2,2" Content="Accept"></Button>
+                <TextBlock Grid.Row="12" Grid.Column="0" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="CP"/></TextBlock>
+                <TextBlock Grid.Row="12" Grid.Column="2" Margin="2,0,2,0" HorizontalAlignment="Center" ><Run Text="APD"/></TextBlock>
+                <TextBox x:Name="txtPlayer2CP" Grid.Row="13" Grid.Column="0" Margin="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ControlPoints}"/>
+                <TextBox x:Name="txtPlayer2APD" Grid.Row="13" Grid.Column="2" Margin ="2,0,2,0" Text="{Binding Path=Model.CurrentGame.Player2.ArmyPointsDestroyed}"/>
+                <CheckBox x:Name="chkPlayer2Drop" Grid.Row="13" Grid.Column="3" Margin ="2,2,2,0" Checked="chkPlayer2Drop_Checked">Drop</CheckBox>
+                <Button x:Name="btnAcceptGame" Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="3" Margin="2,4,2,2" Content="Accept"></Button>
             </Grid>
 
             <CheckBox x:Name="chkIsLastGame" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="4" IsChecked="{Binding Path=Model.CurrentRound.IsLastRound, Mode=TwoWay}" Content="Final Round"></CheckBox>

@@ -395,6 +395,12 @@ Public Class PairingsController
                 Tables.Remove(game.TableNumber)
                 SetPairingCondition(game)
             Next
+
+
+            'Default Scenario
+            For Each game In (From p In NonByeGames Order By p.Player1.Rank + p.Player2.Rank Ascending)
+                If game.Scenario = String.Empty Then game.Scenario = Model.CurrentRound.Scenario
+            Next
             _ErrorRetryCount = 0
         Catch e As Exception
             _ErrorRetryCount += 1
