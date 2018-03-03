@@ -81,6 +81,11 @@ Public Class doPlayer
         'dopReturn.Opponents = Me.Opponents
         dopReturn.ByeVol = Me.ByeVol
         dopReturn.PairedDownRound = Me.PairedDownRound
+        dopReturn.Caster1 = Me.Caster1
+        dopReturn.Caster2 = Me.Caster2
+        dopReturn.Theme1 = Me.Theme1
+        dopReturn.Theme2 = Me.Theme1
+        dopReturn.CCCode = Me.CCCode
         Return dopReturn
     End Function
 

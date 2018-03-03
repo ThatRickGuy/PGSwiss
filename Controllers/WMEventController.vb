@@ -42,7 +42,7 @@ Public Class WMEventController
         Dim bReturn = False
         Try
             For Each x In ConflictChamber
-                BaseController.Model.WMEvent.Players.Add(New Data.doPlayer With {.Faction = x.faction, .Name = x.name})
+                BaseController.Model.WMEvent.Players.Add(New Data.doPlayer With {.Faction = x.faction, .Name = x.name, .CCCode = x.cccode})
             Next
 
             bReturn = True

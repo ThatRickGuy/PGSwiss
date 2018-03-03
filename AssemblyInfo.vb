@@ -11,8 +11,8 @@
 Option Strict Off
 Option Explicit On
 
-<Assembly: System.Reflection.AssemblyVersion("1.17.0.0"),  _
- Assembly: System.Reflection.AssemblyFileVersion("1.17.0.0"),  _
+<Assembly: System.Reflection.AssemblyVersion("1.18.0.1"),  _
+ Assembly: System.Reflection.AssemblyFileVersion("1.18.0.1"),  _
  Assembly: System.Reflection.AssemblyCompany("RingDev"),  _
  Assembly: System.Reflection.AssemblyProduct("PGSwiss"),  _
  Assembly: System.Reflection.AssemblyCopyright("© 2018 RingDev")> 

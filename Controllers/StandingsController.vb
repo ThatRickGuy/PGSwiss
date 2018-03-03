@@ -55,9 +55,15 @@ Public Class StandingsController
 
         For Each player In (From p In Model.CurrentRoundPlayers Order By p.Rank)
             Dim Drop = String.Empty
-            If player.Drop Then Drop = "Dropped"
+            If Player.Drop Then Drop = "Dropped"
+            Dim PlayerName = ""
+            If player.CCCode <> "" Then
+                PlayerName = "<a href=""https://conflictchamber.com/#" & player.CCCode & """><img src=""http://ringdev.com/images/ccbolt.png"" alt=""Conflict Chamber"" style=""Height:22px;Width:13px""><span style=""margin-left:3px;"">" & player.Name & "</span></a>"
+            Else
+                PlayerName = "<div style=""margin-left:16px;"">" & player.Name & "</div>"
+            End If
             sbRows.AppendFormat("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>",
-                                 {player.Rank.ToString, player.Name, player.Faction, player.Meta, player.TourneyPoints, player.StrengthOfSchedule, player.ControlPoints, player.ArmyPointsDestroyed, Drop})
+                                 {player.Rank.ToString, PlayerName, player.Faction, player.Meta, player.TourneyPoints, player.StrengthOfSchedule, player.ControlPoints, player.ArmyPointsDestroyed, Drop})
         Next
         sbOutput.Replace("[Rows]", sbRows.ToString())
 

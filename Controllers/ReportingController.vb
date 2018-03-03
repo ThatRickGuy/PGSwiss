@@ -66,9 +66,9 @@ Public Class ReportingController
         For Each player In (From p In Model.CurrentRoundPlayers Order By p.Rank)
             Dim Drop = String.Empty
             If player.Drop Then Drop = " Drop"
-            sbNotes.AppendLine(player.Rank.ToString.PadLeft(5) & player.Name.PadRight(30) & player.Faction.PadRight(30) & player.Meta.PadRight(30) & _
-                               player.TourneyPoints.ToString.PadLeft(4) & player.StrengthOfSchedule.ToString.PadLeft(4) & player.ControlPoints.ToString.PadLeft(3) & _
-                               player.ArmyPointsDestroyed.ToString.PadLeft(5) & _
+            sbNotes.AppendLine(player.Rank.ToString.PadLeft(5) & player.Name.PadRight(30) & (player.Faction & "").PadRight(30) & player.Meta.PadRight(30) &
+                               player.TourneyPoints.ToString.PadLeft(4) & player.StrengthOfSchedule.ToString.PadLeft(4) & player.ControlPoints.ToString.PadLeft(3) &
+                               player.ArmyPointsDestroyed.ToString.PadLeft(5) &
                                Drop)
         Next
 
