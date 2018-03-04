@@ -77,6 +77,7 @@ Public Class doPlayer
         dopReturn.Faction = Me.Faction
         dopReturn.Meta = Me.Meta
         dopReturn.Name = Me.Name
+        dopReturn.TourneyPoints = Me.TourneyPoints
         'dopReturn.Tables = Me.Tables
         'dopReturn.Opponents = Me.Opponents
         dopReturn.ByeVol = Me.ByeVol

@@ -48,7 +48,9 @@
             <DataGrid x:Name="dgGames" SelectionMode="Single" SelectionUnit="FullRow" CanUserAddRows="False" CanUserDeleteRows="False"  ItemsSource="{Binding Path=Model.CurrentRound.Games}"   Grid.Row="2" Margin="4,0,4,0" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Table" Binding="{Binding Path=TableNumber}" IsReadOnly="True" Width="auto" ></DataGridTextColumn>
+                    <DataGridTextColumn Header="TP" Binding="{Binding Path=Player1.TourneyPoints}" IsReadOnly="True" Width="auto"></DataGridTextColumn>
                     <DataGridTextColumn Header="Player 1" Binding="{Binding Path=Player1.Name}" IsReadOnly="True" Width="*" ></DataGridTextColumn>
+                    <DataGridTextColumn Header="TP" Binding="{Binding Path=Player2.TourneyPoints}" IsReadOnly="True" Width="auto"></DataGridTextColumn>
                     <DataGridTextColumn Header="Player 2" Binding="{Binding Path=Player2.Name}" IsReadOnly="True" Width="*" ></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
