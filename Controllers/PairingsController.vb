@@ -227,21 +227,28 @@ Public Class PairingsController
             Dim Player1 As doPlayer = Nothing
             Dim Player2 As doPlayer = Nothing
             Dim EligablePlayers As New List(Of doPlayer)
-            EligablePlayers.AddRange(From p In Model.CurrentRoundPlayers Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
 
             'clear the opponents for the current games
             For Each game In Model.CurrentRound.Games
                 If game.Player1 IsNot Nothing AndAlso game.Player2 IsNot Nothing Then
-                    Player1 = (From p In EligablePlayers Where p.Name = game.Player1.Name Select p).FirstOrDefault
-                    Player2 = (From p In EligablePlayers Where p.Name = game.Player2.Name Select p).FirstOrDefault
+                    Player1 = (From p In Model.CurrentRoundPlayers Where p.Name = game.Player1.Name Select p).FirstOrDefault
+                    Player2 = (From p In Model.CurrentRoundPlayers Where p.Name = game.Player2.Name Select p).FirstOrDefault
 
-                    Player1.Opponents.Remove(Player2.Name)
-                    Player2.Opponents.Remove(Player1.Name)
 
+                    Player1.Opponents.Remove(game.Player2.Name)
                     If Player1.PairedDownRound = Model.CurrentRound.RoundNumber Then Player1.PairedDownRound = 0
+
+
+
+                    Player2.Opponents.Remove(game.Player1.Name)
                     If Player2.PairedDownRound = Model.CurrentRound.RoundNumber Then Player2.PairedDownRound = 0
+
+
                 End If
             Next
+
+            EligablePlayers.AddRange(From p In Model.CurrentRoundPlayers Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
+
 
             'Clear the current pairings in case this is a re-generate
             Model.CurrentRound.Games.Clear()
