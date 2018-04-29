@@ -68,15 +68,15 @@ Public Class doRound
                     If Not player Is Nothing Then
                         player.Opponents.Add(game.Player2.Name)
                         player.Tables.Add(game.TableNumber)
-                        If game.Player1.TourneyPoints > game.Player2.TourneyPoints Then player.PairedDownRound = True
+                        If game.Player1.TourneyPoints > game.Player2.TourneyPoints Then player.PairedDownRound = round.RoundNumber
                     End If
 
                     player = (From p In PlayerList Where p.Name = game.Player2.Name).FirstOrDefault
                     If Not player Is Nothing Then
-                        player.PairedDownRound = True
+                        player.PairedDownRound = round.RoundNumber
                         player.Opponents.Add(game.Player1.Name)
                         player.Tables.Add(game.TableNumber)
-                        If game.Player1.TourneyPoints < game.Player2.TourneyPoints Then player.PairedDownRound = True
+                        If game.Player1.TourneyPoints < game.Player2.TourneyPoints Then player.PairedDownRound = round.RoundNumber
                     End If
                 End If
             Next
