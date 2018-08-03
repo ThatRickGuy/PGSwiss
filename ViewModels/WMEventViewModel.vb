@@ -127,15 +127,15 @@ Public Class WMEventViewModel
     End Property
 
     Public Overrides Sub Save()
-        If Me.WMEvent IsNot Nothing Then
-            Me.WMEvent.PGSwissVersion = My.Application.Info.Version.ToString
-            Me.WMEvent.Save()
+        'intentionally not checking for null to force an error message if the save doesn't work
+        Me.WMEvent.PGSwissVersion = My.Application.Info.Version.ToString
+        Me.WMEvent.Save()
 
-            For Each p As doPlayer In WMEvent.Players
-                Dim q = From i In AllPlayers Where i.Name = p.Name
-                If q.Count = 0 Then AllPlayers.Add(p)
-            Next
-        End If
+        For Each p As doPlayer In WMEvent.Players
+            Dim q = From i In AllPlayers Where i.Name = p.Name
+            If q.Count = 0 Then AllPlayers.Add(p)
+        Next
+
         Factions.Save()
         Metas.Save()
         AllPlayers.Save()

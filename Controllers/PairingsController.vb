@@ -219,6 +219,9 @@ Public Class PairingsController
         End If
     End Sub
 
+
+    Private rnd As New Random()
+
     Public Function GeneratePairings() As String
         Dim rnd As New Random
         Dim sReturn As String = String.Empty
@@ -304,8 +307,10 @@ Public Class PairingsController
 
                         If EligablePlayersInBucket.Count Mod 2 = 1 Then
                             'Pairdown!
-                            Player1 = (From p In EligablePlayersInBucket Where p.PairedDownRound <= 0 Select p Order By Guid.NewGuid()).FirstOrDefault()
-                            If Player1 Is Nothing Then Player1 = (From p In EligablePlayersInBucket Select p Order By Guid.NewGuid()).First()
+                            Dim PairdownEligablePlayers = (From p In EligablePlayersInBucket Where p.PairedDownRound <= 0 Select p Order By p.Name)
+                            If PairdownEligablePlayers.Count = 0 Then PairdownEligablePlayers = (From p In EligablePlayersInBucket Select p Order By Guid.NewGuid())
+                            Player1 = PairdownEligablePlayers.ElementAt(rnd.Next(0, PairdownEligablePlayers.Count))
+
                             Player1.PairedDownRound = Model.CurrentRound.RoundNumber
                             Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
                             If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 2 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
@@ -401,6 +406,7 @@ Public Class PairingsController
                 If game.TableNumber = 0 Then game.TableNumber = Tables.Item(rnd.Next(Tables.Count))
                 Tables.Remove(game.TableNumber)
                 SetPairingCondition(game)
+
             Next
 
 

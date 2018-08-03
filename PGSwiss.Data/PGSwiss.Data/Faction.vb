@@ -26,6 +26,11 @@ Public Class doFactionCollection
                 sReturn = load()
             End If
         End If
+
+        If Not Me.Contains("Crucible Guard") Then
+            Me.Add("Crucible Guard")
+            Save()
+        End If
         Return sReturn
     End Function
 

@@ -117,15 +117,15 @@ Public Class GamesController
         If Model.CurrentGame.Winner = String.Empty Then sReturn = "Winner not set" & ControlChars.CrLf
         If Model.CurrentGame.Condition = String.Empty Then sReturn &= "Condition not set"
         If sReturn = String.Empty Then
-            If BaseController.Model.CurrentGame IsNot Nothing Then
+            If Model.CurrentGame IsNot Nothing Then
                 Dim q = (From p In Model.WMEvent.Players Where p.Name = Model.CurrentGame.Player1.Name Select p).FirstOrDefault
-                If Not q Is Nothing Then q.Tables.Add(Model.CurrentGame.TableNumber)
+                If Not q Is Nothing AndAlso Not q.Tables.Contains(Model.CurrentGame.TableNumber) Then q.Tables.Add(Model.CurrentGame.TableNumber)
 
                 If Not Model.CurrentGame.Player2 Is Nothing Then
                     Model.CurrentGame.Player1.Opponents.Add(Model.CurrentGame.Player2.Name)
                     Model.CurrentGame.Player2.Opponents.Add(Model.CurrentGame.Player1.Name)
                     q = (From p In Model.WMEvent.Players Where p.Name = Model.CurrentGame.Player2.Name Select p).FirstOrDefault
-                    If Not q Is Nothing Then q.Tables.Add(Model.CurrentGame.TableNumber)
+                    If Not q Is Nothing AndAlso Not q.Tables.Contains(Model.CurrentGame.TableNumber) Then q.Tables.Add(Model.CurrentGame.TableNumber)
                 End If
 
                 Model.CurrentGame.Reported = True
@@ -152,7 +152,16 @@ Public Class GamesController
 
     Public Overrides Function Validate() As String
         Dim sReturn = String.Empty
-        If (From p In BaseController.Model.CurrentRound.Games Where p.Reported = False).Count > 0 Then sReturn = "Unreported games"
+        Dim UnreportedGames = (From p In BaseController.Model.CurrentRound.Games Where p.Reported = False).ToList
+        If UnreportedGames.Count > 0 Then
+            sReturn = "Unreported games:"
+            For Each Game In UnreportedGames
+                sReturn &= ControlChars.CrLf & " " & Game.Player1.Name & " "
+                If Game.Player2 IsNot Nothing Then sReturn &= "Vs. " & Game.Player2.Name
+                sReturn &= "      " & Game.GameID.ToString
+            Next
+            If sReturn = "Unreported games:" Then sReturn &= ControlChars.CrLf & ControlChars.CrLf & "If you are seeing this message with no games listed, or games listed but they appear to be reported. Please email a copy of your event file to ThatRickGuy@hotmail.com. Due to a bug that I am having no luck tracking down, you will need to close PG Swiss and re-enter this round. My appologies for any inconvenience. "
+        End If
         Return sReturn
     End Function
 

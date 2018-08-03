@@ -108,6 +108,7 @@
         <DataGrid Name="dgPlayers"
                   ItemsSource="{Binding Path=Model.WMEvent.Players}"
                   CanUserAddRows="True" 
+                  CanUserSortColumns="True"
                   AutoGenerateColumns="False" 
                   KeyboardNavigation.TabNavigation="Contained"
                   Grid.Row="8" Margin="4,-4,4,4">
