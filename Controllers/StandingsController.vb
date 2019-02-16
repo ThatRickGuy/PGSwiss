@@ -58,7 +58,7 @@ Public Class StandingsController
             If Player.Drop Then Drop = "Dropped"
             Dim PlayerName = ""
             If player.CCCode <> "" Then
-                PlayerName = "<a href=""https://conflictchamber.com/#" & player.CCCode & """><img src=""http://ringdev.com/images/ccbolt.png"" alt=""Conflict Chamber"" style=""Height:22px;Width:13px""><span style=""margin-left:3px;"">" & player.Name & "</span></a>"
+                PlayerName = "<a href=""https://conflictchamber.com/?" & player.CCCode & """><img src=""http://ringdev.com/images/ccbolt.png"" alt=""Conflict Chamber"" style=""Height:22px;Width:13px""><span style=""margin-left:3px;"">" & player.Name & "</span></a>"
             Else
                 PlayerName = "<div style=""margin-left:16px;"">" & player.Name & "</div>"
             End If

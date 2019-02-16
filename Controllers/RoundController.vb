@@ -41,7 +41,7 @@ Public Class RoundController
         Dim ValuePerRoundScreen = 80 / Rounds / 3 '85% to work with, diveded across all rounds, each round has 3 screens
         Model.CurrentProgress = ValuePerRoundScreen * (Model.CurrentRound.RoundNumber * 3 + 0) 'current round + the screen of the round
 
-        If (From p In Model.CurrentRound.Games Where p.Reported).Count > 0 Then CType(Me.View, Round).dgPlayers.CanUserAddRows = False
+        'If (From p In Model.CurrentRound.Games Where p.Reported).Count > 0 Then CType(Me.View, Round).dgPlayers.CanUserAddRows = False
         CType(Me.View, Round).Refresh()
 
 
@@ -57,6 +57,22 @@ Public Class RoundController
 
 
     Public Overrides Function Validate() As String
+        If Model.WMEvent.Players.Count <> Model.CurrentRoundPlayers.Count Then
+            For Each player In Model.CurrentRoundPlayers
+                Dim EventPlayer = (From p In Model.WMEvent.Players Where p.Name = player.Name Select p).FirstOrDefault
+
+
+                If EventPlayer Is Nothing Then
+                    'player was added at the round screen
+                    Model.WMEvent.Players.Add(player.Clone)
+                End If
+            Next
+        End If
+
+
+
+
+
         Dim sReturn = String.Empty
         If BaseController.Model.CurrentRound.Scenario = String.Empty Then sReturn = "Scenario not selected" & ControlChars.CrLf
         If BaseController.Model.CurrentRound.Size = 0 Then sReturn &= "Size not selected"

@@ -30,7 +30,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.19.4.%2a</ApplicationVersion>
+    <ApplicationVersion>1.20.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -81,11 +81,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>B935D1283D0C30CDE228B0D13F62FEB4BDA65EBC</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>D6BF1196BAE17C81CF2B240F30D400ED61A596DB</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>PGSwiss_3_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -316,6 +315,7 @@
     <AppDesigner Include="My Project\" />
     <None Include="PGSwiss_1_TemporaryKey.pfx" />
     <None Include="PGSwiss_2_TemporaryKey.pfx" />
+    <None Include="PGSwiss_3_TemporaryKey.pfx" />
     <None Include="PGSwiss_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

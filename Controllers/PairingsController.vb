@@ -36,18 +36,26 @@ Public Class PairingsController
         End Get
     End Property
 
+
+    Private _setUpload As Boolean? = Nothing
     Public Property UploadAvailable As Boolean
         Get
-            Dim bReturn As Boolean = False
-            Try
-                bReturn = CheckForInternetConnection()
-            Catch ex As Exception
-                bReturn = False
-            End Try
-            Return bReturn
+            If _setUpload Is Nothing Then
+
+                Dim bReturn As Boolean = False
+                Try
+                    bReturn = CheckForInternetConnection()
+                Catch ex As Exception
+                    bReturn = False
+                End Try
+                Return bReturn
+            Else
+                Return _setUpload
+            End If
         End Get
         Set(value As Boolean)
             'do nothing
+            _setUpload = value
         End Set
     End Property
 
@@ -222,40 +230,53 @@ Public Class PairingsController
 
     Private rnd As New Random()
 
-    Public Function GeneratePairings() As String
+    Public Function GeneratePairings(ScrewWithExistingPairings As Boolean) As String
         Dim rnd As New Random
         Dim sReturn As String = String.Empty
 
+        Dim Player1 As doPlayer = Nothing
+        Dim Player2 As doPlayer = Nothing
+
+        Model.CurrentRound.Bye = Nothing
+
         Try
-            Dim Player1 As doPlayer = Nothing
-            Dim Player2 As doPlayer = Nothing
             Dim EligablePlayers As New List(Of doPlayer)
-
-            'clear the opponents for the current games
-            For Each game In Model.CurrentRound.Games
-                If game.Player1 IsNot Nothing AndAlso game.Player2 IsNot Nothing Then
-                    Player1 = (From p In Model.CurrentRoundPlayers Where p.Name = game.Player1.Name Select p).FirstOrDefault
-                    Player2 = (From p In Model.CurrentRoundPlayers Where p.Name = game.Player2.Name Select p).FirstOrDefault
+            If ScrewWithExistingPairings Then
 
 
-                    Player1.Opponents.Remove(game.Player2.Name)
-                    If Player1.PairedDownRound = Model.CurrentRound.RoundNumber Then Player1.PairedDownRound = 0
+                'clear the opponents for the current games
+                For Each game In Model.CurrentRound.Games
+                    If game.Player1 IsNot Nothing AndAlso game.Player2 IsNot Nothing Then
+                        Player1 = (From p In Model.CurrentRoundPlayers Where p.Name = game.Player1.Name Select p).FirstOrDefault
+                        Player2 = (From p In Model.CurrentRoundPlayers Where p.Name = game.Player2.Name Select p).FirstOrDefault
+
+
+                        Player1.Opponents.Remove(game.Player2.Name)
+                        If Player1.PairedDownRound = Model.CurrentRound.RoundNumber Then Player1.PairedDownRound = 0
 
 
 
-                    Player2.Opponents.Remove(game.Player1.Name)
-                    If Player2.PairedDownRound = Model.CurrentRound.RoundNumber Then Player2.PairedDownRound = 0
+                        Player2.Opponents.Remove(game.Player1.Name)
+                        If Player2.PairedDownRound = Model.CurrentRound.RoundNumber Then Player2.PairedDownRound = 0
 
 
-                End If
-            Next
+                    End If
+                Next
+                EligablePlayers.AddRange(From p In Model.CurrentRoundPlayers Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
+                'Clear the current pairings in case this is a re-generate
+                Model.CurrentRound.Games.Clear()
+            Else
+                EligablePlayers.AddRange(From p In Model.CurrentRoundPlayers Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
 
-            EligablePlayers.AddRange(From p In Model.CurrentRoundPlayers Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
+                For Each game In Model.CurrentRound.Games
+                    If game.Player2 Is Nothing OrElse game.Player2.Name <> "Bye" Then
+                        EligablePlayers.Remove((From p In EligablePlayers Where p.Name = game.Player1.Name).FirstOrDefault)
+                        EligablePlayers.Remove((From p In EligablePlayers Where p.Name = game.Player2.Name).FirstOrDefault)
+                    End If
+                Next
+            End If
 
 
-            'Clear the current pairings in case this is a re-generate
-            Model.CurrentRound.Games.Clear()
-            Model.CurrentRound.Bye = Nothing
 
             '***************************************************************
             '*** Bye                                                
@@ -289,9 +310,10 @@ Public Class PairingsController
                 EligablePlayers.Remove((From p In EligablePlayers Where p.Name = Model.CurrentRound.Bye.Name).FirstOrDefault)
             End If
             If Model.CurrentRound.Bye IsNot Nothing Then
-                Model.CurrentRound.Games.Add(New doGame)
-                Model.CurrentRound.Games.FirstOrDefault.Player1 = Model.CurrentRound.Bye.Clone
-                Model.CurrentRound.Games.FirstOrDefault.GameID = Guid.NewGuid
+                Dim byeGame = New doGame
+                byeGame.Player1 = Model.CurrentRound.Bye.Clone
+                byeGame.GameID = Guid.NewGuid
+                Model.CurrentRound.Games.Add(byeGame)
             End If
             '***************************************************************
 
@@ -383,7 +405,7 @@ Public Class PairingsController
                 End While
             End If
             For Each game In Model.CurrentRound.Games
-                game.Player1.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player1.Name, Model.CurrentRound.RoundNumber)
+                If game.Player1 IsNot Nothing Then game.Player1.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player1.Name, Model.CurrentRound.RoundNumber)
                 If game.Player2 IsNot Nothing Then game.Player2.TotalTourneyPoints = GetPlayerTotalTourneyPoints(game.Player2.Name, Model.CurrentRound.RoundNumber)
             Next
 
@@ -418,7 +440,7 @@ Public Class PairingsController
         Catch e As Exception
             _ErrorRetryCount += 1
             If _ErrorRetryCount <= 5 Then
-                GeneratePairings()
+                GeneratePairings(ScrewWithExistingPairings)
             Else
                 sReturn = e.Message & ControlChars.CrLf & "Please regenerate the pairing!"
                 Model.CurrentRound.Games.Clear()
@@ -517,10 +539,26 @@ Public Class PairingsController
 
     Protected Overrides Sub Activated()
         MyBase.Activated()
-        If Model.CurrentRound.Games.Count = 0 Then
-            Dim result = GeneratePairings()
+        'If Model.CurrentRound.Games.Count = 0 Then
+        Dim GamePlayerCount = 0
+        For Each game In Model.CurrentRound.Games
+            If game.Player2 Is Nothing OrElse game.Player2.Name = "Bye" Then
+                GamePlayerCount += 1
+            Else
+                GamePlayerCount += 2
+            End If
+        Next
+
+        If Model.CurrentRound.GetPlayers(WMEventViewModel.GetSingleton.WMEvent).Count <> GamePlayerCount Then
+            View.DataContext = Nothing
+            Dim result = GeneratePairings(False)
             If result <> String.Empty Then MessageBox.Show(result)
+            View.DataContext = Me
         End If
+
+
+
+        'End If
 
         Dim totalPlayers = Model.WMEvent.Players.Count
         Dim Rounds As Integer = 1

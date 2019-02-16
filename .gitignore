@@ -216,3 +216,6 @@ pip-log.txt
 *.sln
 PGSwiss.v11.suo
 PGSwiss.v11.suo
+/.vs/PGSwiss/DesignTimeBuild/.dtbcache
+/.vs/PGSwiss/v15/Server/sqlite3/db.lock
+/.vs/PGSwiss/v15/Server/sqlite3

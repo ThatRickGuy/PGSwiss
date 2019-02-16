@@ -91,26 +91,25 @@ Public Class doRound
         Next
 
         'drops
-        'todo: late arrivals check (should have no pairings at all!)
-        Dim LastReportedRound As doRound = Nothing
-        For Each round In WMEvent.Rounds
-            If round.Games.Count > 0 AndAlso (From p In round.Games Where p.Reported = False).Count = 0 Then LastReportedRound = round
+        For Each player In PlayerList
+            Dim HasPlayed = False
+
+            For Each round In WMEvent.Rounds
+                Dim q = From p In PlayerList Where p.Name = player.Name
+
+                'Check to see if the player has played a game. If they have, they could be a drop, if they aren't, they could be a late arrival
+                If q IsNot Nothing Then
+                    HasPlayed = True
+                End If
+
+                If round.Games.Count > 0 AndAlso (From p In round.Games Where p.Reported = False).Count = 0 Then
+                    If q Is Nothing Then
+                        player.Drop = True
+                    End If
+                End If
+
+            Next
         Next
-        If Not LastReportedRound Is Nothing Then
-            For Each player In PlayerList
-                player.Drop = True
-            Next
-            For Each game In LastReportedRound.Games
-                Dim player = (From p In PlayerList Where p.Name = game.Player1.Name).FirstOrDefault
-                If Not player Is Nothing Then
-                    player.Drop = False
-                End If
-                player = (From p In PlayerList Where Not game.Player2 Is Nothing AndAlso p.Name = game.Player2.Name).FirstOrDefault
-                If Not player Is Nothing Then
-                    player.Drop = False
-                End If
-            Next
-        End If
 
         Dim rank As Integer = 1
         For Each player In (From p In PlayerList Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
