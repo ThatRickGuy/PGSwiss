@@ -110,12 +110,16 @@ Public Class StandingsController
         IO.File.WriteAllText(".\" & Model.WMEvent.EventID.ToString & ".html", sbOutput.ToString)
 
         If Upload Then
-            WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & ".html")
+            Dim success = WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & ".html")
             IO.File.Copy(Model.WMEvent.FileName, ".\" & Model.WMEvent.EventID.ToString & ".xml", True)
 
-            WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & ".xml")
+            If success Then success = WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & ".xml")
 
-            Process.Start("http://ringdev.com/swiss/standings/" & Model.WMEvent.EventID.ToString & ".html")
+            If success Then
+                Process.Start("http://ringdev.com/swiss/standings/" & Model.WMEvent.EventID.ToString & ".html")
+            Else
+                Process.Start(".\" & Model.WMEvent.EventID.ToString & ".html")
+            End If
         Else
             Process.Start(".\" & Model.WMEvent.EventID.ToString & ".html")
         End If

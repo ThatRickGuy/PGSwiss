@@ -125,8 +125,12 @@ Public Class PairingsController
             IO.File.WriteAllText(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html", sbOutput.ToString)
 
             If UploadPairing Then
-                WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
-                Process.Start("http://ringdev.com/swiss/standings/" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+                Dim success = WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+                If success Then
+                    Process.Start("http://ringdev.com/swiss/standings/" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+                Else
+                    Process.Start(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+                End If
             Else
                 Process.Start(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
             End If
@@ -209,8 +213,12 @@ Public Class PairingsController
             IO.File.WriteAllText(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html", sbOutput.ToString)
 
             If UploadPairing Then
-                WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
-                Process.Start("http://ringdev.com/swiss/standings/" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+                Dim success = WebAPIHelper.UploadFile(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+                If success Then
+                    Process.Start("http://ringdev.com/swiss/standings/" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+                Else
+                    Process.Start(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
+                End If
             Else
                 Process.Start(".\" & Model.WMEvent.EventID.ToString & "PairingsList.html")
             End If

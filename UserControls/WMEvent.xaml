@@ -109,21 +109,25 @@
                   ItemsSource="{Binding Path=Model.WMEvent.Players}"
                   CanUserAddRows="True" 
                   CanUserSortColumns="True"
+                  
                   AutoGenerateColumns="False" 
                   KeyboardNavigation.TabNavigation="Contained"
                   Grid.Row="8" Margin="4,-4,4,4">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Name" Width="*" 
                                         x:Name="cboName"
+                                        SortMemberPath="Name"
                                         CellTemplate="{StaticResource NameTemplate}" 
                                         CellEditingTemplate="{StaticResource EditingNameTemplate}"                                        >
                 </DataGridTemplateColumn>
                 <!-- <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"></DataGridTextColumn>-->
                 <DataGridTemplateColumn Header="Faction" Width="*" 
+                                        SortMemberPath="Faction"
                                         CellTemplate="{StaticResource FactionTemplate}" 
                                         CellEditingTemplate="{StaticResource EditingFactionTemplate}">
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Meta" Width="*" 
+                <DataGridTemplateColumn Header="Meta" Width="*"
+                                        SortMemberPath="Meta"
                                         CellTemplate="{StaticResource MetaTemplate}" 
                                         CellEditingTemplate="{StaticResource EditingMetaTemplate}"                                        >
                 </DataGridTemplateColumn>

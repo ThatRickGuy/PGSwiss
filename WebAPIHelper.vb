@@ -98,30 +98,50 @@ Public Class WebAPIHelper
 
 
 
-    Friend Shared Sub UploadFile(FileName As String)
-        Dim FileInfo As New System.IO.FileInfo(FileName)
-        Dim FtpWebRequest As System.Net.FtpWebRequest = CType(System.Net.FtpWebRequest.Create(New Uri("ftp://ringdev.com/" & FileInfo.Name)), System.Net.FtpWebRequest)
-        FtpWebRequest.Credentials = New System.Net.NetworkCredential("ringdevc_" & My.Resources.String1, My.Resources.String2)
-        FtpWebRequest.KeepAlive = False
-        FtpWebRequest.Timeout = 20000
-        FtpWebRequest.Method = System.Net.WebRequestMethods.Ftp.UploadFile
-        FtpWebRequest.UseBinary = True
-        FtpWebRequest.ContentLength = FileInfo.Length
-        Dim buffLength As Integer = 2048
-        Dim buff(buffLength - 1) As Byte
-        Using FileStream As System.IO.FileStream = FileInfo.OpenRead()
-            Try
-                Using Stream As System.IO.Stream = FtpWebRequest.GetRequestStream()
-                    Dim contentLen As Integer = FileStream.Read(buff, 0, buffLength)
-                    Do While contentLen <> 0
-                        Stream.Write(buff, 0, contentLen)
-                        contentLen = FileStream.Read(buff, 0, buffLength)
-                    Loop
-                End Using
-            Catch ex As Exception
-                MessageBox.Show(ex.Message, "Upload Error")
-            End Try
-        End Using
-    End Sub
+    Friend Shared Function UploadFile(FileName As String) As Boolean
+        If (CheckForInternetConnection()) Then
+            Dim FileInfo As New System.IO.FileInfo(FileName)
+            Dim FtpWebRequest As System.Net.FtpWebRequest = CType(System.Net.FtpWebRequest.Create(New Uri("ftp://ringdev.com/" & FileInfo.Name)), System.Net.FtpWebRequest)
+            FtpWebRequest.Credentials = New System.Net.NetworkCredential("ringdevc_" & My.Resources.String1, My.Resources.String2)
+            FtpWebRequest.KeepAlive = False
+            FtpWebRequest.Timeout = 20000
+            FtpWebRequest.Method = System.Net.WebRequestMethods.Ftp.UploadFile
+            FtpWebRequest.UseBinary = True
+            FtpWebRequest.ContentLength = FileInfo.Length
+            Dim buffLength As Integer = 2048
+            Dim buff(buffLength - 1) As Byte
+            Using FileStream As System.IO.FileStream = FileInfo.OpenRead()
+                Try
+                    Using Stream As System.IO.Stream = FtpWebRequest.GetRequestStream()
+                        Dim contentLen As Integer = FileStream.Read(buff, 0, buffLength)
+                        Do While contentLen <> 0
+                            Stream.Write(buff, 0, contentLen)
+                            contentLen = FileStream.Read(buff, 0, buffLength)
+                        Loop
+                    End Using
+                Catch ex As Exception
+                    MessageBox.Show(ex.Message, "Upload Error")
+                    Return False
+                End Try
+            End Using
+        Else
+            MessageBox.Show("No connection available to upload standings or pairings.")
+            Return False
+        End If
+        Return True
+    End Function
 
+
+
+    Public Shared Function CheckForInternetConnection() As Boolean
+        Try
+            Using client = New WebClient()
+                Using stream = client.OpenRead("http://www.google.com")
+                    Return True
+                End Using
+            End Using
+        Catch
+            Return False
+        End Try
+    End Function
 End Class
