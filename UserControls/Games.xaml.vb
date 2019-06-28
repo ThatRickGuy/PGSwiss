@@ -1,4 +1,7 @@
-﻿Public Class Games
+﻿Imports Microsoft.Win32
+Imports System.Reflection
+
+Public Class Games
 
     Private Sub dgGames_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles dgGames.SelectionChanged
         If Not dgGames.CurrentItem Is Nothing Then
@@ -32,11 +35,13 @@
         CType(sender, TextBox).SelectAll()
     End Sub
 
-    Private Sub cboCondition_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles cboCondition.SelectionChanged
+    Private Sub cboCondition_SelectionChangeCommitted(sender As Object, e As SelectionChangedEventArgs) Handles cboCondition.SelectionChanged
         If BaseController.Model.CurrentGame IsNot Nothing AndAlso
            BaseController.Model.CurrentGame.Winner <> String.Empty AndAlso
            BaseController.Model.CurrentGame.Winner <> "Draw" AndAlso
-           BaseController.CurrentController.GetType Is GetType(GamesController) Then
+           BaseController.CurrentController.GetType Is GetType(GamesController) AndAlso
+           BaseController.Model.CurrentGame.Player1.ControlPoints = 0 AndAlso
+           BaseController.Model.CurrentGame.Player2.ControlPoints = 0 Then
             If CType(e.AddedItems(0), ComboBoxItem).Content = "Scenario" Then CType(BaseController.CurrentController, GamesController).SetWinnerByScenario(BaseController.Model.CurrentGame.Winner)
             If CType(e.AddedItems(0), ComboBoxItem).Content = "Concession" Then CType(BaseController.CurrentController, GamesController).SetWinnerByConcession(BaseController.Model.CurrentGame.Winner)
             If CType(e.AddedItems(0), ComboBoxItem).Content = "Disqualification" Then CType(BaseController.CurrentController, GamesController).SetWinnerByConcession(BaseController.Model.CurrentGame.Winner)
@@ -64,6 +69,7 @@
     Public Property DropNextRoundCollection As New List(Of String)
 
 End Class
+
 
 Public Class BoolToColorConverter
     Implements IMultiValueConverter

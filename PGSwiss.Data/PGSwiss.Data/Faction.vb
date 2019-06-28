@@ -21,14 +21,14 @@ Public Class doFactionCollection
                 lst.AddRange(x.Deserialize(objStreamReader))
                 Me.AddRange(From p In lst Order By p)
             End Using
-            If Not Me.Contains("Grymkin") Then
-                File.Delete("FactionCollection.xml")
-                sReturn = load()
-            End If
         End If
 
         If Not Me.Contains("Crucible Guard") Then
             Me.Add("Crucible Guard")
+            Save()
+        End If
+        If Not Me.Contains("Infernals") Then
+            Me.Add("Infernals")
             Save()
         End If
         Return sReturn

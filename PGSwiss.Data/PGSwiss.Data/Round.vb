@@ -93,22 +93,23 @@ Public Class doRound
         'drops
         For Each player In PlayerList
             Dim HasPlayed = False
-
+            Dim HasNotPlayedRound = False
             For Each round In WMEvent.Rounds
-                Dim q = From p In PlayerList Where p.Name = player.Name
-
-                'Check to see if the player has played a game. If they have, they could be a drop, if they aren't, they could be a late arrival
-                If q IsNot Nothing Then
+                Dim q2 = (From p In round.Games Where p.Player1.Name = player.Name Or (p.Player2 IsNot Nothing AndAlso p.Player2.Name = player.Name))
+                If q2.Count > 0 Then
                     HasPlayed = True
+                ElseIf round.Games.Count > 0 Then
+                    HasNotPlayedRound = True
                 End If
-
-                If round.Games.Count > 0 AndAlso (From p In round.Games Where p.Reported = False).Count = 0 Then
-                    If q Is Nothing Then
-                        player.Drop = True
-                    End If
-                End If
-
             Next
+
+            If HasPlayed And HasNotPlayedRound Then
+                player.Drop = True
+            ElseIf Not HasPlayed Then
+                'hasn't played at all, likely a late arrival
+            ElseIf HasPlayed And Not HasNotPlayedRound Then
+                'has played and isn't missing any rounds, a trooper through and through
+            End If
         Next
 
         Dim rank As Integer = 1

@@ -48,8 +48,9 @@ Public Class doEventFormatCollection
                     End If
                 End If
 
-                If (From p In lst Where p.Name.Contains("2018")).Count = 0 Then
-
+                If (From p In lst Where p.Name.Contains("2019")).Count = 0 Then
+                    Me.Clear()
+                    Me.AddRange(From p In Generate() Order By p.Name)
                 End If
             End Using
             Save()
@@ -77,6 +78,36 @@ Public Class doEventFormatCollection
     Private Function Generate() As IEnumerable(Of doEventFormat)
         Dim lst As New List(Of doEventFormat)
         Dim ef As doEventFormat
+
+        ef = New doEventFormat
+        ef.Name = "2019 Masters"
+        ef.Scenarios.Add("1. King of the Hill")
+        ef.Scenarios.Add("2. Bunkers")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Invasion")
+        ef.Scenarios.Add("5. Anarchy")
+        ef.Scenarios.Add("6. Recon II")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "2019 Champions"
+        ef.Scenarios.Add("1. King of the Hill")
+        ef.Scenarios.Add("2. Bunkers")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Invasion")
+        ef.Scenarios.Add("5. Anarchy")
+        ef.Scenarios.Add("6. Recon II")
+        lst.Add(ef)
+
+        ef = New doEventFormat
+        ef.Name = "2019 Steamroller"
+        ef.Scenarios.Add("1. King of the Hill")
+        ef.Scenarios.Add("2. Bunkers")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Invasion")
+        ef.Scenarios.Add("5. Anarchy")
+        ef.Scenarios.Add("6. Recon II")
+        lst.Add(ef)
 
         ef = New doEventFormat
         ef.Name = "2018 Masters"
@@ -116,78 +147,35 @@ Public Class doEventFormatCollection
         lst.Add(ef)
 
         ef = New doEventFormat
-        ef.Name = "2017 Masters"
-        ef.Scenarios.Add("1. The Pit")
-        ef.Scenarios.Add("2. Standoff")
-        ef.Scenarios.Add("3. Spread the Net")
-        ef.Scenarios.Add("4. Breakdown")
-        ef.Scenarios.Add("5. Outlast")
-        ef.Scenarios.Add("6. Recon")
-        lst.Add(ef)
-
-        ef = New doEventFormat
-        ef.Name = "2017 Champions"
-        ef.Scenarios.Add("1. The Pit")
-        ef.Scenarios.Add("2. Standoff")
-        ef.Scenarios.Add("3. Spread the Net")
-        ef.Scenarios.Add("4. Breakdown")
-        ef.Scenarios.Add("5. Outlast")
-        ef.Scenarios.Add("6. Recon")
-        lst.Add(ef)
-
-        ef = New doEventFormat
-        ef.Name = "2017 Steamroller"
-        ef.Scenarios.Add("1. The Pit")
-        ef.Scenarios.Add("2. Standoff")
-        ef.Scenarios.Add("3. Spread the Net")
-        ef.Scenarios.Add("4. Breakdown")
-        ef.Scenarios.Add("5. Outlast")
-        ef.Scenarios.Add("6. Recon")
-        lst.Add(ef)
-
-        ef = New doEventFormat
-        ef.Name = "2017 Steamroller Rumble"
-        ef.Scenarios.Add("1. Patrol")
-        ef.Scenarios.Add("2. Killing Field")
-        ef.Scenarios.Add("3. Target of Opportunity")
-        lst.Add(ef)
-
-        ef = New doEventFormat
         ef.Name = "Who's the Boss"
-        ef.Scenarios.Add("1. Entrenched")
-        ef.Scenarios.Add("2. Line Breaker")
-        ef.Scenarios.Add("3. Take and Hold")
-        ef.Scenarios.Add("4. The Pit")
-        ef.Scenarios.Add("5. Extraction")
-        ef.Scenarios.Add("6. Incursion")
-        ef.Scenarios.Add("7. Outlast")
-        ef.Scenarios.Add("8. Recon")
+        ef.Scenarios.Add("1. King of the Hill")
+        ef.Scenarios.Add("2. Bunkers")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Invasion")
+        ef.Scenarios.Add("5. Anarchy")
+        ef.Scenarios.Add("6. Recon II")
         ef.Scenarios.Add("9. Other")
         lst.Add(ef)
 
         ef = New doEventFormat
         ef.Name = "Highlander"
-        ef.Scenarios.Add("1. Entrenched")
-        ef.Scenarios.Add("2. Line Breaker")
-        ef.Scenarios.Add("3. Take and Hold")
-        ef.Scenarios.Add("4. The Pit")
-        ef.Scenarios.Add("5. Extraction")
-        ef.Scenarios.Add("6. Incursion")
-        ef.Scenarios.Add("7. Outlast")
-        ef.Scenarios.Add("8. Recon")
+        ef.Scenarios.Add("1. King of the Hill")
+        ef.Scenarios.Add("2. Bunkers")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Invasion")
+        ef.Scenarios.Add("5. Anarchy")
+        ef.Scenarios.Add("6. Recon II")
         ef.Scenarios.Add("9. Other")
         lst.Add(ef)
 
         ef = New doEventFormat
         ef.Name = "Escalation"
-        ef.Scenarios.Add("1. Entrenched")
-        ef.Scenarios.Add("2. Line Breaker")
-        ef.Scenarios.Add("3. Take and Hold")
-        ef.Scenarios.Add("4. The Pit")
-        ef.Scenarios.Add("5. Extraction")
-        ef.Scenarios.Add("6. Incursion")
-        ef.Scenarios.Add("7. Outlast")
-        ef.Scenarios.Add("8. Recon")
+        ef.Scenarios.Add("1. King of the Hill")
+        ef.Scenarios.Add("2. Bunkers")
+        ef.Scenarios.Add("3. Spread the Net")
+        ef.Scenarios.Add("4. Invasion")
+        ef.Scenarios.Add("5. Anarchy")
+        ef.Scenarios.Add("6. Recon II")
         ef.Scenarios.Add("9. Other")
         lst.Add(ef)
 

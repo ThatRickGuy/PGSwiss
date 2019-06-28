@@ -277,8 +277,8 @@ Public Class PairingsController
                 EligablePlayers.AddRange(From p In Model.CurrentRoundPlayers Where p.Drop = False Order By p.TourneyPoints Descending, p.StrengthOfSchedule Descending, p.ControlPoints Descending, p.ArmyPointsDestroyed Descending)
 
                 For Each game In Model.CurrentRound.Games
-                    If game.Player2 Is Nothing OrElse game.Player2.Name <> "Bye" Then
-                        EligablePlayers.Remove((From p In EligablePlayers Where p.Name = game.Player1.Name).FirstOrDefault)
+                    EligablePlayers.Remove((From p In EligablePlayers Where p.Name = game.Player1.Name).FirstOrDefault)
+                    If game.Player2 IsNot Nothing AndAlso game.Player2.Name <> "Bye" Then
                         EligablePlayers.Remove((From p In EligablePlayers Where p.Name = game.Player2.Name).FirstOrDefault)
                     End If
                 Next
@@ -338,14 +338,22 @@ Public Class PairingsController
                         If EligablePlayersInBucket.Count Mod 2 = 1 Then
                             'Pairdown!
                             Dim PairdownEligablePlayers = (From p In EligablePlayersInBucket Where p.PairedDownRound <= 0 Select p Order By p.Name)
-                            If PairdownEligablePlayers.Count = 0 Then PairdownEligablePlayers = (From p In EligablePlayersInBucket Select p Order By Guid.NewGuid())
+                            'Everyone in the bucket has been paired down, so pick someone to get paired down twice. I'm not sure if this is even mathematically possible
+                            If PairdownEligablePlayers.Count = 0 Then PairdownEligablePlayers = (From p In EligablePlayersInBucket Select p Order By p.Name)
                             Player1 = PairdownEligablePlayers.ElementAt(rnd.Next(0, PairdownEligablePlayers.Count))
-
                             Player1.PairedDownRound = Model.CurrentRound.RoundNumber
-                            Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 2 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 3 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
-                            If Player2 Is Nothing Then Player2 = (From p In EligablePlayers Where p.TourneyPoints = i - 4 And Not Player1.Opponents.Contains(p.Name) Order By Guid.NewGuid()).FirstOrDefault
+
+                            Dim PairUpEligablePlayers = (From p In EligablePlayers Where p.TourneyPoints = i - 1 And Not Player1.Opponents.Contains(p.Name) Order By p.Name)
+                            If PairUpEligablePlayers.Count = 0 Then PairUpEligablePlayers = (From p In EligablePlayers Where p.TourneyPoints = i - 2 And Not Player1.Opponents.Contains(p.Name) Order By p.Name)
+                            If PairUpEligablePlayers.Count = 0 Then PairUpEligablePlayers = (From p In EligablePlayers Where p.TourneyPoints = i - 3 And Not Player1.Opponents.Contains(p.Name) Order By p.Name)
+                            If PairUpEligablePlayers.Count = 0 Then PairUpEligablePlayers = (From p In EligablePlayers Where p.TourneyPoints = i - 4 And Not Player1.Opponents.Contains(p.Name) Order By p.Name)
+                            If PairUpEligablePlayers.Count = 0 Then
+                                'No possible pairups! This pairing branch is a failure!
+                                Throw New Exception("Pairing resulted in a failed pairdown situation - no eligable pair ups found. If this problem persists, verify that games from the last round are correctly entered.")
+                            End If
+                            Player2 = PairUpEligablePlayers.ElementAt(rnd.Next(0, PairUpEligablePlayers.Count))
+
+
                         ElseIf EligablePlayersInBucket.Count > 0 Then
                             'Standard pairing
                             Player1 = EligablePlayersInBucket.First
@@ -424,7 +432,7 @@ Public Class PairingsController
             For i = 1 To NonByeGames.Count
                 Tables.Add(i)
             Next
-            For Each game In (From p In NonByeGames Order By p.Player1.Rank + p.Player2.Rank Ascending)
+            For Each game In (From p In NonByeGames Where p.TableNumber = 0 Order By p.Player1.Rank + p.Player2.Rank Ascending)
                 Dim InvalidTables As New List(Of Integer)
                 Dim EventPlayer1 = (From p In Model.WMEvent.Players Where p.Name = game.Player1.Name Select p).FirstOrDefault
                 Dim EventPlayer2 = (From p In Model.WMEvent.Players Where p.Name = game.Player2.Name Select p).FirstOrDefault
@@ -557,12 +565,18 @@ Public Class PairingsController
             End If
         Next
 
-        If Model.CurrentRound.GetPlayers(WMEventViewModel.GetSingleton.WMEvent).Count <> GamePlayerCount Then
-            View.DataContext = Nothing
-            Dim result = GeneratePairings(False)
-            If result <> String.Empty Then MessageBox.Show(result)
-            View.DataContext = Me
+        Dim UnreportedGames = (From p In Model.CurrentRound.Games Where p.Reported = False Select p).Count
+        Dim Games = (From p In Model.CurrentRound.Games Select p).Count
+        If Games = 0 Or UnreportedGames > 0 Then
+            'only do this if there are unreported games. 
+            If Model.CurrentRound.GetPlayers(WMEventViewModel.GetSingleton.WMEvent).Count <> GamePlayerCount Then
+                View.DataContext = Nothing
+                Dim result = GeneratePairings(False)
+                If result <> String.Empty Then MessageBox.Show(result)
+                View.DataContext = Me
+            End If
         End If
+
 
 
 

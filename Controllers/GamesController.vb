@@ -92,9 +92,6 @@ Public Class GamesController
             While TargetIndex > 0 AndAlso _Stack.Item(TargetIndex).GetType IsNot GetType(GamesController)
                 TargetIndex -= 1
             End While
-            If TargetIndex > 0 Then
-                CType(Me.View, Games).MasterClock.SetDuration = CType(CType(_Stack(TargetIndex), GamesController).View, Games).MasterClock.SetDuration
-            End If
         End If
 
         Dim SortedGames = (From p In Model.CurrentRound.Games Order By p.Reported, p.TableNumber).ToList
