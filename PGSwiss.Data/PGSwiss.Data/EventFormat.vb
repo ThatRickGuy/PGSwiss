@@ -20,7 +20,6 @@ Public Class doEventFormatCollection
     Inherits List(Of doEventFormat)
 
     Public Sub load()
-        Me.Clear()
         If Not IO.File.Exists("EventFormatCollection.xml") Then
             Me.AddRange(From p In Generate() Order By p.Name)
             Save()
@@ -30,27 +29,11 @@ Public Class doEventFormatCollection
                 Dim lst As New List(Of doEventFormat)
                 lst.AddRange(x.Deserialize(objStreamReader))
 
-                If (From p In lst Where p.Name = "2017 Masters").Count = 0 Then
-                    Dim AllFormats = Generate()
-                    For Each EventFormat In AllFormats
-                        Dim q = (From p In Me Where p.Name = EventFormat.Name Select p).FirstOrDefault()
-                        If q Is Nothing Then Me.Add(EventFormat)
-                    Next
-                Else
-                    Me.AddRange(From p In lst Order By p.Name)
-                    Dim q = (From p In Me Where p.Name = "2017 SteamR Roller").FirstOrDefault
-                    If q IsNot Nothing Then
-                        q.Name = "2017 Steamroller"
-                    End If
-                    q = (From p In Me Where p.Name = "2017 SteamR Roller Rumble").FirstOrDefault
-                    If q IsNot Nothing Then
-                        q.Name = "2017 Steamroller Rumble"
-                    End If
-                End If
-
+                Me.Clear()
                 If (From p In lst Where p.Name.Contains("2019")).Count = 0 Then
-                    Me.Clear()
                     Me.AddRange(From p In Generate() Order By p.Name)
+                Else
+                    Me.AddRange(lst)
                 End If
             End Using
             Save()
